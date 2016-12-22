@@ -1,6 +1,5 @@
 package computerdatabase.tenant
 
-import endpoint.ComputerDatabase
 import io.gatling.core.structure.ChainBuilder
 import org.github.sgoeschl.gatling.blueprint.extensions.SimulationCoordinates
 

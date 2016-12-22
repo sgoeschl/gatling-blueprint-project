@@ -1,6 +1,5 @@
 package github.tenant
 
-import endpoint.GitHubApi
 import io.gatling.core.structure.ChainBuilder
 import org.github.sgoeschl.gatling.blueprint.extensions.SimulationCoordinates
 

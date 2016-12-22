@@ -1,4 +1,4 @@
-package endpoint
+package github.tenant
 
 import gatling.blueprint.JsonResponseTool
 import io.gatling.core.Predef._

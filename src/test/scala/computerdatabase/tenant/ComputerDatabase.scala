@@ -1,4 +1,4 @@
-package endpoint
+package computerdatabase.tenant
 
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ChainBuilder
