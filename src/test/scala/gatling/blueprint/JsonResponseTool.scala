@@ -27,6 +27,7 @@ import scala.collection.JavaConversions._
 
 object JsonResponseTool {
 
+  private var emptyJson = "[]"
   private var directory = new File("./target/gatling")
   private var isResponseSaved = true
 
@@ -36,33 +37,46 @@ object JsonResponseTool {
   }
 
   /**
-    * Save a pretty-printed JSON string as file.
-    *
-    * @param jsonString JSON response to save
-    * @param nameParts  parts to build the file name
-    * @return
+    * Save a string value into a file when "isResponseSaved" is true.
     */
-  def saveToFile(jsonString: String, nameParts: String*): Unit = {
+  def saveToFile(value: String, fileNameParts: String*): Unit = {
     if (isResponseSaved) {
-      val file = FileUtil.createFile(directory, "json", nameParts)
-      val prettyPrintedJson = FilteringJsonPrettyPrinter.prettyPrint(jsonString)
+      val file = FileUtil.createFile(directory, "json", fileNameParts)
+      FileUtil.writeToFile(file, value)
+    }
+  }
+
+  /**
+    * Extract the JSON object from the session, pretty-print it and save to file
+    * when "isResponseSaved" is true.
+    *
+    * @param session       Gatling session
+    * @param key           session key
+    * @param fileNameParts parts to build the file name
+    */
+  def printAndSaveToFile(session: Session, key: String, fileNameParts: String*): Unit = {
+    if (isResponseSaved) {
+      val file = FileUtil.createFile(directory, "json", fileNameParts)
+      val prettyPrintedJson = FilteringJsonPrettyPrinter.prettyPrint((session get key).as[Any])
       FileUtil.writeToFile(file, prettyPrintedJson)
     }
   }
 
   /**
-    * Save the JSON object found in the session as file.
+    * Extract the JSON object from the session, modify &amp; pretty-print it and save to file
+    * when "isResponseSaved" is true.
     *
-    * @param session   the Gatling session
-    * @param key       key to access the session
-    * @param nameParts parts to build the file name
-    * @return
+    * @param session         Gatling session
+    * @param key             session key
+    * @param skippedJsonKeys JSON keys to remove from the result
     */
-  def saveToFile(session: Session, key: String, nameParts: String*): Unit = {
+  def modifyAndPrint(session: Session, key: String, skippedJsonKeys: String*): String = {
     if (isResponseSaved) {
-      val file = FileUtil.createFile(directory, "json", nameParts)
-      val prettyPrintedJson = FilteringJsonPrettyPrinter.prettyPrint((session get key).as[Any])
-      FileUtil.writeToFile(file, FilteringJsonPrettyPrinter.prettyPrint(prettyPrintedJson))
+      val json = (session get key).as[Any]
+      FilteringJsonPrettyPrinter.print(json, skippedJsonKeys)
+    }
+    else {
+      emptyJson
     }
   }
 }

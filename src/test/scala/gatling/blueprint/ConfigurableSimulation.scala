@@ -35,15 +35,22 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
   val getSimulationUsersRampup: FiniteDuration = new DurationInteger(getProperty("simulation.users.rampup", "0").toInt).seconds
   val getSimulationLoops: Int = getProperty("simulation.loops", "1").toInt
   val getSimulationTryMax: Int = getProperty("simulation.try.max", "1").toInt
+  val getSimulationPause: FiniteDuration = new DurationInteger(getProperty("simulation.pause.ms", "0").toInt).milliseconds
 
-  logger.info("coordinates: " + ConfigurationTool.coordinates)
-  logger.info("environment: " + ConfigurationTool.environmentProperties)
-  logger.info("simulation: " + this.toString)
+  logger.warn("Coordinates: " + ConfigurationTool.coordinates)
+  logger.warn("Environment: " + ConfigurationTool.environmentProperties)
+  logger.warn("Simulation: " + this.toString)
 
-  if(ConfigurationTool.environmentProperties.isEmpty) {
+  if (ConfigurationTool.environmentProperties.isEmpty) {
     logger.warn("No environment properties are found - please cch your configuration")
   }
 
+  /**
+    * Resolve a file hierarchically Gatling's data directory
+    *
+    * @param fileName
+    * @return
+    */
   def resolveFile(fileName: String): String = {
     ConfigurationTool.resolveFile(fileName)
   }
@@ -54,10 +61,9 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
 
   def hasProxy: Boolean = ConfigurationTool.hasProxy
 
-  override def toString: String = s"ConfigurableSimulation(getSimulationUsers=$getSimulationUsers, " +
-    s"getSimulationDuration=$getSimulationDuration, " +
-    s"getSimulationUsersRampup=$getSimulationUsersRampup, " +
-    s"getSimulationLoops=$getSimulationLoops, " +
-    s"getSimulationTryMax=$getSimulationTryMax, " +
-    s"hasProxy=$hasProxy)"
+  override def toString: String = s"(users=$getSimulationUsers, " +
+    s"duration=$getSimulationDuration, " +
+    s"usersRampup=$getSimulationUsersRampup, " +
+    s"loops=$getSimulationLoops, " +
+    s"tryMax=$getSimulationTryMax)"
 }

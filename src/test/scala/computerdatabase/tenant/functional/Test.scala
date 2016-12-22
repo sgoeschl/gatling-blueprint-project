@@ -12,9 +12,10 @@ import io.gatling.http.protocol.HttpProtocolBuilder
 class Test extends ConfigurableSimulation {
 
   // Resolve to "user-files/data/computerdatabase/tenant/functional/search.csv""
-  val feeder: RecordSeqFeederBuilder[String] = csv(ConfigurationTool.resolveFile("search.csv")).queue
+  val feeder: RecordSeqFeederBuilder[String] = csv(ConfigurationTool.resolveFile("search.csv"))
 
-  // Create one test user per line in the CSV file (see above)
+  // Create one test user per line in the CSV file (see above) so we can execute
+  // each query with a new user
   val simulationUsers = feeder.records.length
 
   // The base URL is taken from "user-files/data/computerdatabase/tenant/environment.properties"
@@ -31,9 +32,14 @@ class Test extends ConfigurableSimulation {
   // Scenario name is derived from the simulation coordinates
   val users: ScenarioBuilder = scenario(coordinates.toScenarioName)
     .feed(feeder)
-    .exec(ComputerDatabaseChainBuilder.create(coordinates))
+    .repeat(getSimulationLoops) {
+      tryMax(getSimulationTryMax) {
+        exec(ComputerDatabaseChainBuilder.create(coordinates))
+          .pause(getSimulationPause)
+      }
+    }
 
   setUp(
-    users.inject(rampUsers(simulationUsers) over simulationUsers * 5)
+    users.inject(rampUsers(simulationUsers) over getSimulationUsersRampup)
   ).protocols(httpConf)
 }

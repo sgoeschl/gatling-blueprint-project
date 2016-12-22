@@ -11,8 +11,8 @@ import io.gatling.http.protocol.HttpProtocolBuilder
 
 class Test extends ConfigurableSimulation {
 
-  // Resolve to "user-files/data/computerdatabase/tenant/smoketest/search.csv"
-  val feeder: RecordSeqFeederBuilder[String] = csv(ConfigurationTool.resolveFile("search.csv")).random
+  // CSV resolves to "user-files/data/computerdatabase/tenant/smoketest/search.csv"
+  val feeder: RecordSeqFeederBuilder[String] = csv(ConfigurationTool.resolveFile("search.csv"))
 
   // The base URL is taken from "user-files/data/computerdatabase/tenant/environment.properties"
   val httpConf: HttpProtocolBuilder = http
@@ -25,9 +25,15 @@ class Test extends ConfigurableSimulation {
 
   // Executed test steps are moved into "ComputerDatabaseChainBuilder"
   // Scenario name is derived from the simulation coordinates
+
   val users: ScenarioBuilder = scenario(coordinates.toScenarioName)
     .feed(feeder)
-    .exec(ComputerDatabaseChainBuilder.create(coordinates))
+    .repeat(getSimulationLoops) {
+      tryMax(getSimulationTryMax) {
+        exec(ComputerDatabaseChainBuilder.create(coordinates))
+          .pause(getSimulationPause)
+      }
+    }
 
   setUp(
     // Parameters are taken from "user-files/data/computerdatabase/tenant/smoketest/environment.properties"
