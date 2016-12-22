@@ -47,9 +47,6 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
 
   /**
     * Resolve a file hierarchically Gatling's data directory
-    *
-    * @param fileName
-    * @return
     */
   def resolveFile(fileName: String): String = {
     ConfigurationTool.resolveFile(fileName)
