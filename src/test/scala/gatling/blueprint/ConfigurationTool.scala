@@ -22,7 +22,7 @@ import java.util.Properties
 
 import io.gatling.core.config.GatlingConfiguration
 import org.github.sgoeschl.gatling.blueprint.extensions.SimulationCoordinates
-import org.github.sgoeschl.gatling.blueprint.extensions.file.{ConfigurationFileResolver, EnvironmentPropertiesResolver}
+import org.github.sgoeschl.gatling.blueprint.extensions.file.{ConfigurationFileResolver, EnvironmentPropertiesResolver, URLUtil}
 
 object ConfigurationTool {
 
@@ -70,12 +70,8 @@ object ConfigurationTool {
     getProperty(key) != null && !getProperty(key).isEmpty
   }
 
-  def getURL(system: String): String = {
-    getBaseURL(system)
-  }
-
-  def getURL(system: String, endpoint: String): String = {
-    if (endpoint.endsWith("/")) getBaseURL(system) + endpoint else getBaseURL(system) + "/" + endpoint
+  def getURL(system: String, endpoint: String = ""): String = {
+    URLUtil.getURL(getBaseURL(system), endpoint)
   }
 
   def hasProxy: Boolean = {
