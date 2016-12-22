@@ -1,0 +1,69 @@
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.  
+-->
+
+<!--
+  Anh helper scripts to create a stand-alone Gatling distributable
+-->
+<project name="gatling-blueprint-project" default="gatling:info" basedir=".">
+
+  <!-- import environment variables -->
+  <property environment="env"/>
+
+  <property name="gatling.dist.dir" value="${basedir}/target/distributable/gatling-charts-highcharts-bundle-2.2.3" />
+  <property name="gatling.dist.userfiles.dir" value="${gatling.dist.dir}/user-files" />
+  <property name="gatling.dist.simulation.dir" value="${gatling.dist.userfiles.dir}/simulations" />
+
+  <!-- ############################################################## -->
+  <!-- General Targets                                                -->
+  <!-- ############################################################## -->
+
+  <target name="gatling:info" description="Build the project">
+    <echo>Hello </echo>
+  </target>
+
+  <!-- ############################################################## -->
+  <!-- Misc                                                           -->
+  <!-- ############################################################## -->
+
+  <target name="gatling:copy-gatling-from-maven-setup">
+    <delete includeEmptyDirs="true">
+      <fileset dir="${gatling.dist.userfiles.dir}"/>
+    </delete>
+    <delete dir="${gatling.dist.dir}/conf"/>
+    <!-- copy the "user-files" -->
+    <copy todir="${gatling.dist.dir}/user-files">
+      <fileset dir="${basedir}/user-files"/>
+    </copy>
+    <!-- copy the Gatling tests -->
+    <copy todir="${gatling.dist.dir}/user-files/simulations">
+      <fileset dir="${basedir}/src/test/scala"/>
+    </copy>
+    <!-- copy the Gatling configuration files -->
+    <copy todir="${gatling.dist.dir}/conf">
+      <fileset dir="${basedir}/conf"/>
+    </copy>
+    <!-- copy the overlayed directories -->
+    <copy todir="${gatling.dist.dir}" overwrite="true">
+      <fileset dir="${basedir}/src/overlay"/>
+    </copy>
+    <!-- make the Gatling scripts executable -->
+    <chmod dir="${gatling.dist.dir}/bin" perm="ugo+rx" includes="**/*.sh"/>
+  </target>
+
+</project>
