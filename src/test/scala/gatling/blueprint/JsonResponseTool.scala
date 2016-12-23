@@ -27,7 +27,7 @@ import scala.collection.JavaConversions._
 
 object JsonResponseTool {
 
-  private var emptyJson = "[]"
+  private val emptyJson = "[]"
   private var directory = new File("./target/gatling")
   private var isResponseSaved = true
 
@@ -54,7 +54,7 @@ object JsonResponseTool {
     * @param key           session key
     * @param fileNameParts parts to build the file name
     */
-  def printAndSaveToFile(session: Session, key: String, fileNameParts: String*): Unit = {
+  def saveToFile(session: Session, key: String, fileNameParts: String*): Unit = {
     if (isResponseSaved) {
       val file = FileUtil.createFile(directory, "json", fileNameParts)
       val prettyPrintedJson = FilteringJsonPrettyPrinter.prettyPrint((session get key).as[Any])
@@ -70,7 +70,7 @@ object JsonResponseTool {
     * @param key             session key
     * @param skippedJsonKeys JSON keys to remove from the result
     */
-  def modifyAndPrint(session: Session, key: String, skippedJsonKeys: String*): String = {
+  def modify(session: Session, key: String, skippedJsonKeys: String*): String = {
     if (isResponseSaved) {
       val json = (session get key).as[Any]
       FilteringJsonPrettyPrinter.print(json, skippedJsonKeys)

@@ -37,6 +37,6 @@ class Test extends ConfigurableSimulation {
 
   setUp(
     // Parameters are taken from "user-files/data/computerdatabase/tenant/smoketest/environment.properties"
-    users.inject(rampUsers(getSimulationUsers) over (getSimulationUsersRampup))
+    users.inject(rampUsers(getSimulationUsers) over getSimulationUsersRampup)
   ).protocols(httpConf)
 }

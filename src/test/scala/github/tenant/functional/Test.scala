@@ -12,12 +12,12 @@ import io.gatling.http.protocol.HttpProtocolBuilder
 
 class Test extends ConfigurableSimulation {
 
-  // The base URL is taken from "user-files/data/computerdatabase/tenant/environment.properties"
+  // The base URL is taken from "user-files/data/tenant/local/github/environment.properties"
   val httpConf: HttpProtocolBuilder = http
-    .baseURL(getBaseURL())
+    .baseURL(getBaseURL)
     .acceptHeader("*/*")
     .acceptEncodingHeader("gzip, deflate")
-    .userAgentHeader("curl/7.51.0")
+    .userAgentHeader("curl/7.52.0")
 
   val users: ScenarioBuilder = scenario(coordinates.toScenarioName)
     .repeat(getSimulationLoops) {

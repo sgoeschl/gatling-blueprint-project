@@ -62,21 +62,20 @@ object ConfigurationTool {
     ConfigurationFileResolver.resolveFile(dataDirectoryName, simulationCoordinates, fileName).getAbsolutePath
   }
 
-  def getProperty(key: String, defaultValue: String = ""): String = {
+  def getProperty(key: String): String = {
+    val value = environmentProperties.getProperty(key)
+    if (value != null) value else throw new IllegalArgumentException(s"Property $key not found")
+  }
+
+  def getProperty(key: String, defaultValue: String): String = {
     environmentProperties.getProperty(key, defaultValue)
   }
 
-  def hasProperty(key: String): Boolean = {
-    getProperty(key) != null && !getProperty(key).isEmpty
+  def getURL(application: String, endpoint: String = ""): String = {
+    URLUtil.getURL(getBaseURL(application), endpoint)
   }
 
-  def getURL(system: String, endpoint: String = ""): String = {
-    URLUtil.getURL(getBaseURL(system), endpoint)
-  }
-
-  def hasProxy: Boolean = {
-    proxyHost != null
-  }
+  def hasProxy: Boolean = proxyHost != null
 
   /**
     * Can we save responses to the file system? When doing this for performance
@@ -95,15 +94,7 @@ object ConfigurationTool {
     if (scope.contains("performance") || scope.contains("load") || scope.contains("stress")) true else false
   }
 
-  private def getBaseURL(system: String): String = {
-    val key: String = s"$system.base.url"
-    if (hasProperty(key)) {
-      environmentProperties.getProperty(key)
-    }
-    else {
-      throw new IllegalArgumentException(s"The following key was not found: $key")
-    }
-  }
+  private def getBaseURL(system: String): String = getProperty(s"$system.base.url")
 
   override def toString: String = s"ConfigurationTool(environmentProperties=$environmentProperties, " +
     s"simulationCoordinates=$simulationCoordinates, " +

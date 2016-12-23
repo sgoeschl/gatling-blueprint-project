@@ -16,11 +16,11 @@ class Test extends ConfigurableSimulation {
 
   // Create one test user per line in the CSV file (see above) so we can execute
   // each query with a new user
-  val simulationUsers = feeder.records.length
+  val simulationUsers: Int = feeder.records.length
 
   // The base URL is taken from "user-files/data/computerdatabase/tenant/environment.properties"
   val httpConf: HttpProtocolBuilder = http
-    .baseURL(getBaseURL())
+    .baseURL(getBaseURL)
     .acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
     .doNotTrackHeader("1")
     .acceptLanguageHeader("en-US,en;q=0.5")

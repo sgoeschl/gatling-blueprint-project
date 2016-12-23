@@ -9,10 +9,11 @@ object GitHubApiChainBuilder {
 
   def create(scope: String): List[ChainBuilder] = {
     scope.toLowerCase match {
-      case "functional" =>
+      case "functional" | "performance" =>
         List(
           GitHubApi.home,
-          GitHubApi.users
+          GitHubApi.users,
+          GitHubApi.events
         )
       case _ =>
         throw new IllegalArgumentException(s"Don't know hot to handle: $scope")

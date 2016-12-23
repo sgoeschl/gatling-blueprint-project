@@ -122,6 +122,32 @@ Simulation computerdatabase.tenant.functional.Test started...
 ================================================================================
 ```
 
+### 5.2 GitHub REST API
+
+A REST API example showing JSON response handling
+
+* Assuming the following coordinates `github-tenant-functional-local`
+* For a non-performance tests the JSON responses are pretty-printed and saved
+
+> mvn -Dgatling.simulationClass=guthub.tenant.functional.Test clean gatling:test
+
+```scala
+object GitHubApi {
+
+  val home: ChainBuilder = exec(http("Home")
+    .get("/")
+    .check(
+      jsonPath("$").ofType[Any].find.saveAs("lastResponse")))
+    .exec(session => {
+      JsonResponseTool.saveToFile(session, "lastResponse", "github", "home")
+      session
+    })
+}    
+```    
+
+After the test run you will see the following directory content
+
+![GitHub JSON Response File](./site/image/github-json-reponse-files.png)
 
 ## Tips & Tricks
 

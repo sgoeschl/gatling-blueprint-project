@@ -18,7 +18,6 @@
 package gatling.blueprint
 
 import com.typesafe.scalalogging.StrictLogging
-import gatling.blueprint.ConfigurationTool.getProperty
 import io.gatling.core.Predef.DurationInteger
 import io.gatling.core.config.GatlingConfiguration
 import io.gatling.core.scenario.Simulation
@@ -42,19 +41,16 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
   logger.warn("Simulation: " + this.toString)
 
   if (ConfigurationTool.environmentProperties.isEmpty) {
-    logger.warn("No environment properties are found - please cch your configuration")
+    logger.warn("No environment properties are found - please check your configuration")
   }
 
-  /**
-    * Resolve a file hierarchically Gatling's data directory
-    */
-  def resolveFile(fileName: String): String = {
-    ConfigurationTool.resolveFile(fileName)
-  }
+  def resolveFile(fileName: String): String = ConfigurationTool.resolveFile(fileName)
 
-  def getBaseURL(): String = {
-    ConfigurationTool.getURL(ConfigurationTool.coordinates.getApplication)
-  }
+  def getBaseURL: String = ConfigurationTool.getURL(ConfigurationTool.coordinates.getApplication)
+
+  def getProperty(key: String): String = ConfigurationTool.getProperty(key)
+
+  def getProperty(key: String, defaultValue: String): String = ConfigurationTool.getProperty(key, defaultValue)
 
   def hasProxy: Boolean = ConfigurationTool.hasProxy
 
@@ -62,5 +58,6 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
     s"duration=$getSimulationDuration, " +
     s"usersRampup=$getSimulationUsersRampup, " +
     s"loops=$getSimulationLoops, " +
-    s"tryMax=$getSimulationTryMax)"
+    s"tryMax=$getSimulationTryMax, " +
+    s"pause=$getSimulationPause)"
 }
