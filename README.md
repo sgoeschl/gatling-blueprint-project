@@ -7,6 +7,11 @@
 * Support multi-tenant & multi-site Gatling tests from IDE, Maven and shell script
 * Create a stand-alone Gatling distribution requiring only Java 1.8 and Ant 1.9.x
 
+Words of caution
+
+* Please note that this project depends on [sgoeschl/gatling-blueprint-extensions](https://github.com/sgoeschl/gatling-blueprint-extensions) so you need to install the libraries first
+* The code is currently refactored frequently :-)
+
 ## 2. Motivation
 
 During my work at [Erste Group](https://www.erstegroup.com) I came across interesting test scenarios such as

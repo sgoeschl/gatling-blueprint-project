@@ -22,9 +22,15 @@ class Test extends ConfigurableSimulation {
     .acceptLanguageHeader("en-US,en;q=0.5")
     .acceptEncodingHeader("gzip, deflate")
     .userAgentHeader("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0")
+    .disableCaching
 
-  // Executed test steps are moved into "ComputerDatabaseChainBuilder"
-  // Scenario name is derived from the simulation coordinates
+  // Use proxy only when explicitly configured
+  if (hasProxy) {
+    httpConf.proxy(httpProxy).noProxyFor("localhost", "127.0.0.1")
+  }
+
+  // 1) Executed test steps are moved into "ComputerDatabaseChainBuilder"
+  // 2) Scenario name is derived from the simulation coordinates
   val users: ScenarioBuilder = scenario(coordinates.toScenarioName)
     .feed(feeder)
     .repeat(simulationLoops) {

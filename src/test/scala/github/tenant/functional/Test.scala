@@ -15,8 +15,15 @@ class Test extends ConfigurableSimulation {
     .baseURL(getBaseURL)
     .acceptHeader("*/*")
     .acceptEncodingHeader("gzip, deflate")
-    .userAgentHeader("curl/7.52.0")
+    .userAgentHeader("gatling/2.2.23")
 
+  // Use proxy only when explicitly configured
+  if (hasProxy) {
+    httpConf.proxy(httpProxy).noProxyFor("localhost", "127.0.0.1")
+  }
+
+  // 1) Executed test steps are moved into "GitHubApiChainBuilder"
+  // 2) Scenario name is derived from the simulation coordinates
   val users: ScenarioBuilder = scenario(coordinates.toScenarioName)
     .repeat(simulationLoops) {
       tryMax(simulationTryMax) {

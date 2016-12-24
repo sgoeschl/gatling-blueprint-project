@@ -17,9 +17,11 @@
 
 package gatling.blueprint
 
+import gatling.blueprint.ConfigurationTool.{proxyHost, proxyPort, proxyPortSecure}
 import io.gatling.core.Predef.DurationInteger
 import io.gatling.core.config.GatlingConfiguration
 import io.gatling.core.scenario.Simulation
+import io.gatling.http.protocol.HttpProxyBuilder
 
 import scala.concurrent.duration.FiniteDuration
 
@@ -47,7 +49,7 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
   def resolveFile(fileName: String): String = {
     val resolvedFileName = ConfigurationTool.resolveFile(fileName)
     print(s"Resolve file '$fileName' to '$resolvedFileName'")
-    return resolvedFileName
+    resolvedFileName
   }
 
   def getBaseURL: String = ConfigurationTool.getURL(ConfigurationTool.coordinates.getApplication)
@@ -57,6 +59,8 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
   def getProperty(key: String, defaultValue: String): String = ConfigurationTool.getProperty(key, defaultValue)
 
   def hasProxy: Boolean = ConfigurationTool.hasProxy
+
+  def httpProxy: HttpProxyBuilder = HttpProxyBuilder(proxyHost, proxyPort).httpsPort(proxyPortSecure)
 
   override def toString: String = s"(" +
     s"usersAtOnce=$simulationUsersAtOnce, " +
