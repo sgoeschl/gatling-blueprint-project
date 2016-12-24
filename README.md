@@ -10,7 +10,7 @@
 Words of caution
 
 * Please note that this project depends on [sgoeschl/gatling-blueprint-extensions](https://github.com/sgoeschl/gatling-blueprint-extensions) so you need to install the libraries first
-* The code is currently refactored frequently :-)
+* The code is currently re-factored frequently :-)
 
 ## 2. Motivation
 
@@ -19,8 +19,8 @@ During my work at [Erste Group](https://www.erstegroup.com) I came across intere
 * End-to-End performance testing covering multiple REST APIs
 * Support of multiple tenants with different test scripts and test data
 * Support of multiple test environments such as DEV, FAT, UAT & PROD
-* Some functional testing flavour based on comparing current with expected JSON responses
-* Smoke tests afer a deployment using existing performance tests
+* Some functional testing flavor based on comparing current with expected JSON responses
+* Smoke tests after a deployment using existing performance tests
 
 In case you are still interested here are list of links with background information
 
@@ -31,7 +31,7 @@ In case you are still interested here are list of links with background informat
 
 * Since my Scala skill are rudimentary at best I moved support code into a [seperate Java project](https://github.com/sgoeschl/gatling-blueprint-extensions)
 * There is no single Gatling setup to rule them all (at least I'm not able to provide one) but this project can help with some commonly used functionality
-* It is assumed that you will challenge and/or change some/many of my design decisison and you are free to change it - hence it is called blueprint. Having said tht constructive feedback is appreciated and will improve the project in the long run
+* It is assumed that you will challenge and/or change some/many of my design decision and you are free to do so - hence it is called blueprint. Having said that constructive feedback is highly appreciated and will improve my pet project in the long run.
 
 ## 4. The Mental Domain Model
 
@@ -40,7 +40,7 @@ In case you are still interested here are list of links with background informat
     * `application`
     * `site`
     * `scope`
-* The dimension `tenant`, `application` and `scope` map to `tenant.application.scope.Test` which is the Gatling script to be executed
+* The dimension `tenant`, `application` and `scope` map to `application.tenant.scope.Test` which is the Gatling script to be executed
 * The dimension `site` is passed as system property and is used to pick up the correct configuration information from `./user-files/data`
 * It is assumed that testing with different `site` parameter does not require different Gatling tests
 * The configuration information is stored in `environment.properties` files in a hierarchical directory layout
