@@ -1,24 +1,23 @@
 package computerdatabase.tenant.functional
 
 import computerdatabase.tenant.ComputerDatabaseChainBuilder
+import gatling.blueprint.ConfigurableSimulation
 import gatling.blueprint.ConfigurationTool.coordinates
-import gatling.blueprint.{ConfigurableSimulation, ConfigurationTool}
 import io.gatling.core.Predef._
-import io.gatling.core.feeder.RecordSeqFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 
 class Test extends ConfigurableSimulation {
 
-  // Resolve to "user-files/data/computerdatabase/tenant/functional/search.csv""
-  val feeder: RecordSeqFeederBuilder[String] = csv(ConfigurationTool.resolveFile("search.csv"))
+  // Resolve to "user-files/data/tenant/local/computerdatabase/functional/search.csv""
+  private val feeder = csv(resolveFile("search.csv"))
 
-  // Create one test user per line in the CSV file (see above) so we can execute
-  // each query with a new user
-  val simulationUsers: Int = feeder.records.length
+  // Calculate the simulation users and ramp-up based on the CSV file content
+  private val mySimulationUsers = feeder.records.length
+  private val mySimulationUsersRampup = new DurationInteger(mySimulationUsers * 10).seconds
 
-  // The base URL is taken from "user-files/data/computerdatabase/tenant/environment.properties"
+  // The base URL is taken from "user-files/data/tenant/local/computerdatabase/environment.properties"
   val httpConf: HttpProtocolBuilder = http
     .baseURL(getBaseURL)
     .acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
@@ -32,14 +31,14 @@ class Test extends ConfigurableSimulation {
   // Scenario name is derived from the simulation coordinates
   val users: ScenarioBuilder = scenario(coordinates.toScenarioName)
     .feed(feeder)
-    .repeat(getSimulationLoops) {
-      tryMax(getSimulationTryMax) {
+    .repeat(simulationLoops) {
+      tryMax(simulationTryMax) {
         exec(ComputerDatabaseChainBuilder.create(coordinates))
-          .pause(getSimulationPause)
       }
     }
 
   setUp(
-    users.inject(rampUsers(simulationUsers) over getSimulationUsersRampup)
-  ).protocols(httpConf)
+    users.inject(rampUsers(mySimulationUsers) over mySimulationUsersRampup)
+      .protocols(httpConf)
+      .pauses(constantPauses))
 }

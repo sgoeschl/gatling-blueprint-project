@@ -1,6 +1,6 @@
 package github.tenant
 
-import gatling.blueprint.JsonResponseTool
+import gatling.blueprint.{ConfigurationTool, JsonResponseTool}
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ChainBuilder
 import io.gatling.http.Predef._
@@ -15,6 +15,7 @@ object GitHubApi {
       JsonResponseTool.saveToFile(session, "lastResponse", "github", "home")
       session
     })
+    .pause(ConfigurationTool.getPause)
 
   val users: ChainBuilder = exec(http("Users")
     .get("/users")
@@ -28,6 +29,7 @@ object GitHubApi {
       JsonResponseTool.saveToFile(jsonString, "github", "users")
       session
     })
+    .pause(ConfigurationTool.getPause)
 
   val events: ChainBuilder = exec(http("Events")
     .get("/events")
@@ -40,4 +42,5 @@ object GitHubApi {
       JsonResponseTool.saveToFile(jsonString, "github", "events")
       session
     })
+    .pause(ConfigurationTool.getPause)
 }

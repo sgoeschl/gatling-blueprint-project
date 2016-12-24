@@ -1,5 +1,6 @@
 package computerdatabase.tenant
 
+import gatling.blueprint.ConfigurationTool
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ChainBuilder
 import io.gatling.http.Predef._
@@ -10,16 +11,18 @@ object ComputerDatabase {
 
   val home: ChainBuilder = exec(http("Home")
     .get("/"))
+    .pause(ConfigurationTool.getPause)
 
   object Search {
 
-    val search: ChainBuilder = exec(http("Home")
-      .get("/"))
-      .exec(http("Search")
+    val search: ChainBuilder =
+      exec(http("Search")
         .get("/computers?f=${searchCriterion}") // 4
         .check(css("a:contains('${searchComputerName}')", "href").saveAs("computerURL")))
-      .exec(http("Select")
-        .get("${computerURL}")) // 6
+        .pause(ConfigurationTool.getPause)
+        .exec(http("Select")
+          .get("${computerURL}"))
+        .pause(ConfigurationTool.getPause)
   }
 
   object Browse {
@@ -27,17 +30,8 @@ object ComputerDatabase {
     def browse(n: Int): ChainBuilder = repeat(n, "i") {
       exec(http("Page ${i}")
         .get("/computers?p=${i}"))
-        .pause(1)
+        .pause(ConfigurationTool.getPause)
     }
   }
 
-  val edit: ChainBuilder = exec(http("Form")
-    .get("/computers/new"))
-    .exec(http("Post")
-      .post("/computers")
-      .headers(headers_10)
-      .formParam("name", "Beautiful Computer")
-      .formParam("introduced", "2012-05-30")
-      .formParam("discontinued", "")
-      .formParam("company", "37"))
 }

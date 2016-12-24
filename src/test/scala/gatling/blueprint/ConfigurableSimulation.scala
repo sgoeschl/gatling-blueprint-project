@@ -17,34 +17,38 @@
 
 package gatling.blueprint
 
-import com.typesafe.scalalogging.StrictLogging
 import io.gatling.core.Predef.DurationInteger
 import io.gatling.core.config.GatlingConfiguration
 import io.gatling.core.scenario.Simulation
 
 import scala.concurrent.duration.FiniteDuration
 
-abstract class ConfigurableSimulation(implicit configuration: GatlingConfiguration) extends Simulation with StrictLogging {
+abstract class ConfigurableSimulation(implicit configuration: GatlingConfiguration) extends Simulation {
 
   ConfigurationTool.init(configuration)
   JsonResponseTool.init(ConfigurationTool.resultDirectory, ConfigurationTool.isResponseSaved)
 
-  val getSimulationUsers: Int = getProperty("simulation.users", "1").toInt
-  val getSimulationDuration: FiniteDuration = new DurationInteger(getProperty("simulation.duration", "300").toInt).seconds
-  val getSimulationUsersRampup: FiniteDuration = new DurationInteger(getProperty("simulation.users.rampup", "0").toInt).seconds
-  val getSimulationLoops: Int = getProperty("simulation.loops", "1").toInt
-  val getSimulationTryMax: Int = getProperty("simulation.try.max", "1").toInt
-  val getSimulationPause: FiniteDuration = new DurationInteger(getProperty("simulation.pause.ms", "0").toInt).milliseconds
+  val simulationUsersAtOnce: Int = getProperty("simulation.users.atonce", "1").toInt
+  val simulationUsers: Int = getProperty("simulation.users", "0").toInt
+  val simulationUsersRampup: FiniteDuration = new DurationInteger(getProperty("simulation.users.rampup", "0").toInt).seconds
+  val simulationDuration: FiniteDuration = new DurationInteger(getProperty("simulation.duration", "300").toInt).seconds
+  val simulationLoops: Int = getProperty("simulation.loops", "1").toInt
+  val simulationTryMax: Int = getProperty("simulation.try.max", "1").toInt
+  val simulationPause: FiniteDuration = ConfigurationTool.getPause
 
-  logger.warn("Coordinates: " + ConfigurationTool.coordinates)
-  logger.warn("Environment: " + ConfigurationTool.environmentProperties)
-  logger.warn("Simulation: " + this.toString)
+  print("Coordinates: " + ConfigurationTool.coordinates)
+  print("Environment: " + ConfigurationTool.environmentProperties)
+  print("Simulation: " + this.toString)
 
   if (ConfigurationTool.environmentProperties.isEmpty) {
-    logger.warn("No environment properties are found - please check your configuration")
+    print("No environment properties are found - please check your configuration")
   }
 
-  def resolveFile(fileName: String): String = ConfigurationTool.resolveFile(fileName)
+  def resolveFile(fileName: String): String = {
+    val resolvedFileName = ConfigurationTool.resolveFile(fileName)
+    print(s"Resolve file '$fileName' to '$resolvedFileName'")
+    return resolvedFileName
+  }
 
   def getBaseURL: String = ConfigurationTool.getURL(ConfigurationTool.coordinates.getApplication)
 
@@ -54,10 +58,14 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
 
   def hasProxy: Boolean = ConfigurationTool.hasProxy
 
-  override def toString: String = s"(users=$getSimulationUsers, " +
-    s"duration=$getSimulationDuration, " +
-    s"usersRampup=$getSimulationUsersRampup, " +
-    s"loops=$getSimulationLoops, " +
-    s"tryMax=$getSimulationTryMax, " +
-    s"pause=$getSimulationPause)"
+  override def toString: String = s"(" +
+    s"usersAtOnce=$simulationUsersAtOnce, " +
+    s"users=$simulationUsers, " +
+    s"usersRampup=$simulationUsersRampup, " +
+    s"duration=$simulationDuration, " +
+    s"loops=$simulationLoops, " +
+    s"tryMax=$simulationTryMax, " +
+    s"pause=$simulationPause)"
+
+  private def print(line: String): Unit = System.out.println(line)
 }

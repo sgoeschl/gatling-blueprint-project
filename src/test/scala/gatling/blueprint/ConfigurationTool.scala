@@ -20,46 +20,40 @@ package gatling.blueprint
 import java.io.File
 import java.util.Properties
 
+import io.gatling.core.Predef.DurationInteger
 import io.gatling.core.config.GatlingConfiguration
-import org.github.sgoeschl.gatling.blueprint.extensions.SimulationCoordinates
-import org.github.sgoeschl.gatling.blueprint.extensions.file.{ConfigurationFileResolver, EnvironmentPropertiesResolver, URLUtil}
+import org.github.sgoeschl.gatling.blueprint.extensions.file.URLUtil
+import org.github.sgoeschl.gatling.blueprint.extensions.{DataFileResolver, EnvironmentPropertiesResolver, SimulationCoordinates}
+
+import scala.concurrent.duration.FiniteDuration
 
 object ConfigurationTool {
 
+  var initialized: Boolean = false
   var environmentProperties: Properties = _
-
-  var simulationCoordinates: SimulationCoordinates = _
-  private var dataDirectoryName: String = _
-  private var resultDirectoryName: String = _
-  private var initialized: Boolean = false
-  private var proxyHost = ""
-  private var proxyPort: Int = 8080
-  private var proxyPortSecure: Int = 8080
+  var dataDirectory: File = _
+  var resultDirectory: File = _
+  var hasProxy: Boolean = _
+  var proxyHost: String = _
+  var proxyPort: Int = 8080
+  var proxyPortSecure: Int = 8080
+  var coordinates: SimulationCoordinates = _
 
   def init(configuration: GatlingConfiguration): Unit = {
-    dataDirectoryName = configuration.core.directory.data
-    resultDirectoryName = configuration.core.directory.results
-
-    val simulationClass = configuration.core.simulationClass.get
-    simulationCoordinates = SimulationCoordinates.from(simulationClass, System.getProperties)
-
-    environmentProperties = EnvironmentPropertiesResolver.resolveProperties(dataDirectoryName, simulationCoordinates)
-
-    this.proxyHost = environmentProperties.getProperty("proxy.host")
-    this.proxyPort = environmentProperties.getProperty("proxy.port", "8080").toInt
-    this.proxyPortSecure = environmentProperties.getProperty("proxy.port.secure", "8080").toInt
-
+    dataDirectory = new File(configuration.core.directory.data)
+    resultDirectory = new File(configuration.core.directory.results)
+    coordinates = SimulationCoordinates.from(configuration.core.simulationClass.get, System.getProperties)
+    environmentProperties = EnvironmentPropertiesResolver.resolveProperties(dataDirectory, coordinates)
+    proxyHost = environmentProperties.getProperty("proxy.host")
+    proxyPort = environmentProperties.getProperty("proxy.port", "8080").toInt
+    proxyPortSecure = environmentProperties.getProperty("proxy.port.secure", "8080").toInt
+    hasProxy = proxyHost != null && !proxyHost.trim.isEmpty
     initialized = true
   }
 
-  def coordinates: SimulationCoordinates = simulationCoordinates
-
-  def dataDirectory: File = new File(this.dataDirectoryName)
-
-  def resultDirectory: File = new File(this.resultDirectoryName)
-
   def resolveFile(fileName: String): String = {
-    ConfigurationFileResolver.resolveFile(dataDirectoryName, simulationCoordinates, fileName).getAbsolutePath
+    val file = DataFileResolver.resolveFile(dataDirectory, coordinates, fileName)
+    dataDirectory.toPath.relativize(file.toPath).toString
   }
 
   def getProperty(key: String): String = {
@@ -71,21 +65,23 @@ object ConfigurationTool {
     environmentProperties.getProperty(key, defaultValue)
   }
 
-  def getURL(application: String, endpoint: String = ""): String = {
-    URLUtil.getURL(getBaseURL(application), endpoint)
+  def getURL(application: String, relativeURL: String = ""): String = {
+    URLUtil.getURL(createBaseURL(application), relativeURL)
   }
 
-  def hasProxy: Boolean = proxyHost != null
+  def getPause: FiniteDuration = {
+    new DurationInteger(getProperty("simulation.pause.ms", "0").toInt).milliseconds
+  }
 
   /**
     * Can we save responses to the file system? When doing this for performance
-    * tests this is very likely not a good idea.
+    * tests this is very likely not a good idea due to performance and disk
+    * space issues.
     */
   def isResponseSaved: Boolean = {
-    val defaultValue = if (isPerformanceTest(simulationCoordinates.getScope)) "false" else "true"
+    val defaultValue = if (isPerformanceTest(coordinates.getScope)) "false" else "true"
     getProperty("simulation.response.save", defaultValue).equals("true")
   }
-
 
   /**
     * Heuristically determine if we run a performance test.
@@ -94,12 +90,14 @@ object ConfigurationTool {
     if (scope.contains("performance") || scope.contains("load") || scope.contains("stress")) true else false
   }
 
-  private def getBaseURL(system: String): String = getProperty(s"$system.base.url")
+  private def createBaseURL(system: String): String = getProperty(s"$system.base.url")
 
-  override def toString: String = s"ConfigurationTool(environmentProperties=$environmentProperties, " +
-    s"simulationCoordinates=$simulationCoordinates, " +
-    s"dataDirectoryName=$dataDirectoryName, " +
-    s"resultDirectoryName=$resultDirectoryName, " +
+  override def toString: String = s"ConfigurationTool(" +
+    s"initialized=$initialized, " +
+    s"coordinates=$coordinates, " +
+    s"environmentProperties=$environmentProperties, " +
+    s"dataDirectory=$dataDirectory, " +
+    s"resultDirectory=$resultDirectory, " +
     s"initialized=$initialized, " +
     s"proxyHost=$proxyHost, " +
     s"proxyPort=$proxyPort, " +
