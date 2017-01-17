@@ -2,10 +2,10 @@
 
 ## 1. Overview
 
-* Provide out-of-the-box IDE support for writing & testing Gatling script 
-* Implement pretty-printing and filtering of JSON responses
-* Support multi-tenant & multi-site Gatling tests from IDE, Maven and shell script
-* Create a stand-alone Gatling distribution requiring only Java 1.8 and Ant 1.9.x
+* Provide out-of-the-box IDE support for writing & debugging Gatling script 
+* Implement pretty-printing and custom filtering of JSON responses
+* Support multi-tenant & multi-site Gatling tests from IDE, Apache Maven and shell script
+* Create a stand-alone Gatling distribution requiring only Java 1.8 and optionally Apache Ant 1.9.x
 
 Words of caution
 
@@ -16,10 +16,10 @@ Words of caution
 
 During my work at [Erste Group](https://www.erstegroup.com) I came across interesting test scenarios such as
 
-* End-to-End performance testing covering multiple REST APIs
+* End-to-End performance testing spanning multiple REST APIs
 * Support of multiple tenants with different test scripts and test data
-* Support of multiple test environments such as DEV, FAT, UAT & PROD
-* Some functional testing flavor based on comparing current with expected JSON responses
+* Support of multiple test environments such as DEV, FAT, UAT & PROD with different configuration data
+* Some functional testing flavor comparing current with expected JSON responses
 * Smoke tests after a deployment using existing performance tests
 
 In case you are still interested here are list of links with background information
@@ -73,12 +73,15 @@ Invoking tests with the IDE provide the following system properties
 
 #### Running Tests From The Maven Command Line
 
+Fist we start the smoke test using
+
 > mvn -Dgatling.simulationClass=computerdatabase.tenant.smoketest.Test gatling:test
 
 ```
 Coordinates: {application='computerdatabase', tenant='tenant', site='local', scope='smoketest'}
-Environment: {simulation.users.rampup=0, simulation.users=1, simulation.loops=1, simulation.try.max=1, simulation.pause.ms=1000, computerdatabase.base.url=http://computer-database.gatling.io, simulation.duration=300}
-Simulation: (users=1, duration=300 seconds, usersRampup=0 seconds, loops=1, tryMax=1)
+Environment: {simulation.pause.ms=100, computerdatabase.base.url=http://computer-database.gatling.io}
+Simulation: (usersAtOnce=1, users=0, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=100 milliseconds)
+Resolve file 'search.csv' to 'tenant/local/computerdatabase/smoketest/search.csv'
 Simulation computerdatabase.tenant.smoketest.Test started...
 
 ================================================================================
@@ -97,13 +100,15 @@ Simulation computerdatabase.tenant.smoketest.Test started...
 ================================================================================
 ```
 
+Afterwards we run the functional test flavor using
 
 > mvn -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
 
 ```
 Coordinates: {application='computerdatabase', tenant='tenant', site='local', scope='functional'}
-Environment: {simulation.users.rampup=0, simulation.users=1, simulation.loops=1, simulation.try.max=1, simulation.pause.ms=1000, computerdatabase.base.url=http://computer-database.gatling.io, simulation.duration=300}
-Simulation: (users=1, duration=300 seconds, usersRampup=0 seconds, loops=1, tryMax=1)
+Environment: {simulation.pause.ms=1000, computerdatabase.base.url=http://computer-database.gatling.io, simulation.users.atonce=0}
+Simulation: (usersAtOnce=0, users=0, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=1000 milliseconds)
+Resolve file 'search.csv' to 'tenant/local/computerdatabase/functional/search.csv'
 Simulation computerdatabase.tenant.functional.Test started...
 
 
@@ -152,7 +157,7 @@ object GitHubApi {
 
 After the test run you will see the following directory content
 
-![GitHub JSON Response File](./site/image/github-json-reponse-files.png)
+![GitHub JSON Response File](./src/site/image/github-json-reponse-files.png)
 
 ## Tips & Tricks
 

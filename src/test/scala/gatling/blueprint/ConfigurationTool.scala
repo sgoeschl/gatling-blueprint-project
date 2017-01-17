@@ -65,8 +65,16 @@ object ConfigurationTool {
     environmentProperties.getProperty(key, defaultValue)
   }
 
-  def getURL(application: String, relativeURL: String = ""): String = {
-    URLUtil.getURL(createBaseURL(application), relativeURL)
+  def hasBaseURL(system: String): Boolean = {
+    val baseURL = createBaseURL(system)
+    baseURL != null && !baseURL.isEmpty
+  }
+
+  /**
+    * Lookup a "${system}.base.url" and add the relative URL.
+    */
+  def getURL(system: String, relativeURL: String = ""): String = {
+    URLUtil.getURL(createBaseURL(system), relativeURL)
   }
 
   def getPause: FiniteDuration = {
@@ -87,7 +95,10 @@ object ConfigurationTool {
     * Heuristically determine if we run a performance test.
     */
   private def isPerformanceTest(scope: String): Boolean = {
-    if (scope.contains("performance") || scope.contains("load") || scope.contains("stress")) true else false
+    if (scope.contains("performance")
+      || scope.contains("endurance")
+      || scope.contains("load")
+      || scope.contains("stress")) true else false
   }
 
   private def createBaseURL(system: String): String = getProperty(s"$system.base.url")
