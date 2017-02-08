@@ -40,9 +40,9 @@ object ConfigurationTool {
   var coordinates: SimulationCoordinates = _
 
   def init(configuration: GatlingConfiguration): Unit = {
-    dataDirectory = new File(configuration.core.directory.data)
-    resultDirectory = new File(configuration.core.directory.results)
     coordinates = SimulationCoordinates.from(configuration.core.simulationClass.get, System.getProperties)
+    dataDirectory = new File(configuration.core.directory.data).getAbsoluteFile
+    resultDirectory = new File(configuration.core.directory.results).getAbsoluteFile
     environmentProperties = EnvironmentPropertiesResolver.resolveProperties(dataDirectory, coordinates)
     proxyHost = environmentProperties.getProperty("proxy.host")
     proxyPort = environmentProperties.getProperty("proxy.port", "8080").toInt
@@ -98,7 +98,8 @@ object ConfigurationTool {
     if (scope.contains("performance")
       || scope.contains("endurance")
       || scope.contains("load")
-      || scope.contains("stress")) true else false
+      || scope.contains("stress")) true
+    else false
   }
 
   private def createBaseURL(system: String): String = getProperty(s"$system.base.url")

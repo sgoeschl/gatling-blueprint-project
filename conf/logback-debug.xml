@@ -4,7 +4,7 @@
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} [%-5level] %logger{15} - %msg%n%rEx</pattern>
-			<immediateFlush>false</immediateFlush>
+			<immediateFlush>true</immediateFlush>
 		</encoder>
 	</appender>
 

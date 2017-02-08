@@ -20,21 +20,24 @@
 <!--
   Anh helper scripts to create a stand-alone Gatling distributable
 -->
-<project name="gatling-blueprint-project" default="gatling:info" basedir=".">
+<project name="gatling-blueprint-project" default="package" basedir=".">
 
   <!-- import environment variables -->
   <property environment="env"/>
 
-  <property name="gatling.dist.dir" value="${basedir}/target/distributable/gatling-charts-highcharts-bundle-2.2.3" />
-  <property name="gatling.dist.userfiles.dir" value="${gatling.dist.dir}/user-files" />
-  <property name="gatling.dist.simulation.dir" value="${gatling.dist.userfiles.dir}/simulations" />
+    <property name="gatling.dist.name" value="gatling-charts-highcharts-bundle-2.2.3"/>
+    <property name="maven.build.dir" value="${basedir}/target"/>
+    <property name="gatling.dist.dir" value="${maven.build.dir}/distributable/${gatling.dist.name}"/>
+    <property name="gatling.dist.userfiles.dir" value="${gatling.dist.dir}/user-files"/>
+    <property name="gatling.dist.simulation.dir" value="${gatling.dist.userfiles.dir}/simulations"/>
 
   <!-- ############################################################## -->
   <!-- General Targets                                                -->
   <!-- ############################################################## -->
 
-  <target name="gatling:info" description="Build the project">
-    <echo>Hello </echo>
+    <target name="package" description="Build the project">
+        <antcall target="gatling:copy-gatling-from-maven-setup" />
+        <antcall target="gatling:create-distributables" />
   </target>
 
   <!-- ############################################################## -->
@@ -64,6 +67,16 @@
     </copy>
     <!-- make the Gatling scripts executable -->
     <chmod dir="${gatling.dist.dir}/bin" perm="ugo+rx" includes="**/*.sh"/>
+        <!-- copy the "README.md" -->
+        <copy file="readme.md" tofile="${gatling.dist.dir}/readme.md"/>
+        <!-- copy the "VERSION.txt" -->
+        <copy file="${maven.build.dir}/classes/VERSION.txt" tofile="${gatling.dist.dir}/VERSION.txt"/>
+        <!-- copy the "CHANGELOG.md" -->
+        <copy file="${basedir}/CHANGELOG.md" tofile="${gatling.dist.dir}/CHANGELOG.md" />
+    </target>
+
+    <target name="gatling:create-distributables">
+        <tar destfile="./target/gatling-blueprint-project.tar.gz" compression="gzip" basedir="${gatling.dist.dir}" />
   </target>
 
 </project>

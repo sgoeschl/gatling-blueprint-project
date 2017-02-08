@@ -11,11 +11,15 @@
         <source.property>1.8</source.property>
         <target.property>1.8</target.property>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <gatling.version>2.2.3</gatling.version>
-        <gatling.blueprint.extenstions.version>2.2.3.1-SNAPSHOT</gatling.blueprint.extenstions.version>
+        <gatling.blueprint.extensions.version>2.2.3.6-SNAPSHOT</gatling.blueprint.extensions.version>
         <gatling-plugin.version>2.2.1</gatling-plugin.version>
         <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
+
         <distributable.dir>${project.build.directory}/distributable</distributable.dir>
+        <build.timestamp>${maven.build.timestamp}</build.timestamp>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
     </properties>
 
     <dependencies>
@@ -31,7 +35,7 @@
         <dependency>
             <groupId>org.github.sgoeschl.gatling</groupId>
             <artifactId>gatling-blueprint-extensions</artifactId>
-            <version>${gatling.blueprint.extenstions.version}</version>
+            <version>${gatling.blueprint.extensions.version}</version>
         </dependency>
         <dependency>
             <groupId>io.gatling.highcharts</groupId>
@@ -46,6 +50,10 @@
             <!-- Gatling config files are loaded from the classpath -->
             <resource>
                 <directory>${basedir}/conf</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
             </resource>
         </resources>
 
@@ -64,13 +72,6 @@
                     <bodiesFolder>${project.basedir}/user-files/bodies</bodiesFolder>
                     <dataFolder>${project.basedir}/user-files/data</dataFolder>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -106,9 +107,16 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
+                                    <!-- Required for the Ant 'build.xml' -->
+                                    <groupId>ant-contrib</groupId>
+                                    <artifactId>ant-contrib</artifactId>
+                                    <version>1.0b3</version>
+                                    <overWrite>false</overWrite>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.github.sgoeschl.gatling</groupId>
                                     <artifactId>gatling-blueprint-extensions</artifactId>
-                                    <version>${gatling.blueprint.extenstions.version}</version>
+                                    <version>${gatling.blueprint.extensions.version}</version>
                                     <overWrite>false</overWrite>
                                 </artifactItem>
                             </artifactItems>
@@ -117,11 +125,10 @@
                             </outputDirectory>
                         </configuration>
                     </execution>
-
                 </executions>
             </plugin>
-
             <plugin>
+                <!-- Do all the re-packaging magic in a separate Ant script -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.8</version>
@@ -131,11 +138,54 @@
                         <phase>package</phase>
                         <configuration>
                             <target>
-                                <ant antfile="${project.basedir}/package.xml" target="gatling:copy-gatling-from-maven-setup" />
+                                <ant antfile="${project.basedir}/package.xml" />
                             </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!-- Make the stand-alone Apache Ant distributionan "attached artifact" -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.12</version>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.basedir}/target/gatling-blueprint-project.tar.gz</file>
+                                    <type>tar.gz</type>
+                                    <classifier>standalone</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>source-distribution</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tarLongFileMode>gnu</tarLongFileMode>
+                            <descriptors>
+                                <descriptor>${basedir}/src/main/assembly/src.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                        <goals>
+                            <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>

@@ -31,16 +31,19 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
   JsonResponseTool.init(ConfigurationTool.resultDirectory, ConfigurationTool.isResponseSaved)
 
   val simulationUsersAtOnce: Int = getProperty("simulation.users.atonce", "1").toInt
-  val simulationUsers: Int = getProperty("simulation.users", "0").toInt
+  val simulationUsers: Int = getProperty("simulation.users", "1").toInt
   val simulationUsersRampup: FiniteDuration = new DurationInteger(getProperty("simulation.users.rampup", "0").toInt).seconds
   val simulationDuration: FiniteDuration = new DurationInteger(getProperty("simulation.duration", "300").toInt).seconds
   val simulationLoops: Int = getProperty("simulation.loops", "1").toInt
   val simulationTryMax: Int = getProperty("simulation.try.max", "1").toInt
   val simulationPause: FiniteDuration = ConfigurationTool.getPause
+  val scenarionName: String = ConfigurationTool.coordinates.toScenarioName
 
   print("Coordinates: " + ConfigurationTool.coordinates)
   print("Environment: " + ConfigurationTool.environmentProperties)
   print("Simulation: " + this.toString)
+  print("Data Directory: " + ConfigurationTool.dataDirectory)
+  print("Result Directory: " + ConfigurationTool.resultDirectory)
 
   if (ConfigurationTool.environmentProperties.isEmpty) {
     print("No environment properties are found - please check your configuration")

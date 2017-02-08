@@ -32,7 +32,7 @@ object JsonResponseTool {
   private var isResponseSaved = true
 
   def init(directory: File, isResponseSaved: Boolean): Unit = {
-    this.directory = directory
+    this.directory = new File(System.getProperty("response.dir", directory.getAbsolutePath))
     this.isResponseSaved = isResponseSaved
   }
 

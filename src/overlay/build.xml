@@ -1,0 +1,345 @@
+<?xml version="1.0"?>
+<!--
+  ANT script for build administration
+-->
+<project name="gatling-blueprint-project" default="info" basedir=".">
+
+    <!-- import shell environment as env.*-->
+    <property environment="env"/>
+
+    <!-- load the user specific properties overriding build.properties -->
+    <property file="user.properties"/>
+
+    <!-- load the project specific properties -->
+    <property file="build.properties"/>
+
+    <!-- the installation directory of Gatling -->
+    <property name="gatling.home" value="${basedir}"/>
+
+    <!-- the configuration directory of Gatling -->
+    <property name="gatling.conf" value="${gatling.home}/conf" />
+
+    <!-- get the current timestamp -->
+    <tstamp>
+        <format property="timestamp" pattern="yyyyMMdd'T'HHmmss"/>
+    </tstamp>
+
+    <condition property="isWindows" value="true">
+        <os family="windows"/>
+    </condition>
+
+    <!-- executable for visual diffing -->
+    <property name="visual.diff.executable" value="diff"/>
+
+    <loadfile property="version.txt" srcFile="${basedir}/VERSION.txt" />
+
+    <!-- =================================================================== -->
+    <!-- Default Gatling test configuration                                  -->
+    <!-- =================================================================== -->
+
+    <!-- the log level to be used  -->
+    <property name="logger" value="default" />
+
+    <!-- logback configuration file -->
+    <property name="logback.configuration.file" value="${basedir}/conf/logback-${logger}.xml" />
+
+    <!-- the name of the application to test  -->
+    <property name="application" value="computerdatabase"/>
+
+    <!-- the name of the tenant to test  -->
+    <property name="tenant" value="default"/>
+
+    <!-- the name of the site to test  -->
+    <property name="site" value="local"/>
+
+    <!-- the scope of test to execute -->
+    <property name="scope" value="smoketest"/>
+
+    <!-- the name of the simulation to execute -->
+    <property name="simulation" value="${application}.${tenant}.${scope}.Test" />
+
+    <!-- tag name of the execution -->
+    <property name="id" value="${application}-${tenant}-${site}-${scope}"/>
+
+    <property name="gatling.results.dir" value="${basedir}/results" />
+    <property name="gatling.work.dir" value="${gatling.results.dir}/${application}/${tenant}/${site}/${scope}"/>
+    <property name="gatling.simulation.dir" value="${basedir}/user-files/simulations" />
+    <property name="gatling.simulation.file" value="${gatling.simulation.dir}/${application}/${tenant}/${scope}/Test.scala" />
+    <property name="gatling.response.diff.file" value="${gatling.work.dir}/diff.txt"/>
+    <property name="gatling.response.current.dir" value="${gatling.work.dir}/responses"/>
+    <property name="gatling.response.expected.dir" value="${basedir}/user-files/expected/${application}/${tenant}/${site}/${scope}"/>
+    <property name="gatling.archive.dir" value="${basedir}/user-files/archive"/>
+    <property name="gatling.archive.file" value="${gatling.archive.dir}/${id}-${timestamp}.zip"/>
+    <property name="gatling.failure.file" value="${gatling.work.dir}/gatling.failure"/>
+
+    <!-- =================================================================== -->
+    <!-- Classpath Setup                                                     -->
+    <!-- =================================================================== -->
+
+    <!-- setup the class path to use "ant-contrib-1.0b3.jar" -->
+    <path id="ant.class.path">
+        <fileset dir="${gatling.home}/lib">
+            <include name="ant-contrib-1.0b3.jar" />
+        </fileset>
+    </path>
+
+    <!-- setup the classpath to run the Scala compiler -->
+    <path id="gatling.compiler.class.path">
+        <fileset dir="${gatling.home}/lib/zinc">
+            <include name="*.jar" />
+        </fileset>
+        <pathelement location="${gatling.conf}" />
+    </path>
+
+    <!-- setup the classpath to compile the Scala sources -->
+    <path id="gatling.compilation.class.path">
+        <fileset dir="${gatling.home}/lib">
+            <include name="*.jar" />
+        </fileset>
+        <pathelement location="${gatling.conf}" />
+    </path>
+
+    <!-- setup the classpath to run the Gatling tests -->
+    <path id="gatling.execution.class.path">
+        <fileset dir="${gatling.home}/lib">
+            <include name="*.jar" />
+        </fileset>
+        <pathelement location="${gatling.home}/target/test-classes" />
+        <pathelement location="${gatling.home}/user-files" />
+        <pathelement location="${gatling.conf}" />
+    </path>
+
+    <!-- pull in the ant/contrib tasks -->
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpathref="ant.class.path"/>
+
+    <!-- =================================================================== -->
+    <!-- General Tasks                                                       -->
+    <!-- =================================================================== -->
+
+    <target name="clean" description="Clean the working directory for the current test">
+        <delete dir="${gatling.work.dir}"/>
+    </target>
+
+    <target name="clean:all" description="Clean the working directory for all tests">
+        <delete dir="${gatling.results.dir}"/>
+    </target>
+
+    <target name="info" description="Print the current configuration">
+        <echo message="${version.txt}" />
+        <echo message="" />
+        <echo message="----------------------------------------------------------------------" />
+        <echo message="ANT_HOME                          = ${env.ANT_HOME}"/>
+        <echo message="JAVA_HOME                         = ${env.JAVA_HOME}"/>
+        <echo message="----------------------------------------------------------------------"/>
+        <echo message="OS Name                           = ${os.name}"/>
+        <echo message="OS Architecture                   = ${os.arch}"/>
+        <echo message="OS Version                        = ${os.version}"/>
+        <echo message="----------------------------------------------------------------------"/>
+        <echo message="gatling.home                      = ${gatling.home}"/>
+        <echo message="gatling.conf                      = ${gatling.conf}"/>
+        <echo message="gatling.work.dir                  = ${gatling.work.dir}"/>
+        <echo message="gatling.response.current.dir      = ${gatling.response.current.dir}"/>
+        <echo message="gatling.response.expected.dir     = ${gatling.response.expected.dir}"/>
+        <echo message="gatling.archive.file              = ${gatling.archive.file}"/>
+        <echo message="----------------------------------------------------------------------"/>
+        <echo message="id                                = ${id}"/>
+        <echo message="logger                            = ${logger}" />
+        <echo message="simulation                        = ${simulation}" />
+        <echo message="----------------------------------------------------------------------" />
+        <echo message="logback.configuration.file        = ${logback.configuration.file}" />
+        <echo message="visual.diff.executable            = ${visual.diff.executable}" />
+    </target>
+
+    <target name="reset" depends="clean:all" description="Remove expected JSON responses for all tests">
+        <delete dir="${basedir}/user-files/expected/"/>
+        <delete dir="${basedir}/target"/>
+    </target>
+
+    <target name="run" depends="clean" description="Run the functional test but ignore failures">
+        <antcall target="gatling:execute">
+            <param name="simulation" value="${simulation}"/>
+        </antcall>
+    </target>
+
+    <target name="test" depends="clean" description="Run the functional test and fail on error">
+        <antcall target="run"/>
+        <antcall target="fail-on-error"/>
+    </target>
+
+    <target name="record" description="Run the functional test and capture expected responses">
+        <antcall target="test"/>
+        <antcall target="gatling:delete-expected-responses-directory"/>
+        <antcall target="gatling:copy-current-responses-to-expected-responses-directory"/>
+    </target>
+
+    <target name="save" description="Save the current output as new expected responses">
+        <antcall target="gatling:delete-expected-responses-directory"/>
+        <antcall target="gatling:copy-current-responses-to-expected-responses-directory"/>
+    </target>
+
+    <target name="verify" description="Run the tests and and compare with expected responses">
+        <antcall target="test"/>
+        <antcall target="diff"/>
+    </target>
+
+    <target name="diff" description="Compare expected with current responses">
+        <antcall target="gatling:diff"/>
+    </target>
+
+    <target name="diff:visual" description="Compare expected with current responses using a visual diff tool">
+        <antcall target="gatling:visual-diff"/>
+    </target>
+
+    <target name="archive" description="Archives the output of the executed test">
+        <zip destfile="${gatling.archive.file}" basedir="${gatling.work.dir}"/>
+    </target>
+
+    <target name="archive:clean" description="Delete all archived test reports">
+        <echo message="Deleting all archived reports"/>
+        <delete dir="${gatling.archive.dir}"/>
+    </target>
+
+    <target name="fail-on-error" description="Force a build error if the Gatling test has failed before">
+        <antcall target="gatling:fail-on-error"/>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Internal Tasks                                                      -->
+    <!-- =================================================================== -->
+
+    <!-- Delete the compiled Scala classes -->
+    <target name="gatling:clean">
+        <delete dir="${gatling.home}/target/test-classes" />
+    </target>
+
+    <!-- Compile the Scala source files -->
+    <target name="gatling:compile">
+        <java
+                fork="true"
+                failonerror="true"
+                maxmemory="256m"
+                classpathref="gatling.compiler.class.path"
+                classname="io.gatling.compiler.ZincCompiler">
+            <env key="GATLING_HOME" path="${gatling.home}" />
+            <env key="GATLING_CONF" path="${gatling.conf}" />
+            <arg value="-ccp" />
+            <arg value="${toString:gatling.compilation.class.path}" />
+        </java>
+    </target>
+
+    <!-- Execute the given Gatling test using a forked JVM  -->
+    <target name="gatling:execute" depends="gatling:compile">
+        <echo>Executing the following simulation: ${simulation}</echo>
+        <delete file="${gatling.failure.file}" />
+        <antcall target="gatling:script-present" />
+        <java
+                fork="true"
+                failonerror="false"
+                resultproperty="gatling.exit.code"
+                maxmemory="1536m"
+                classpathref="gatling.execution.class.path"
+                classname="io.gatling.app.Gatling">
+            <env key="GATLING_HOME" path="${gatling.home}" />
+            <env key="GATLING_CONF" path="${gatling.conf}" />
+            <jvmarg value="-XX:+UseG1GC" />
+            <jvmarg value="-XX:MaxGCPauseMillis=30" />
+            <jvmarg value="-XX:G1HeapRegionSize=16m" />
+            <jvmarg value="-XX:InitiatingHeapOccupancyPercent=75" />
+            <jvmarg value="-XX:+ParallelRefProcEnabled" />
+            <jvmarg value="-XX:+PerfDisableSharedMem" />
+            <jvmarg value="-XX:+AggressiveOpts" />
+            <jvmarg value="-XX:+OptimizeStringConcat" />
+            <jvmarg value="-XX:+HeapDumpOnOutOfMemoryError" />
+            <jvmarg value="-Djava.net.preferIPv4Stack=true" />
+            <jvmarg value="-Djava.net.preferIPv6Addresses=false" />
+            <jvmarg value="-Dsite=${site}" />
+            <jvmarg value="-Dresponse.dir=${gatling.response.current.dir}" />
+            <jvmarg value="-Dlogback.configurationFile=${logback.configuration.file}" />
+            <arg value="--output-name" />
+            <arg value="${gatling.work.dir}/results" />
+            <arg value="--simulation" />
+            <arg value="${simulation}" />
+            <arg value="--run-description" />
+            <arg value="${id}" />
+        </java>
+        <if>
+            <not>
+                <equals arg1="${gatling.exit.code}" arg2="0" />
+            </not>
+            <then>
+                <echo message="The Gatling test failed with the following exit code: ${gatling.exit.code}" />
+                <echo append="true" file="${gatling.failure.file}" message="The Gatling test failed with the following exit code: ${gatling.exit.code}" />
+            </then>
+        </if>
+    </target>
+
+    <target name="gatling:delete-expected-responses-directory">
+        <delete dir="${gatling.response.expected.dir}"/>
+    </target>
+
+    <target name="gatling:copy-current-responses-to-expected-responses-directory">
+        <copy todir="${gatling.response.expected.dir}">
+            <fileset dir="${gatling.response.current.dir}"/>
+        </copy>
+    </target>
+
+    <target name="gatling:fail-on-error">
+        <fail message="The Gatling test failed">
+            <condition>
+                <resourcecount count="1">
+                    <fileset id="fs" dir="${gatling.work.dir}" includes="gatling.failure"/>
+                </resourcecount>
+            </condition>
+        </fail>
+    </target>
+
+    <target name="gatling:script-present">
+        <available file="${gatling.simulation.file}" type="file" property="gatling.script.present" />
+        <fail message="The Gatling script was not found: ${gatling.simulation.file}">
+            <condition>
+                <isfalse value="${gatling.script.present}" />
+            </condition>
+        </fail>
+    </target>
+
+    <target name="gatling:diff">
+        <echo message="Running 'diff ${gatling.response.current.dir} ${gatling.response.expected.dir}'"/>
+        <echo message="The diff file is store here ${gatling.response.diff.file}'"/>
+        <echo message="Locally you can diff using '${visual.diff.executable} ${gatling.response.current.dir} ${gatling.response.expected.dir}'"/>
+        <delete file="${gatling.response.diff.file}"/>
+        <antcall target="gatling:diff-unix"/>
+        <antcall target="gatling:diff-windows"/>
+        <length file="${gatling.response.diff.file}" property="diff.file.length" />
+        <fail message="There are differences between the current and expected responses - ${diff.file.length} bytes">
+            <condition>
+                <length file="${gatling.response.diff.file}" when="greater" length="0" />
+            </condition>
+        </fail>
+    </target>
+
+    <target name="gatling:diff-unix" unless="isWindows">
+        <exec dir="${basedir}" executable="diff" output="${gatling.response.diff.file}">
+            <arg value="-u"/>
+            <arg value="${gatling.response.current.dir}"/>
+            <arg value="${gatling.response.expected.dir}"/>
+        </exec>
+    </target>
+
+    <target name="gatling:diff-windows" if="isWindows">
+        <!-- Since the Windows "diff" only works on single files I need to invoke it for each response file -->
+        <apply executable="diff" force="yes" output="${gatling.response.diff.file}" append="true">
+            <fileset dir="${gatling.response.current.dir}"/>
+            <srcfile/>
+            <targetfile/>
+            <mapper type="glob" from="*" to="${gatling.response.expected.dir}/*"/>
+        </apply>
+    </target>
+
+    <target name="gatling:visual-diff">
+        <exec dir="${basedir}" executable="${visual.diff.executable}">
+            <arg value="${gatling.response.current.dir}"/>
+            <arg value="${gatling.response.expected.dir}"/>
+        </exec>
+    </target>
+
+</project>

@@ -139,7 +139,7 @@ A REST API example showing JSON response handling
 * Assuming the following coordinates `github-tenant-functional-local`
 * For a non-performance tests the JSON responses are pretty-printed and saved
 
-> mvn -Dgatling.simulationClass=guthub.tenant.functional.Test clean gatling:test
+> mvn -Dgatling.simulationClass=github.tenant.functional.Test clean gatling:test
 
 ```scala
 object GitHubApi {
@@ -159,18 +159,18 @@ After the test run you will see the following directory content
 
 ![GitHub JSON Response File](./src/site/image/github-json-reponse-files.png)
 
-## Tips & Tricks
+## 6 Tips & Tricks
 
 * You can debug your Gatling scenario using `Engine` with the VM options `-Dgatling.core.simulationClass=computerdatabase.BasicSimulation`
 * See [http://gatling.io/docs/2.2.2/extensions/maven_plugin.html](http://gatling.io/docs/2.2.2/extensions/maven_plugin.html)
 
-## Running Gatling With Maven
+### 6.1 Running Gatling With Maven
 
 > mvn -Dgatling.simulationClass=computerdatabase.tenant.smoketest.Test clean gatling:test
 > mvn -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
-> mvn -Dlogback.configurationFile=conf/logback.xml -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
+> mvn -Dlogback.configurationFile=conf/logback-debug.xml -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
 
-## Running the Standalone Gatling Distribution
+### 6.2 Running the Standalone Gatling Distribution
 
 > ./bin/gatling.sh -s computerdatabase.tenant.smoketest.Test
 > ./bin/gatling.sh --simulation computerdatabase.tenant.smoketest.Test
