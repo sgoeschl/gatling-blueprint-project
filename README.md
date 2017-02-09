@@ -5,7 +5,7 @@
 * Provide out-of-the-box IDE support for writing & debugging Gatling script 
 * Implement pretty-printing and custom filtering of JSON responses
 * Support multi-tenant & multi-site Gatling tests from IDE, Apache Maven and shell script
-* Create a stand-alone Gatling distribution requiring only Java 1.8 and optionally Apache Ant 1.9.x
+* Create a stand-alone Gatling distribution requiring only Java 1.8 and optionally Apache Ant 1.9.x 
 
 Words of caution
 
@@ -80,23 +80,24 @@ Fist we start the smoke test using
 ```
 Coordinates: {application='computerdatabase', tenant='tenant', site='local', scope='smoketest'}
 Environment: {simulation.pause.ms=100, computerdatabase.base.url=http://computer-database.gatling.io}
-Simulation: (usersAtOnce=1, users=0, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=100 milliseconds)
+Simulation: (usersAtOnce=1, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=100 milliseconds)
+Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/user-files/data
+Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/target/gatling
 Resolve file 'search.csv' to 'tenant/local/computerdatabase/smoketest/search.csv'
-Simulation computerdatabase.tenant.smoketest.Test started...
 
 ================================================================================
-2016-12-22 19:52:40                                           2s elapsed
+2017-02-09 07:48:02                                           1s elapsed
 ---- Requests ------------------------------------------------------------------
-> Global                                                   (OK=7      KO=0     )
+> Global                                                   (OK=10     KO=0     )
 > Home                                                     (OK=2      KO=0     )
 > Home Redirect 1                                          (OK=2      KO=0     )
-> Search                                                   (OK=1      KO=0     )
-> Select                                                   (OK=1      KO=0     )
-> Page 0                                                   (OK=1      KO=0     )
+> Search                                                   (OK=2      KO=0     )
+> Select                                                   (OK=2      KO=0     )
+> Page 0                                                   (OK=2      KO=0     )
 
 ---- computerdatabase-tenant-local-smoketest -----------------------------------
 [##########################################################################]100%
-          waiting: 0      / active: 0      / done:1     
+          waiting: 0      / active: 0      / done:2     
 ================================================================================
 ```
 
@@ -107,17 +108,17 @@ Afterwards we run the functional test flavor using
 ```
 Coordinates: {application='computerdatabase', tenant='tenant', site='local', scope='functional'}
 Environment: {simulation.pause.ms=1000, computerdatabase.base.url=http://computer-database.gatling.io, simulation.users.atonce=0}
-Simulation: (usersAtOnce=0, users=0, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=1000 milliseconds)
+Simulation: (usersAtOnce=0, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=1000 milliseconds)
+Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/user-files/data
+Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/target/gatling
 Resolve file 'search.csv' to 'tenant/local/computerdatabase/functional/search.csv'
-Simulation computerdatabase.tenant.functional.Test started...
-
 
 ================================================================================
-2016-12-22 18:09:12                                          10s elapsed
+2017-02-09 07:51:43                                          49s elapsed
 ---- Requests ------------------------------------------------------------------
-> Global                                                   (OK=55     KO=0     )
-> Home                                                     (OK=10     KO=0     )
-> Home Redirect 1                                          (OK=10     KO=0     )
+> Global                                                   (OK=45     KO=0     )
+> Home                                                     (OK=5      KO=0     )
+> Home Redirect 1                                          (OK=5      KO=0     )
 > Search                                                   (OK=5      KO=0     )
 > Select                                                   (OK=5      KO=0     )
 > Page 0                                                   (OK=5      KO=0     )
@@ -139,8 +140,6 @@ A REST API example showing JSON response handling
 * Assuming the following coordinates `github-tenant-functional-local`
 * For a non-performance tests the JSON responses are pretty-printed and saved
 
-> mvn -Dgatling.simulationClass=github.tenant.functional.Test clean gatling:test
-
 ```scala
 object GitHubApi {
 
@@ -155,11 +154,36 @@ object GitHubApi {
 }    
 ```    
 
+> mvn -Dgatling.simulationClass=github.tenant.functional.Test clean gatling:test
+
+```
+Coordinates: {application='github', tenant='tenant', site='local', scope='functional'}
+Environment: {simulation.pause.ms=1000, github.base.url=https://api.github.com}
+Simulation: (usersAtOnce=1, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=1000 milliseconds)
+Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/user-files/data
+Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/target/gatling
+
+================================================================================
+2017-02-09 07:56:34                                           5s elapsed
+---- Requests ------------------------------------------------------------------
+> Global                                                   (OK=6      KO=0     )
+> Home                                                     (OK=2      KO=0     )
+> Users                                                    (OK=2      KO=0     )
+> Events                                                   (OK=2      KO=0     )
+
+---- github-tenant-local-functional --------------------------------------------
+[##########################################################################]100%
+          waiting: 0      / active: 0      / done:2     
+================================================================================
+```
+
 After the test run you will see the following directory content
 
 ![GitHub JSON Response File](./src/site/image/github-json-reponse-files.png)
 
-## 6 Tips & Tricks
+## 6. Tips & Tricks
+
+### 6.1 General
 
 * You can debug your Gatling scenario using `Engine` with the VM options `-Dgatling.core.simulationClass=computerdatabase.BasicSimulation`
 * See [http://gatling.io/docs/2.2.2/extensions/maven_plugin.html](http://gatling.io/docs/2.2.2/extensions/maven_plugin.html)
@@ -170,9 +194,18 @@ After the test run you will see the following directory content
 > mvn -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
 > mvn -Dlogback.configurationFile=conf/logback-debug.xml -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
 
-### 6.2 Running the Standalone Gatling Distribution
+### 6.2 Running the Standalone Gatling Distribution Using Shell Scripts
 
 > ./bin/gatling.sh -s computerdatabase.tenant.smoketest.Test
 > ./bin/gatling.sh --simulation computerdatabase.tenant.smoketest.Test
 
+### 6.2 Running the Standalone Gatling Distribution Using Apache Ant
+
+> ant -p
+> ant info
+> ant -Dapplication=computerdatabase -Dscope=smoketest clean info test
+> ant -Dapplication=computerdatabase -Dscope=functional clean info test
+> ant -Dapplication=github -Dscope=functional clean info test
+> ant -Dapplication=github -Dscope=functional clean info record
+> ant -Dapplication=github -Dscope=functional clean info verify
 
