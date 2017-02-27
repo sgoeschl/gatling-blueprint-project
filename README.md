@@ -189,31 +189,46 @@ After the test run you will see the following directory content
 * You can debug your Gatling scenario using `Engine` with the VM options `-Dgatling.core.simulationClass=computerdatabase.BasicSimulation`
 * See [http://gatling.io/docs/2.2.2/extensions/maven_plugin.html](http://gatling.io/docs/2.2.2/extensions/maven_plugin.html)
 
-### 6.1 Running Gatling With Maven
+### 6.2 Running Gatling With Maven
 
-> mvn -Dgatling.simulationClass=computerdatabase.tenant.smoketest.Test clean gatling:test
-> mvn -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
-> mvn -Dlogback.configurationFile=conf/logback-debug.xml -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
+Using the Maven integration is the preferred way when you run Gatling tests from a CI server such as Jenkins
 
-### 6.2 Running the Standalone Gatling Distribution Using Shell Scripts
+```text
+mvn -Dgatling.simulationClass=computerdatabase.tenant.smoketest.Test clean gatling:test
+mvn -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
+mvn -Dlogback.configurationFile=conf/logback-debug.xml -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
+```
 
-> ./bin/gatling.sh -s computerdatabase.tenant.smoketest.Test
-> ./bin/gatling.sh --simulation computerdatabase.tenant.smoketest.Test
+### 6.3 Running the Standalone Gatling Distribution Using Shell Scripts
 
-### 6.2 Running the Standalone Gatling Distribution Using Apache Ant
+On Linux/Unix you can easily execute tests with the existing shell scripts
+
+```text
+./bin/gatling.sh -s computerdatabase.tenant.smoketest.Test
+./bin/gatling.sh --simulation computerdatabase.tenant.smoketest.Test
+```
+
+Please note that doing that on Windows has issues - you start a batch file which starts a Java process. But when you terminate the test run using `CTRL-C` you are actually killing the Windows Command Processor but the JVM - Windows does not terminate child processed.
+
+### 6.4 Running the Standalone Gatling Distribution Using Apache Ant
 
 Before you can use the Ant integration you need to create the stand-alone distribution as shown below
 
-```
-> mvn clean install
-> cd target/distributable/gatling-charts-highcharts-bundle-2.2.3/
-> ant -p
+```text
+mvn clean install
+cd target/distributable/gatling-charts-highcharts-bundle-2.2.3/
+ant -p
 ```
 
-> ant info
-> ant -Dapplication=computerdatabase -Dscope=smoketest clean info test
-> ant -Dapplication=computerdatabase -Dscope=functional clean info test
-> ant -Dapplication=github -Dscope=functional clean info test
-> ant -Dapplication=github -Dscope=functional clean info record
-> ant -Dapplication=github -Dscope=functional clean info verify
+```text
+ant info
+ant -Dapplication=computerdatabase -Dscope=smoketest clean info test
+ant -Dapplication=computerdatabase -Dscope=functional clean info test
+ant -Dapplication=github -Dscope=functional clean info test
+ant -Dapplication=github -Dscope=functional clean info record
+ant -Dapplication=github -Dscope=functional clean info verify
+```
 
+## 7. Additional Information
+
+A must-read for all Scala/Gatling starters is stuff on [http://automationrhapsody.com/performance-testing-with-gatling](http://automationrhapsody.com/performance-testing-with-gatling)
