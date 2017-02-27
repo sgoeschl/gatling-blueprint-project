@@ -3,13 +3,14 @@
 ## 1. Overview
 
 * Provide out-of-the-box IDE support for writing & debugging Gatling script 
-* Implement pretty-printing and custom filtering of JSON responses
-* Support multi-tenant & multi-site Gatling tests from IDE, Apache Maven and shell script
+* Run multi-tenant & multi-site Gatling tests from IDE, Apache Maven and shell script
 * Create a stand-alone Gatling distribution requiring only Java 1.8 and optionally Apache Ant 1.9.x 
+* Implement pretty-printing and custom filtering of JSON responses
 
-Words of caution
+### 1.1 Words Of Caution
 
 * Please note that this project depends on [sgoeschl/gatling-blueprint-extensions](https://github.com/sgoeschl/gatling-blueprint-extensions) so you need to install the libraries first
+  * The easist way would be cloning the Git repository and runnning `mvn clean install`
 * The code is currently re-factored frequently :-)
 
 ## 2. Motivation
@@ -201,7 +202,14 @@ After the test run you will see the following directory content
 
 ### 6.2 Running the Standalone Gatling Distribution Using Apache Ant
 
+Before you can use the Ant integration you need to create the stand-alone distribution as shown below
+
+```
+> mvn clean install
+> cd target/distributable/gatling-charts-highcharts-bundle-2.2.3/
 > ant -p
+```
+
 > ant info
 > ant -Dapplication=computerdatabase -Dscope=smoketest clean info test
 > ant -Dapplication=computerdatabase -Dscope=functional clean info test
