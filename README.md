@@ -67,10 +67,14 @@ The Gatling working horse ...
 
 #### Running Tests From The IDE
 
-Invoking tests with the IDE provide the following system properties
+Invoking the `Engine` class within the IDE with one of the following system properties
 
 * -Dgatling.core.simulationClass=computerdatabase.tenant.smoketest.Test
 * -Dgatling.core.simulationClass=computerdatabase.tenant.functional.Test
+
+A sample screenshot from the IntelliJ Community Edition
+
+![](./src/site/image/start-gatling.in-intellij.png)
 
 #### Running Tests From The Maven Command Line
 
