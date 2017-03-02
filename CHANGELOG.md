@@ -12,3 +12,6 @@ All notable changes to this project will be documented in this file. We try to a
 - Add a `default` and `trace` logging level
 - Make `VERSION.txt` and `CHANGELOG.md` available in the Gatling stand-alone distribution
 - Add error details to Gatling's `simulation.log`  using an `ExtraInfoExtractor`
+- Extracted HttpProtocolBuilder to simplify test setup
+- Using `bodyString` instead of `jsonPath` to avoid parsing JSON if not required
+- Added a `before` and `after` hook to document the feature 

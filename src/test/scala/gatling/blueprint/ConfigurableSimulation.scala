@@ -39,19 +39,19 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
   val simulationPause: FiniteDuration = ConfigurationTool.getPause
   val scenarionName: String = ConfigurationTool.coordinates.toScenarioName
 
-  print("Coordinates: " + ConfigurationTool.coordinates)
-  print("Environment: " + ConfigurationTool.environmentProperties)
-  print("Simulation: " + this.toString)
-  print("Data Directory: " + ConfigurationTool.dataDirectory)
-  print("Result Directory: " + ConfigurationTool.resultDirectory)
+  println("Coordinates: " + ConfigurationTool.coordinates)
+  println("Environment: " + ConfigurationTool.environmentProperties)
+  println("Simulation: " + this.toString)
+  println("Data Directory: " + ConfigurationTool.dataDirectory)
+  println("Result Directory: " + ConfigurationTool.resultDirectory)
 
   if (ConfigurationTool.environmentProperties.isEmpty) {
-    print("No environment properties are found - please check your configuration")
+    println("No environment properties are found - please check your configuration")
   }
 
   def resolveFile(fileName: String): String = {
     val resolvedFileName = ConfigurationTool.resolveFile(fileName)
-    print(s"Resolve file '$fileName' to '$resolvedFileName'")
+    println(s"Resolve file '$fileName' to '$resolvedFileName'")
     resolvedFileName
   }
 
@@ -73,6 +73,4 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
     s"loops=$simulationLoops, " +
     s"tryMax=$simulationTryMax, " +
     s"pause=$simulationPause)"
-
-  private def print(line: String): Unit = System.out.println(line)
 }
