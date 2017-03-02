@@ -47,7 +47,7 @@ object GitHubHttpProtocolBuilder {
   }
 
   /**
-    * Add custom-data to the "simulation.log" - see <a href="http://gatling.io/docs/2.2.3/http/http_protocol.html">HTTP Protocol</a>.
+    * Add custom-data to the "simulation.log" - see <a href="http://gatling.io/docs/2.2/http/http_protocol/">HTTP Protocol</a>.
     *
     * <ul>
     * <li>The format of the "simulation.log" is un-documented but seems to be a tab-seperated file</li>

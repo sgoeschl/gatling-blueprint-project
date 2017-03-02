@@ -186,12 +186,13 @@ After the test run you will see the following directory content
 
 ![GitHub JSON Response File](./src/site/image/github-json-reponse-files.png)
 
-## 6. Tips & Tricks
+## 6. Tips And Tricks
 
 ### 6.1 General
 
 * You can debug your Gatling scenario using `Engine` with the VM options `-Dgatling.core.simulationClass=computerdatabase.BasicSimulation`
 * See [http://gatling.io/docs/2.2.2/extensions/maven_plugin.html](http://gatling.io/docs/2.2.2/extensions/maven_plugin.html)
+* You can change the `logback` configuration using the `-Dlogback.configurationFile` system property
 
 ### 6.2 Running Gatling With Maven
 
