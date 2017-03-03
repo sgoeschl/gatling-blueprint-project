@@ -15,7 +15,7 @@ object ComputerDatabaseChainBuilder {
           ComputerDatabase.Search.search,
           ComputerDatabase.Browse.browse(1)
         )
-      case "functional" =>
+      case "functional" | "wiremock" =>
         List(
           ComputerDatabase.home,
           ComputerDatabase.Search.search,
