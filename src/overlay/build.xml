@@ -31,17 +31,15 @@
     <!-- executable for visual diffing -->
     <property name="visual.diff.executable" value="diff"/>
 
+    <!-- banner text to be displayed during startup -->
     <loadfile property="version.txt" srcFile="${basedir}/VERSION.txt" />
 
     <!-- =================================================================== -->
-    <!-- Default Gatling test configuration                                  -->
+    <!-- User-provided Gatling test configuration                            -->
     <!-- =================================================================== -->
 
     <!-- the log level to be used  -->
     <property name="logger" value="default" />
-
-    <!-- logback configuration file -->
-    <property name="logback.configuration.file" value="${basedir}/conf/logback-${logger}.xml" />
 
     <!-- the name of the application to test  -->
     <property name="application" value="computerdatabase"/>
@@ -61,6 +59,10 @@
     <!-- tag name of the execution -->
     <property name="id" value="${application}-${tenant}-${site}-${scope}"/>
 
+    <!-- =================================================================== -->
+    <!-- Internal Gatling test configuration                                 -->
+    <!-- =================================================================== -->
+
     <property name="gatling.results.dir" value="${basedir}/results" />
     <property name="gatling.work.dir" value="${gatling.results.dir}/${application}/${tenant}/${site}/${scope}"/>
     <property name="gatling.simulation.dir" value="${basedir}/user-files/simulations" />
@@ -71,6 +73,8 @@
     <property name="gatling.archive.dir" value="${basedir}/user-files/archive"/>
     <property name="gatling.archive.file" value="${gatling.archive.dir}/${id}-${timestamp}.zip"/>
     <property name="gatling.failure.file" value="${gatling.work.dir}/gatling.failure"/>
+    <property name="gatling.report.copy.dir" value="${gatling.work.dir}/report"/>
+    <property name="logback.configuration.file" value="${basedir}/conf/logback-${logger}.xml" />
 
     <!-- =================================================================== -->
     <!-- Classpath Setup                                                     -->
@@ -116,7 +120,7 @@
     <!-- General Tasks                                                       -->
     <!-- =================================================================== -->
 
-    <target name="clean" description="Clean the working directory for the current test">
+    <target name="clean" description="Clean the working directory for the current test scenario">
         <delete dir="${gatling.work.dir}"/>
     </target>
 
@@ -203,6 +207,10 @@
         <antcall target="gatling:fail-on-error"/>
     </target>
 
+    <target name="copy-report" description="Copy the Gatling report to another directory">
+        <antcall target="gatling:copy-report"/>
+    </target>
+
     <!-- =================================================================== -->
     <!-- Internal Tasks                                                      -->
     <!-- =================================================================== -->
@@ -267,8 +275,9 @@
                 <equals arg1="${gatling.exit.code}" arg2="0" />
             </not>
             <then>
+                <property name="line" value="${application};${tenant};${site};${scope};${gatling.exit.code}" />
                 <echo message="The Gatling test failed with the following exit code: ${gatling.exit.code}" />
-                <echo append="true" file="${gatling.failure.file}" message="The Gatling test failed with the following exit code: ${gatling.exit.code}" />
+                <echo append="false" file="${gatling.failure.file}" message="${line}" />
             </then>
         </if>
     </target>
@@ -341,5 +350,25 @@
             <arg value="${gatling.response.expected.dir}"/>
         </exec>
     </target>
+
+   <target name="gatling:copy-report">
+        <!-- Determine the directory where the "simulation.log" is located, eg. "results-1490309085307" -->
+        <first id="gatling.simulation.log.file">
+            <fileset dir="${gatling.work.dir}" includes="**/simulation.log" />
+        </first>
+        <dirname property="gatling.simulation.log.dir" file="${toString:gatling.simulation.log.file}"/> 
+        <!-- We have now the "results-XXXXXX" directory so we can easily copy the content around -->
+        <copy todir="${gatling.report.copy.dir}">
+            <fileset dir="${gatling.simulation.log.dir}">
+                <include name="*/**"/>
+            </fileset>
+        </copy>    
+        <!-- Copy an existing "gatling.failure" file -->
+        <copy todir="${gatling.report.copy.dir}">
+            <fileset dir="${gatling.work.dir}">
+                <include name="gatling.failure"/>
+            </fileset>
+        </copy>  
+    </target>    
 
 </project>

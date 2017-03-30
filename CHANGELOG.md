@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file. We try to a
 
 ## 2.2.3.1-SNAPSHOT
 
+### Changed
+- Upgraded to Gatling 2.2.4
+
 ### Fixed
 - Stop the Gatling JVM when running tests from the Windows command line
 

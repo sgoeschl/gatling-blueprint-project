@@ -234,6 +234,32 @@ ant -Dapplication=github -Dscope=functional clean info record
 ant -Dapplication=github -Dscope=functional clean info verify
 ```
 
+In case of a failed Gatling tests the Ant script just stops- sometimes it is useful to fail later, e.g.
+
+```
+ant -Dapplication=computerdatabase -Dscope=smoketest info run archive copy-report fail-on-error
+
+archive:
+      [zip] Building zip: user-files/archive/computerdatabase-tenant-local-smoketest-20170330T224945.zip
+
+copy-report:
+
+gatling:copy-report:
+     [copy] Copying 42 files to results/computerdatabase/tenant/local/smoketest/report
+
+fail-on-error:
+
+gatling:fail-on-error:
+
+BUILD SUCCESSFUL
+```
+
+This Ant invocation
+
+* Runs a Gatling tests
+* Copy the Gatling report to an additional directory, e.g. to serve it from an web server
+* Archive the Gatling report as ZIP file
+
 ## 7. Additional Information
 
 A must-read for all Scala/Gatling starters is stuff on [http://automationrhapsody.com/performance-testing-with-gatling](http://automationrhapsody.com/performance-testing-with-gatling)
