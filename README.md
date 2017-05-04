@@ -262,4 +262,22 @@ This Ant invocation
 
 ## 7. Additional Information
 
+### 7.1 More Online Resources
+
 A must-read for all Scala/Gatling starters is stuff on [http://automationrhapsody.com/performance-testing-with-gatling](http://automationrhapsody.com/performance-testing-with-gatling)
+
+### 7.2 Gatling Blueprint Configuration Properties
+
+Commonly used configuration settings found in `environment.properties
+
+| Property                  | Description                                                 |
+|---------------------------|-------------------------------------------------------------|
+| simulation.duration       | Duration of the simulation in seconds                       |
+| simulation.pause.ms       | Milliseconds to pause                                       |
+| simulation.try.max        | Number of retries before reporting an error                 |
+| simulation.users          | Number of users of virtual users                            |
+| simulation.users.atonce   | Number of users to start at once                            |
+| simulation.users.rampup   | Rampup time in seconds                                      |
+| simulation.loops          | Number of loops                                             |
+
+Please note that not all of the properties might have an effect on your simulation.
