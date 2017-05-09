@@ -5,7 +5,26 @@
 
     <groupId>org.github.sgoeschl.gatling</groupId>
     <artifactId>gatling-blueprint-project</artifactId>
-    <version>2.2.5.0</version>
+    <version>2.2.5.1-SNAPSHOT</version>
+    <name>Gatling Blueprint Project</name>
+    <description>Gatling sample project to show multi-tenant &amp; multi-site support</description>
+    <url>https://github.com/sgoeschl/gatling-blueprint</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Siegfried Goeschl</name>
+            <organization>GitHub</organization>
+            <organizationUrl>https://github.com/sgoeschl</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <source.property>1.8</source.property>
