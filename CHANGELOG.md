@@ -1,10 +1,11 @@
 # Change Log
+
 All notable changes to this project will be documented in this file. We try to adhere to https://github.com/olivierlacan/keep-a-changelog.
 
-## 2.2.3.1-SNAPSHOT
+## 2.2.5.0
 
 ### Changed
-- Upgraded to Gatling 2.2.4
+- Upgraded to Gatling 2.2.5
 
 ### Fixed
 - Stop the Gatling JVM when running tests from the Windows command line
