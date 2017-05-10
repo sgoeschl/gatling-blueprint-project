@@ -1,15 +1,15 @@
 package github.tenant.functional
 
-import gatling.blueprint.ConfigurableSimulation
 import gatling.blueprint.ConfigurationTool.coordinates
-import github.tenant.{GitHubApiChainBuilder, GitHubHttpProtocolBuilder}
+import gatling.blueprint.{ConfigurableSimulation, DefaultHttpProtocolBuilder}
+import github.tenant.GitHubApiChainBuilder
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
 
 class Test extends ConfigurableSimulation {
 
   // The base URL is taken from "user-files/data/tenant/local/github/environment.properties"
-  private val httpProtocol = GitHubHttpProtocolBuilder.create(coordinates.getApplication)
+  private val httpProtocol = DefaultHttpProtocolBuilder.create()
     .baseURL(getBaseURL)
     .build
 

@@ -1,8 +1,8 @@
 package computerdatabase.tenant.functional
 
-import computerdatabase.tenant.{ComputerDatabaseChainBuilder, ComputerDatabaseHttpProtocolBuilder}
-import gatling.blueprint.ConfigurableSimulation
+import computerdatabase.tenant.ComputerDatabaseChainBuilder
 import gatling.blueprint.ConfigurationTool.coordinates
+import gatling.blueprint.{ConfigurableSimulation, DefaultHttpProtocolBuilder}
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
 
@@ -16,7 +16,7 @@ class Test extends ConfigurableSimulation {
   private val mySimulationUsersRampup = new DurationInteger(mySimulationUsers * 10).seconds
 
   // The base URL is taken from "user-files/data/tenant/local/computerdatabase/environment.properties"
-  private val httpProtocol = ComputerDatabaseHttpProtocolBuilder.create(coordinates.getApplication)
+  private val httpProtocol = DefaultHttpProtocolBuilder.create()
     .baseURL(getBaseURL)
     .build
 

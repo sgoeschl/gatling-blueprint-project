@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. We try to adhere to https://github.com/olivierlacan/keep-a-changelog.
 
+## 2.2.5.1
+
+- Provide a `DefaultHttpProtocolBuilder` to avoid boiler-plate code
+- Removing the `wiremock` configuration since it is not used
+
 ## 2.2.5.0
 
 ### Changed

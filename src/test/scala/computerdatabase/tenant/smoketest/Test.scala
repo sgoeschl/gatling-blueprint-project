@@ -1,8 +1,8 @@
 package computerdatabase.tenant.smoketest
 
-import computerdatabase.tenant.{ComputerDatabaseChainBuilder, ComputerDatabaseHttpProtocolBuilder}
-import gatling.blueprint.ConfigurableSimulation
+import computerdatabase.tenant.ComputerDatabaseChainBuilder
 import gatling.blueprint.ConfigurationTool.coordinates
+import gatling.blueprint.{ConfigurableSimulation, DefaultHttpProtocolBuilder}
 import io.gatling.core.Predef._
 import io.gatling.core.feeder.RecordSeqFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
@@ -13,7 +13,7 @@ class Test extends ConfigurableSimulation {
   val feeder: RecordSeqFeederBuilder[String] = csv(resolveFile("search.csv"))
 
   // The base URL is taken from "user-files/data/computerdatabase/tenant/environment.properties"
-  private val httpProtocol = ComputerDatabaseHttpProtocolBuilder.create(coordinates.getApplication)
+  private val httpProtocol = DefaultHttpProtocolBuilder.create()
     .baseURL(getBaseURL)
     .build
 
