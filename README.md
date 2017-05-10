@@ -10,7 +10,8 @@
 ### 1.1 Words Of Caution
 
 * Please note that this project depends on [sgoeschl/gatling-blueprint-extensions](https://github.com/sgoeschl/gatling-blueprint-extensions) so you need to install the libraries first
-  * The easist way would be cloning the Git repository and runnning `mvn clean install`
+    * In `./lib there is a `mvn-install-file.bat` and `mvn-install-file.sh` to import the library manually
+    * Clone the Git repository and runnning `mvn clean install`
 * The code is currently re-factored frequently :-)
 
 ## 2. Motivation
