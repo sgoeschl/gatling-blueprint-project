@@ -55,7 +55,7 @@ object DefaultHttpProtocolBuilder {
     */
   private def extractExtraInfo(extraInfo: ExtraInfo): List[String] = {
     val statusCode = extraInfo.response.statusCode.getOrElse(0)
-    if (statusCode >= 200 || extraInfo.status.eq(Status.apply("KO"))) {
+    if (statusCode >= 300 || extraInfo.status.eq(Status.apply("KO"))) {
       val url = extraInfo.request.getUrl
       val duration = extraInfo.response.timings.responseTime
       val timestamp = dateFormatter.format(new Date())
