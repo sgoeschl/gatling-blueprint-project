@@ -1,7 +1,5 @@
 # Gatling Blueprint Project
 
-## Build Status
-
 Thanks to Travis for the [build status](https://travis-ci.org/sgoeschl/gatling-blueprint-project): 
 [![Build Status](https://travis-ci.org/sgoeschl/gatling-blueprint-project.svg?branch=master)](https://travis-ci.org/sgoeschl/gatling-blueprint-project)
 
@@ -15,8 +13,8 @@ Thanks to Travis for the [build status](https://travis-ci.org/sgoeschl/gatling-b
 ### 1.1 Words Of Caution
 
 * Please note that this project depends on [sgoeschl/gatling-blueprint-extensions](https://github.com/sgoeschl/gatling-blueprint-extensions) so you need to install the libraries first
-    * In `./lib there is a `mvn-install-file.bat` and `mvn-install-file.sh` to import the library manually
-    * Clone the Git repository and runnning `mvn clean install`
+    * Run `mvn-install-file.bat` or `mvn-install-file.sh` to import the library manually
+    * Clone the Git repository and run `mvn clean install`
 * The code is currently re-factored frequently :-)
 
 ## 2. Motivation
@@ -194,10 +192,9 @@ After the test run you will see the following directory content
 
 ## 6. Tips And Tricks
 
-### 6.1 General
+### 6.1 Debugging Gatling Scripts From The IDE
 
 * You can debug your Gatling scenario using `Engine` with the VM options `-Dgatling.core.simulationClass=computerdatabase.BasicSimulation`
-* See [http://gatling.io/docs/2.2.2/extensions/maven_plugin.html](http://gatling.io/docs/2.2.2/extensions/maven_plugin.html)
 * You can change the `logback` configuration using the `-Dlogback.configurationFile` system property
 
 ### 6.2 Running Gatling With Maven
@@ -209,6 +206,28 @@ mvn -Dgatling.simulationClass=computerdatabase.tenant.smoketest.Test clean gatli
 mvn -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
 mvn -Dlogback.configurationFile=conf/logback-debug.xml -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
 ```
+
+There are a couple of system parameters allowing to overwrite the [Gatling 2.4 Maven plugin configuration](https://github.com/gatling/gatling-maven-plugin/blob/master/src/main/java/io/gatling/mojo/GatlingMojo.java)
+
+| Property                            | Description                                                                                                 |
+|-------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| gatling.noReports                   | Run simulation but does not generate reports. By default false.                                             |
+| gatling.reportsOnly                 | Generate the reports for the simulation in this folder.                                                     |
+| gatling.simulationsFolder           | Use this folder to discover simulations that could be run.                                                  |
+| gatling.simulationClass             | A name of a Simulation class to run.                                                                        |
+| gatling.dataFolder                  | Use this folder as the folder where feeders are stored.                                                     |
+| gatling.resultsFolder               | Use this folder as the folder where results are stored.                                                     |
+| gatling.jvmArgs                     | Extra JVM arguments to pass when running Gatling.                                                           |
+| gatling.zincJvmArgs                 | Extra JVM arguments to pass when running Zinc.                                                              |
+| gatling.failOnError                 | Will cause the project build to look successful, rather than fail, even if there are Gatling test failures. |
+| gatling.continueOnAssertionFailure  | Continue execution of simulations despite assertion failure.                                                |
+| gatling.outputName                  | Force the name of the directory generated for the results of the run.                                       |
+| gatling.propagateSystemProperties   | Propagate System properties to forked processes.                                                            |
+| gatling.skip                        | Disable the plugin.                                                                                         |
+| gatling.disableCompiler             | Disable the Scala compiler, if scala-maven-plugin is already in charge of compiling the simulations.        |
+| gatling.includes                    | List of list of include patterns to use for scanning.                                                       |
+| gatling.excludes                    | List of list of exclude patterns to use for scanning.                                                       |
+| gatling.runDescription              | A short description of the run to include in the report.                                                    |
 
 ### 6.3 Running the Standalone Gatling Distribution Using Shell Scripts
 
@@ -227,7 +246,7 @@ Before you can use the Ant integration you need to create the stand-alone distri
 
 ```text
 mvn clean install
-cd target/distributable/gatling-charts-highcharts-bundle-2.2.3/
+cd target/distributable/gatling-charts-highcharts-bundle-2.2.5/
 ant -p
 ```
 
