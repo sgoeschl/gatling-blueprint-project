@@ -68,7 +68,7 @@
     <!-- make the Gatling scripts executable -->
     <chmod dir="${gatling.dist.dir}/bin" perm="ugo+rx" includes="**/*.sh"/>
         <!-- copy the "README.md" -->
-        <copy file="readme.md" tofile="${gatling.dist.dir}/readme.md"/>
+        <copy file="README.md" tofile="${gatling.dist.dir}/README.md"/>
         <!-- copy the "VERSION.txt" -->
         <copy file="${maven.build.dir}/classes/VERSION.txt" tofile="${gatling.dist.dir}/VERSION.txt"/>
         <!-- copy the "CHANGELOG.md" -->
