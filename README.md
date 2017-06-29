@@ -1,5 +1,10 @@
 # Gatling Blueprint Project
 
+## Build Status
+
+Thanks to Travis for the [build status](https://travis-ci.org/sgoeschl/gatling-blueprint-project): 
+[![Build Status](https://travis-ci.org/sgoeschl/gatling-blueprint-project.svg?branch=master)](https://travis-ci.org/sgoeschl/gatling-blueprint-project)
+
 ## 1. Overview
 
 * Provide out-of-the-box IDE support for writing & debugging Gatling script 
