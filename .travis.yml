@@ -3,3 +3,4 @@ sudo: false
 script: mvn clean verify
 jdk:
   - oraclejdk8
+install: ./lib/mvn-install-file.sh
