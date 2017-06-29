@@ -1,6 +1,6 @@
 language: java
 sudo: false
-install: mvn-install-file.sh
+install: ./mvn-install-file.sh
 script: mvn clean verify
 jdk:
   - oraclejdk8
