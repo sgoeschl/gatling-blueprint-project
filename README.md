@@ -207,7 +207,7 @@ mvn -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatl
 mvn -Dlogback.configurationFile=conf/logback-debug.xml -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
 ```
 
-There are a couple of system parameters allowing to overwrite the [Gatling 2.4 Maven plugin configuration](https://github.com/gatling/gatling-maven-plugin/blob/master/src/main/java/io/gatling/mojo/GatlingMojo.java)
+There are a couple of system parameters allowing to overwrite the [Gatling 2.2.4 Maven plugin configuration](https://github.com/gatling/gatling-maven-plugin/blob/master/src/main/java/io/gatling/mojo/GatlingMojo.java)
 
 | Property                            | Description                                                                                                 |
 |-------------------------------------|-------------------------------------------------------------------------------------------------------------|
@@ -242,11 +242,11 @@ Please note that doing that on Windows has issues - you start a batch file which
 
 ### 6.4 Running the Standalone Gatling Distribution Using Apache Ant
 
-Before you can use the Ant integration you need to create the stand-alone distribution as shown below
+The Ant integration is used to more easily distribute Gatling test only requiring JDK 1.8 and Ant installation in secure environments. Before you can use the Ant integration you need to create the stand-alone distribution as shown below
 
 ```text
 mvn clean install
-cd target/distributable/gatling-charts-highcharts-bundle-2.2.5/
+cd target/distributable/gatling-charts-highcharts-bundle-2.3.0/
 ant -p
 ```
 
