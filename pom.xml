@@ -5,7 +5,7 @@
 
     <groupId>org.github.sgoeschl.gatling</groupId>
     <artifactId>gatling-blueprint-project</artifactId>
-    <version>2.2.5.1-SNAPSHOT</version>
+    <version>2.3.0.1-SNAPSHOT</version>
     <name>Gatling Blueprint Project</name>
     <description>Gatling sample project to show multi-tenant &amp; multi-site support</description>
     <url>https://github.com/sgoeschl/gatling-blueprint</url>
@@ -31,10 +31,10 @@
         <target.property>1.8</target.property>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <gatling.version>2.2.5</gatling.version>
+        <gatling.version>2.3.0</gatling.version>
         <gatling.blueprint.extensions.version>2.2.3.7</gatling.blueprint.extensions.version>
         <gatling-plugin.version>2.2.4</gatling-plugin.version>
-        <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
+        <scala-maven-plugin.version>3.3.1</scala-maven-plugin.version>
 
         <distributable.dir>${project.build.directory}/distributable</distributable.dir>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
@@ -50,6 +50,19 @@
             <classifier>bundle</classifier>
             <scope>provided</scope>
             <type>zip</type>
+            <exclusions>
+                <!-- see https://github.com/gatling/gatling/issues/3391 -->
+                <exclusion>
+                    <groupId>com.github.scopt</groupId>
+                    <artifactId>scopt_2.10</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <!-- see https://github.com/gatling/gatling/issues/3391 -->
+            <groupId>com.github.scopt</groupId>
+            <artifactId>scopt_2.12</artifactId>
+            <version>3.7.0</version>
         </dependency>
         <dependency>
             <groupId>org.github.sgoeschl.gatling</groupId>
