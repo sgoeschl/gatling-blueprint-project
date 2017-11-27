@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file. We try to a
 ## 2.3.0
 
 - Upgrading to Gatling 2.3.0 - please update your Scala SDK to 2.12.3 to avoid `java.lang.NoSuchMethodError`
+- Adding the official computer database tests
+- Creation of stand-alone Ant distribution is triggered by Maven profile
 
 ## 2.2.5.1
 

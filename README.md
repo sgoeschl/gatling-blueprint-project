@@ -55,9 +55,33 @@ In case you are still interested here are list of links with background informat
 
 In order to make things understandable there are two sample project provided - both are a bit artificial but demonstrate many key points
 
-### 5.1 Computer Database
+### 5.1 Original Computer Database
 
-The Gatling working horse ...
+This is a 1:1 copy of the original sample
+
+#### Running Tests From The IDE
+
+Invoking the `Engine` class within the IDE with one of the following system properties
+
+* -Dgatling.core.simulationClass=computerdatabase.advanced.AdvancedSimulationStep01
+* -Dgatling.core.simulationClass=computerdatabase.advanced.AdvancedSimulationStep02
+* -Dgatling.core.simulationClass=computerdatabase.advanced.AdvancedSimulationStep03
+* -Dgatling.core.simulationClass=computerdatabase.advanced.AdvancedSimulationStep04
+* -Dgatling.core.simulationClass=computerdatabase.advanced.AdvancedSimulationStep05
+
+#### Running Tests From The Maven Command Line
+
+Fist we start the smoke test using
+
+> mvn -Dgatling.simulationClass=computerdatabase.advanced.AdvancedSimulationStep01 gatling:test
+> mvn -Dgatling.simulationClass=computerdatabase.advanced.AdvancedSimulationStep02 gatling:test
+> mvn -Dgatling.simulationClass=computerdatabase.advanced.AdvancedSimulationStep03 gatling:test
+> mvn -Dgatling.simulationClass=computerdatabase.advanced.AdvancedSimulationStep04 gatling:test
+> mvn -Dgatling.simulationClass=computerdatabase.advanced.AdvancedSimulationStep05 gatling:test
+
+### 5.2 Gatling Computer Database
+
+The Gatling working horse modified to work seamlelly with the `Gatling Blueprint Project`
 
 * Assuming the following coordinates `computerdatabase-tenant-${scope}-local`
     * The tests are targeting the application `computerdatabase`
@@ -142,7 +166,7 @@ Resolve file 'search.csv' to 'tenant/local/computerdatabase/functional/search.cs
 ================================================================================
 ```
 
-### 5.2 GitHub REST API
+### 5.3 GitHub REST API
 
 A REST API example showing JSON response handling
 
@@ -189,6 +213,7 @@ Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project
 After the test run you will see the following directory content
 
 ![GitHub JSON Response File](./src/site/image/github-json-reponse-files.png)
+
 
 ## 6. Tips And Tricks
 

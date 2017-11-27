@@ -90,114 +90,16 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.10</version>
-                <executions>
-                    <execution>
-                        <id>unpack-gatling-bundle</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>io.gatling.highcharts</groupId>
-                                    <artifactId>gatling-charts-highcharts-bundle</artifactId>
-                                    <version>${gatling.version}</version>
-                                    <classifier>bundle</classifier>
-                                    <type>zip</type>
-                                    <overWrite>true</overWrite>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>${distributable.dir}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-blueprint-extension-libraries</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <!-- Required for the Ant 'build.xml' -->
-                                    <groupId>ant-contrib</groupId>
-                                    <artifactId>ant-contrib</artifactId>
-                                    <version>1.0b3</version>
-                                    <overWrite>false</overWrite>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.github.sgoeschl.gatling</groupId>
-                                    <artifactId>gatling-blueprint-extensions</artifactId>
-                                    <version>${gatling.blueprint.extensions.version}</version>
-                                    <overWrite>false</overWrite>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>
-                                ${distributable.dir}/gatling-charts-highcharts-bundle-${gatling.version}/lib
-                            </outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- Do all the re-packaging magic in a separate Ant script -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <id>gatling:copy-gatling-test</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <ant antfile="${project.basedir}/package.xml" />
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- Make the stand-alone Apache Ant distribution "attached artifact" -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.12</version>
-                <executions>
-                    <execution>
-                        <id>attach-artifacts</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attach-artifact</goal>
-                        </goals>
-                        <configuration>
-                            <artifacts>
-                                <artifact>
-                                    <file>${project.basedir}/target/gatling-blueprint-project.tar.gz</file>
-                                    <type>tar.gz</type>
-                                    <classifier>standalone</classifier>
-                                </artifact>
-                            </artifacts>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.6</version>
                 <executions>
                     <execution>
-                        <id>source-distribution</id>
+                        <id>src-distribution</id>
                         <phase>package</phase>
                         <configuration>
                             <tarLongFileMode>gnu</tarLongFileMode>
                             <descriptors>
-                                <descriptor>${basedir}/src/main/assembly/src.xml</descriptor>
+                                <descriptor>src/main/assembly/src.xml</descriptor>
                             </descriptors>
                         </configuration>
                         <goals>
@@ -208,4 +110,113 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>standalone</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.10</version>
+                        <executions>
+                            <execution>
+                                <id>unpack-gatling-bundle</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>io.gatling.highcharts</groupId>
+                                            <artifactId>gatling-charts-highcharts-bundle</artifactId>
+                                            <version>${gatling.version}</version>
+                                            <classifier>bundle</classifier>
+                                            <type>zip</type>
+                                            <overWrite>true</overWrite>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${distributable.dir}</outputDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-blueprint-extension-libraries</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <!-- Required for the Ant 'build.xml' -->
+                                            <groupId>ant-contrib</groupId>
+                                            <artifactId>ant-contrib</artifactId>
+                                            <version>1.0b3</version>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.github.sgoeschl.gatling</groupId>
+                                            <artifactId>gatling-blueprint-extensions</artifactId>
+                                            <version>${gatling.blueprint.extensions.version}</version>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>
+                                        ${distributable.dir}/gatling-charts-highcharts-bundle-${gatling.version}/lib
+                                    </outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <!-- Do all the re-packaging magic in a separate Ant script -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <id>gatling:copy-gatling-test</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <target>
+                                        <ant antfile="${project.basedir}/package.xml" />
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <!-- Make the stand-alone Apache Ant distribution "attached artifact" -->
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>1.12</version>
+                        <executions>
+                            <execution>
+                                <id>attach-artifacts</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${project.basedir}/target/gatling-blueprint-project.tar.gz</file>
+                                            <type>tar.gz</type>
+                                            <classifier>standalone</classifier>
+                                        </artifact>
+                                    </artifacts>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
