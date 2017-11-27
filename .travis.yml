@@ -1,6 +1,6 @@
 language: java
 sudo: false
-install: ./mvn-install-file.sh
+install: ./travis.sh
 script: mvn clean verify
 jdk:
   - oraclejdk8
