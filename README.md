@@ -63,6 +63,7 @@ This is a 1:1 copy of the original sample
 
 Invoking the `Engine` class within the IDE with one of the following system properties
 
+* -Dgatling.core.simulationClass=computerdatabase.BasicSimulation
 * -Dgatling.core.simulationClass=computerdatabase.advanced.AdvancedSimulationStep01
 * -Dgatling.core.simulationClass=computerdatabase.advanced.AdvancedSimulationStep02
 * -Dgatling.core.simulationClass=computerdatabase.advanced.AdvancedSimulationStep03
@@ -83,12 +84,12 @@ Fist we start the smoke test using
 
 The Gatling working horse modified to work seamlelly with the `Gatling Blueprint Project`
 
-* Assuming the following coordinates `computerdatabase-tenant-${scope}-local`
+* Assuming the following coordinates `computerdatabase-gatling-${scope}-local`
     * The tests are targeting the application `computerdatabase`
-    * Since we have no particular tenant we just assume the default value `tenant`
+    * Since this application is hosted by the Gatling cooperation the tenant is `gatling`
     * There are two provided scopes - `smoketest` and `functional`
     * We also assume that the site is called `local` (to be on the save side)
-* Those two test map into `computerdatabase.tenant.functional.Test` and `computerdatabase.tenant.smoketest.Test`
+* Those two test map into `computerdatabase.gatling.functional.Test` and `computerdatabase.gatling.smoketest.Test`
 * Each test scenario has its own `search.csv`
 * Each test scenario runs different test as defined in `ComputerDatabaseChainBuilder`
 * Each test scenario runs different user scenario derived from `environment.properties`
@@ -97,8 +98,8 @@ The Gatling working horse modified to work seamlelly with the `Gatling Blueprint
 
 Invoking the `Engine` class within the IDE with one of the following system properties
 
-* -Dgatling.core.simulationClass=computerdatabase.tenant.smoketest.Test
-* -Dgatling.core.simulationClass=computerdatabase.tenant.functional.Test
+* -Dgatling.core.simulationClass=computerdatabase.gatling.smoketest.Test
+* -Dgatling.core.simulationClass=computerdatabase.gatling.functional.Test
 
 A sample screenshot from the IntelliJ Community Edition
 
@@ -108,18 +109,18 @@ A sample screenshot from the IntelliJ Community Edition
 
 Fist we start the smoke test using
 
-> mvn -Dgatling.simulationClass=computerdatabase.tenant.smoketest.Test gatling:test
+> mvn -Dgatling.simulationClass=computerdatabase.gatling.smoketest.Test gatling:test
 
 ```
-Coordinates: {application='computerdatabase', tenant='tenant', site='local', scope='smoketest'}
+Coordinates: {application='computerdatabase', tenant='gatling', site='local', scope='smoketest'}
 Environment: {simulation.pause.ms=100, computerdatabase.base.url=http://computer-database.gatling.io}
 Simulation: (usersAtOnce=1, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=100 milliseconds)
 Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/user-files/data
 Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/target/gatling
-Resolve file 'search.csv' to 'tenant/local/computerdatabase/smoketest/search.csv'
+Resolve file 'search.csv' to 'gatling/local/computerdatabase/smoketest/search.csv'
 
 ================================================================================
-2017-02-09 07:48:02                                           1s elapsed
+2017-11-28 15:09:37                                           1s elapsed
 ---- Requests ------------------------------------------------------------------
 > Global                                                   (OK=10     KO=0     )
 > Home                                                     (OK=2      KO=0     )
@@ -128,7 +129,7 @@ Resolve file 'search.csv' to 'tenant/local/computerdatabase/smoketest/search.csv
 > Select                                                   (OK=2      KO=0     )
 > Page 0                                                   (OK=2      KO=0     )
 
----- computerdatabase-tenant-local-smoketest -----------------------------------
+---- computerdatabase-gatling-local-smoketest ----------------------------------
 [##########################################################################]100%
           waiting: 0      / active: 0      / done:2     
 ================================================================================
@@ -136,18 +137,18 @@ Resolve file 'search.csv' to 'tenant/local/computerdatabase/smoketest/search.csv
 
 Afterwards we run the functional test flavor using
 
-> mvn -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
+> mvn -Dgatling.simulationClass=computerdatabase.gatling.functional.Test clean gatling:test
 
 ```
-Coordinates: {application='computerdatabase', tenant='tenant', site='local', scope='functional'}
-Environment: {simulation.pause.ms=1000, computerdatabase.base.url=http://computer-database.gatling.io, simulation.users.atonce=0}
-Simulation: (usersAtOnce=0, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=1000 milliseconds)
+Coordinates: {application='computerdatabase', tenant='gatling', site='local', scope='functional'}
+Environment: {simulation.pause.ms=1000, computerdatabase.base.url=http://computer-database.gatling.io}
+Simulation: (usersAtOnce=1, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=1000 milliseconds)
 Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/user-files/data
 Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/target/gatling
-Resolve file 'search.csv' to 'tenant/local/computerdatabase/functional/search.csv'
+Resolve file 'search.csv' to 'gatling/local/computerdatabase/search.csv'
 
 ================================================================================
-2017-02-09 07:51:43                                          49s elapsed
+2017-11-28 15:12:35                                          49s elapsed
 ---- Requests ------------------------------------------------------------------
 > Global                                                   (OK=45     KO=0     )
 > Home                                                     (OK=5      KO=0     )
@@ -160,7 +161,7 @@ Resolve file 'search.csv' to 'tenant/local/computerdatabase/functional/search.cs
 > Page 3                                                   (OK=5      KO=0     )
 > Page 4                                                   (OK=5      KO=0     )
 
----- computerdatabase-tenant-local-functional ----------------------------------
+---- computerdatabase-gatling-local-functional ---------------------------------
 [##########################################################################]100%
           waiting: 0      / active: 0      / done:5     
 ================================================================================
@@ -170,7 +171,7 @@ Resolve file 'search.csv' to 'tenant/local/computerdatabase/functional/search.cs
 
 A REST API example showing JSON response handling
 
-* Assuming the following coordinates `github-tenant-functional-local`
+* Assuming the following coordinates `githubapi-github-functional-local`
 * For a non-performance tests the JSON responses are pretty-printed and saved
 
 ```scala
@@ -181,32 +182,32 @@ object GitHubApi {
     .check(
       jsonPath("$").ofType[Any].find.saveAs("lastResponse")))
     .exec(session => {
-      JsonResponseTool.saveToFile(session, "lastResponse", "github", "home")
+      JsonResponseTool.saveToFile(session, "lastResponse", "githubapi", "home")
       session
     })
 }    
 ```    
 
-> mvn -Dgatling.simulationClass=github.tenant.functional.Test clean gatling:test
+> mvn -Dgatling.simulationClass=githubapi.github.functional.Test clean gatling:test
 
 ```
-Coordinates: {application='github', tenant='tenant', site='local', scope='functional'}
-Environment: {simulation.pause.ms=1000, github.base.url=https://api.github.com}
+Coordinates: {application='githubapi', tenant='github', site='local', scope='functional'}
+Environment: {githubapi.base.url=https://api.github.com, simulation.pause.ms=1000}
 Simulation: (usersAtOnce=1, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=1000 milliseconds)
 Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/user-files/data
 Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/target/gatling
 
 ================================================================================
-2017-02-09 07:56:34                                           5s elapsed
+2017-11-28 15:14:30                                           6s elapsed
 ---- Requests ------------------------------------------------------------------
-> Global                                                   (OK=6      KO=0     )
-> Home                                                     (OK=2      KO=0     )
-> Users                                                    (OK=2      KO=0     )
-> Events                                                   (OK=2      KO=0     )
+> Global                                                   (OK=3      KO=0     )
+> Home                                                     (OK=1      KO=0     )
+> Users                                                    (OK=1      KO=0     )
+> Events                                                   (OK=1      KO=0     )
 
----- github-tenant-local-functional --------------------------------------------
+---- githubapi-github-local-functional -----------------------------------------
 [##########################################################################]100%
-          waiting: 0      / active: 0      / done:2     
+          waiting: 0      / active: 0      / done:1     
 ================================================================================
 ```
 
@@ -227,9 +228,9 @@ After the test run you will see the following directory content
 Using the Maven integration is the preferred way when you run Gatling tests from a CI server such as Jenkins
 
 ```text
-mvn -Dgatling.simulationClass=computerdatabase.tenant.smoketest.Test clean gatling:test
-mvn -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
-mvn -Dlogback.configurationFile=conf/logback-debug.xml -Dgatling.simulationClass=computerdatabase.tenant.functional.Test clean gatling:test
+mvn -Dgatling.simulationClass=computerdatabase.gatling.smoketest.Test clean gatling:test
+mvn -Dgatling.simulationClass=computerdatabase.gatling.functional.Test clean gatling:test
+mvn -Dlogback.configurationFile=conf/logback-debug.xml -Dgatling.simulationClass=computerdatabase.gatling.functional.Test clean gatling:test
 ```
 
 There are a couple of system parameters allowing to overwrite the [Gatling 2.2.4 Maven plugin configuration](https://github.com/gatling/gatling-maven-plugin/blob/master/src/main/java/io/gatling/mojo/GatlingMojo.java)
@@ -259,8 +260,8 @@ There are a couple of system parameters allowing to overwrite the [Gatling 2.2.4
 On Linux/Unix you can easily execute tests with the existing shell scripts
 
 ```text
-./bin/gatling.sh -s computerdatabase.tenant.smoketest.Test
-./bin/gatling.sh --simulation computerdatabase.tenant.smoketest.Test
+./bin/gatling.sh -s computerdatabase.gatling.smoketest.Test
+./bin/gatling.sh --simulation computerdatabase.gatling.smoketest.Test
 ```
 
 Please note that doing that on Windows has issues - you start a batch file which starts a Java process. But when you terminate the test run using `CTRL-C` you are actually killing the Windows Command Processor but the JVM - Windows does not terminate child processed.
@@ -277,11 +278,11 @@ ant -p
 
 ```text
 ant info
-ant -Dapplication=computerdatabase -Dscope=smoketest clean info test
-ant -Dapplication=computerdatabase -Dscope=functional clean info test
-ant -Dapplication=github -Dscope=functional clean info test
-ant -Dapplication=github -Dscope=functional clean info record
-ant -Dapplication=github -Dscope=functional clean info verify
+ant -Dapplication=computerdatabase -Dtenant=gatling -Dscope=smoketest clean info test
+ant -Dapplication=computerdatabase -Dtenant=gatling -Dscope=functional clean info test
+ant -Dapplication=githubapi -Dtenant=github -Dscope=functional clean info test
+ant -Dapplication=githubapi -Dtenant=github -Dscope=functional clean info record
+ant -Dapplication=githubapi -Dtenant=github -Dscope=functional clean info verify
 ```
 
 In case of a failed Gatling tests the Ant script just stops- sometimes it is useful to fail later, e.g.
@@ -318,7 +319,7 @@ A must-read for all Scala/Gatling starters is stuff on [http://automationrhapsod
 
 ### 7.2 Gatling Blueprint Configuration Properties
 
-Commonly used configuration settings found in `environment.properties
+Commonly used configuration settings found in `environment.properties`
 
 | Property                  | Description                                                 |
 |---------------------------|-------------------------------------------------------------|

@@ -1,25 +1,19 @@
-package computerdatabase.tenant
+package githubapi.github
 
 import io.gatling.core.structure.ChainBuilder
 import org.github.sgoeschl.gatling.blueprint.extensions.SimulationCoordinates
 
-object ComputerDatabaseChainBuilder {
+object GitHubApiChainBuilder {
 
   def create(simulationCoordinates: SimulationCoordinates): List[ChainBuilder] = create(simulationCoordinates.getScope)
 
   def create(scope: String): List[ChainBuilder] = {
     scope.toLowerCase match {
-      case "smoketest" =>
+      case "functional" | "performance" | "wiremock" =>
         List(
-          ComputerDatabase.home,
-          ComputerDatabase.Search.search,
-          ComputerDatabase.Browse.browse(1)
-        )
-      case "functional" | "wiremock" =>
-        List(
-          ComputerDatabase.home,
-          ComputerDatabase.Search.search,
-          ComputerDatabase.Browse.browse(5)
+          GitHubApi.home,
+          GitHubApi.users,
+          GitHubApi.events
         )
       case _ =>
         throw new IllegalArgumentException(s"Don't know hot to handle: $scope")

@@ -1,4 +1,4 @@
-package computerdatabase.tenant
+package computerdatabase.gatling
 
 import gatling.blueprint.ConfigurationTool
 import io.gatling.core.Predef._

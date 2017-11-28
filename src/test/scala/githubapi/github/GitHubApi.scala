@@ -1,4 +1,4 @@
-package github.tenant
+package githubapi.github
 
 import gatling.blueprint.{ConfigurationTool, JsonResponseTool}
 import io.gatling.core.Predef._
@@ -12,7 +12,7 @@ object GitHubApi {
     .check(
       bodyString.saveAs("lastResponse")))
     .exec(session => {
-      JsonResponseTool.saveToFile(session, "lastResponse", "github", "home")
+      JsonResponseTool.saveToFile(session, "lastResponse", "githubapi", "home")
       session
     })
     .pause(ConfigurationTool.getPause)
@@ -26,7 +26,7 @@ object GitHubApi {
     .exec(session => {
       // remove "received_events_url" from the saved JSON response (just for fun)
       val jsonString = JsonResponseTool.modify(session, "lastResponse", "received_events_url")
-      JsonResponseTool.saveToFile(jsonString, "github", "users")
+      JsonResponseTool.saveToFile(jsonString, "githubapi", "users")
       session
     })
     .pause(ConfigurationTool.getPause)
@@ -39,7 +39,7 @@ object GitHubApi {
       jsonPath("$").ofType[Any].find.saveAs("lastResponse")))
     .exec(session => {
       val jsonString = JsonResponseTool.modify(session, "lastResponse")
-      JsonResponseTool.saveToFile(jsonString, "github", "events")
+      JsonResponseTool.saveToFile(jsonString, "githubapi", "events")
       session
     })
     .pause(ConfigurationTool.getPause)

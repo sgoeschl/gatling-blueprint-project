@@ -1,8 +1,8 @@
-package github.tenant.functional
+package githubapi.github.functional
 
 import gatling.blueprint.ConfigurationTool.coordinates
 import gatling.blueprint.{ConfigurableSimulation, DefaultHttpProtocolBuilder}
-import github.tenant.GitHubApiChainBuilder
+import githubapi.github.GitHubApiChainBuilder
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
 
