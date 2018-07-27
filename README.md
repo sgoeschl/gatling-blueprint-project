@@ -12,10 +12,7 @@ Thanks to Travis for the [build status](https://travis-ci.org/sgoeschl/gatling-b
 
 ### 1.1 Words Of Caution
 
-* Please note that this project depends on [sgoeschl/gatling-blueprint-extensions](https://github.com/sgoeschl/gatling-blueprint-extensions) so you need to install the libraries first
-    * Run `mvn-install-file.bat` or `mvn-install-file.sh` to import the library manually
-    * Clone the Git repository and run `mvn clean install`
-* The code is currently re-factored frequently :-)
+* Please note that this project depends on [sgoeschl/gatling-blueprint-extensions](https://github.com/sgoeschl/gatling-blueprint-extensions) 
 
 ## 2. Motivation
 
@@ -82,7 +79,7 @@ Fist we start the smoke test using
 
 ### 5.2 Gatling Computer Database
 
-The Gatling working horse modified to work seamlelly with the `Gatling Blueprint Project`
+The Gatling working horse modified to work seamlessly with the `Gatling Blueprint Project`
 
 * Assuming the following coordinates `computerdatabase-gatling-${scope}-local`
     * The tests are targeting the application `computerdatabase`
@@ -271,24 +268,50 @@ Please note that doing that on Windows has issues - you start a batch file which
 The Ant integration is used to more easily distribute Gatling test only requiring JDK 1.8 and Ant installation in secure environments. Before you can use the Ant integration you need to create the stand-alone distribution as shown below
 
 ```text
-mvn clean install
-cd target/distributable/gatling-charts-highcharts-bundle-2.3.0/
-ant -p
+mvn -Pstandalone clean install
+cd target/distributable/gatling-charts-highcharts-bundle-2.3.1/
 ```
 
+You can hava a look at all available Ant targets
+
 ```text
-ant info
-ant -Dapplication=computerdatabase -Dtenant=gatling -Dscope=smoketest clean info test
-ant -Dapplication=computerdatabase -Dtenant=gatling -Dscope=functional clean info test
-ant -Dapplication=githubapi -Dtenant=github -Dscope=functional clean info test
-ant -Dapplication=githubapi -Dtenant=github -Dscope=functional clean info record
-ant -Dapplication=githubapi -Dtenant=github -Dscope=functional clean info verify
+> ant -p
+
+Main targets:
+
+ archive        Archives the output of the executed test
+ archive:clean  Delete all archived test reports
+ clean          Clean the working directory for the current test scenario
+ clean:all      Clean the working directory for all tests
+ copy-report    Copy the Gatling report to another directory
+ diff           Compare expected with current responses
+ diff:visual    Compare expected with current responses using a visual diff tool
+ fail-on-error  Force a build error if the Gatling test has failed before
+ info           Print the current configuration
+ record         Run the functional test and capture expected responses
+ reset          Remove expected JSON responses for all tests
+ run            Run the functional test but ignore failures
+ save           Save the current output as new expected responses
+ test           Run the functional test and fail on error
+ verify         Run the tests and and compare with expected responses
+Default target: info
+```
+
+And print the current configuration
+
+```text
+> ant info
+> ant -Dapplication=computerdatabase -Dtenant=gatling -Dscope=smoketest clean info test
+> ant -Dapplication=computerdatabase -Dtenant=gatling -Dscope=functional clean info test
+> ant -Dapplication=githubapi -Dtenant=github -Dscope=functional clean info test
+> ant -Dapplication=githubapi -Dtenant=github -Dscope=functional clean info record
+> ant -Dapplication=githubapi -Dtenant=github -Dscope=functional clean info verify
 ```
 
 In case of a failed Gatling tests the Ant script just stops- sometimes it is useful to fail later, e.g.
 
-```
-ant -Dapplication=computerdatabase -Dscope=smoketest info run archive copy-report fail-on-error
+```text
+> ant -Dapplication=computerdatabase -Dscope=smoketest info run archive copy-report fail-on-error
 
 archive:
       [zip] Building zip: user-files/archive/computerdatabase-tenant-local-smoketest-20170330T224945.zip
