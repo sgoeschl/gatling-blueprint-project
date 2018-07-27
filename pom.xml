@@ -33,7 +33,7 @@
 
         <slf4j.version>1.7.25</slf4j.version>
         <gatling.version>2.3.1</gatling.version>
-        <gatling.blueprint.extensions.version>2.2.3.7</gatling.blueprint.extensions.version>
+        <gatling.blueprint.extensions.version>2.2.6.1</gatling.blueprint.extensions.version>
         <gatling-plugin.version>2.2.4</gatling-plugin.version>
         <scala-maven-plugin.version>3.3.1</scala-maven-plugin.version>
 
@@ -49,10 +49,10 @@
             <version>${gatling.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.github.sgoeschl.gatling</groupId>
+            <groupId>com.github.sgoeschl.gatling</groupId>
             <artifactId>gatling-blueprint-extensions</artifactId>
             <version>${gatling.blueprint.extensions.version}</version>
-        </dependency>
+        </dependency>        
         <dependency>
             <!-- See https://github.com/gatling/gatling/issues/3290 -->
             <groupId>org.slf4j</groupId>
@@ -157,7 +157,7 @@
                                             <overWrite>false</overWrite>
                                         </artifactItem>
                                         <artifactItem>
-                                            <groupId>org.github.sgoeschl.gatling</groupId>
+                                            <groupId>com.github.sgoeschl.gatling</groupId>
                                             <artifactId>gatling-blueprint-extensions</artifactId>
                                             <version>${gatling.blueprint.extensions.version}</version>
                                             <overWrite>false</overWrite>
