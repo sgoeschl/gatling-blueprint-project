@@ -14,9 +14,8 @@ class Test extends ConfigurableSimulation {
     .tryMax(simulationTryMax) {
       repeat(simulationLoops) {
         feed(elasticTsv.circular)
-          .exec(
-            ElasticApiChainBuilder.create("performance")
-          )
+          .exec(ElasticApiChainBuilder.create("performance"))
+          .pause(simulationPause)
       }
     }
 
