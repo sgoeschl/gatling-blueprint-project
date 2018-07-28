@@ -212,15 +212,24 @@ After the test run you will see the following directory content
 
 ![GitHub JSON Response File](./src/site/image/github-json-reponse-files.png)
 
+## 6. Testing Elastic Server
 
-## 6. Tips And Tricks
+[Erste Group](https://www.erstegroup.com) is also using Elastic heavily so over the years I implemented some bits & pices to make that task more straight-forward
 
-### 6.1 Debugging Gatling Scripts From The IDE
+* The [elastic-slow-query-log-parser](https://github.com/sgoeschl/elastic-slow-query-log-parser) is a blue-print to convert an Elastic slow query log into a CSV/TSV file to be used with JMeter or Gatling
+* This project provides a ready-to-use Gatling integration based on the output of [elastic-slow-query-log-parser](https://github.com/sgoeschl/elastic-slow-query-log-parser)
+
+
+
+
+## 7. Tips And Tricks
+
+### 7.1 Debugging Gatling Scripts From The IDE
 
 * You can debug your Gatling scenario using `Engine` with the VM options `-Dgatling.core.simulationClass=computerdatabase.BasicSimulation`
 * You can change the `logback` configuration using the `-Dlogback.configurationFile` system property
 
-### 6.2 Running Gatling With Maven
+### 7.2 Running Gatling With Maven
 
 Using the Maven integration is the preferred way when you run Gatling tests from a CI server such as Jenkins
 
@@ -252,7 +261,7 @@ There are a couple of system parameters allowing to overwrite the [Gatling 2.2.4
 | gatling.excludes                    | List of list of exclude patterns to use for scanning.                                                       |
 | gatling.runDescription              | A short description of the run to include in the report.                                                    |
 
-### 6.3 Running the Standalone Gatling Distribution Using Shell Scripts
+### 7.3 Running the Standalone Gatling Distribution Using Shell Scripts
 
 On Linux/Unix you can easily execute tests with the existing shell scripts
 
@@ -263,7 +272,7 @@ On Linux/Unix you can easily execute tests with the existing shell scripts
 
 Please note that doing that on Windows has issues - you start a batch file which starts a Java process. But when you terminate the test run using `CTRL-C` you are actually killing the Windows Command Processor but the JVM - Windows does not terminate child processed.
 
-### 6.4 Running the Standalone Gatling Distribution Using Apache Ant
+### 7.4 Running the Standalone Gatling Distribution Using Apache Ant
 
 The Ant integration is used to more easily distribute Gatling test only requiring JDK 1.8 and Ant installation in secure environments. Before you can use the Ant integration you need to create the stand-alone distribution as shown below
 
@@ -334,13 +343,13 @@ This Ant invocation
 * Copy the Gatling report to an additional directory, e.g. to serve it from an web server
 * Archive the Gatling report as ZIP file
 
-## 7. Additional Information
+## 8. Additional Information
 
-### 7.1 More Online Resources
+### 8.1 More Online Resources
 
 A must-read for all Scala/Gatling starters is stuff on [http://automationrhapsody.com/performance-testing-with-gatling](http://automationrhapsody.com/performance-testing-with-gatling)
 
-### 7.2 Gatling Blueprint Configuration Properties
+### 8.2 Gatling Blueprint Configuration Properties
 
 Commonly used configuration settings found in `environment.properties`
 
