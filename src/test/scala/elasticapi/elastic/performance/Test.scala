@@ -1,6 +1,6 @@
-package elastic.elasticapi.performance
+package elasticapi.elastic.performance
 
-import elastic.elasticapi.ElasticApiChainBuilder
+import elasticapi.elastic.ElasticApiChainBuilder
 import gatling.blueprint.{ConfigurableSimulation, DefaultHttpProtocolBuilder}
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder

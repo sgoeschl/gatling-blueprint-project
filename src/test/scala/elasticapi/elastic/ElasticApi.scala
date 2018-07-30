@@ -1,4 +1,4 @@
-package elastic.elasticapi
+package elasticapi.elastic
 
 import gatling.blueprint.{ConfigurationTool, JsonResponseTool}
 import io.gatling.core.Predef._
@@ -8,7 +8,7 @@ import io.gatling.http.Predef._
 object ElasticApi {
 
   val search: ChainBuilder =
-    exec(_.set("ELASTICBASEURL", ConfigurationTool.getURL("elastic")))
+    exec(_.set("ELASTICBASEURL", ConfigurationTool.getURL("elasticapi")))
       .exec(http("${LABEL}")
         .post("${ELASTICBASEURL}/${URL}")
         // .queryParam("_", "${LINENUMBER}")

@@ -1,4 +1,4 @@
-package elastic.elasticapi
+package elasticapi.elastic
 
 import githubapi.github.GitHubApi
 import io.gatling.core.structure.ChainBuilder

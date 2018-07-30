@@ -1,6 +1,6 @@
-package elastic.elasticapi.functional
+package elasticapi.elastic.smoketest
 
-import elastic.elasticapi.ElasticApiChainBuilder
+import elasticapi.elastic.ElasticApiChainBuilder
 import gatling.blueprint.{ConfigurableSimulation, DefaultHttpProtocolBuilder}
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
@@ -13,7 +13,7 @@ class Test extends ConfigurableSimulation {
     .repeat(elasticTsv.records.length) {
       feed(elasticTsv.queue)
         .exec(
-          ElasticApiChainBuilder.create("functional")
+          ElasticApiChainBuilder.create("smoketest")
         )
     }
 

@@ -214,13 +214,25 @@ After the test run you will see the following directory content
 
 ## 6. Testing Elastic Server
 
-[Erste Group](https://www.erstegroup.com) is also using Elastic heavily so over the years I implemented some bits & pices to make that task more straight-forward
+[Erste Group](https://www.erstegroup.com) is also using Elastic heavily so over the years I implemented some bits & pices to make that testing Elastic more straight-forward
 
-* The [elastic-slow-query-log-parser](https://github.com/sgoeschl/elastic-slow-query-log-parser) is a blue-print to convert an Elastic slow query log into a CSV/TSV file to be used with JMeter or Gatling
-* This project provides a ready-to-use Gatling integration based on the output of [elastic-slow-query-log-parser](https://github.com/sgoeschl/elastic-slow-query-log-parser)
+* The [elastic-slow-query-log-parser](https://github.com/sgoeschl/elastic-slow-query-log-parser) is a blue-print to convert an Elastic slow query log into a TSV file to be used with JMeter or Gatling
+* The TSV file is placed under `./user-files/data/elasticapi/local/elastic` or `./user-files/data/elasticapi/local/elastic/${scope}`
+
+You can start the pre-defined scenarios using Maven
+
+>  mvn -Dgatling.simulationClass=elasticapi.elastic.smoketest.Test -Dsite=local clean gatling:test 
+>  mvn -Dgatling.simulationClass=elasticapi.elastic.functional.Test -Dsite=local clean gatling:test 
+>  mvn -Dgatling.simulationClass=elasticapi.elastic.performance.Test -Dsite=local clean gatling:test 
+
+or run the `Ant Standalone Distribution` using
 
 
-
+```text
+> mvn -Pstandalone clean package
+> cd ./target/distributable/gatling-charts-highcharts-bundle-2.3.1/
+> ant -Dapplication=elasticapi -Dtenant=elastic -Dscope=smoketest -Dsite=local clean info test
+```
 
 ## 7. Tips And Tricks
 
