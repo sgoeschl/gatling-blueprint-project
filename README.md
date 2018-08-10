@@ -234,6 +234,16 @@ or run the `Ant Standalone Distribution` using
 > ant -Dapplication=elasticapi -Dtenant=elastic -Dscope=smoketest -Dsite=local clean info test
 ```
 
+As usual you need the configuration of the performance test found in `environment.properties`, e.g.
+
+```text
+simulation.users=10
+simulation.users.rampup=10
+simulation.duration=600
+```
+
+would fire up 10 virtual users within 10 seconds and run as fast as possible for 600 seconds
+
 ## 7. Tips And Tricks
 
 ### 7.1 Debugging Gatling Scripts From The IDE
@@ -375,4 +385,4 @@ Commonly used configuration settings found in `environment.properties`
 | simulation.users.rampup   | Rampup time in seconds                                      |
 | simulation.loops          | Number of loops                                             |
 
-Please note that not all of the properties might have an effect on your simulation.
+Please note that not all of the properties might have an effect on your current simulation (the need to used by the code).
