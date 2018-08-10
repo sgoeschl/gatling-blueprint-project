@@ -16,6 +16,15 @@ object ElasticApi {
         // enable if you want to pass the line number of the current request
         // .queryParam("_", "${LINENUMBER}")
         .body(StringBody("${QUERY}")).asJSON
+        .check(status.is(HTTP_OK)))
+
+  val searchAndSaveResponse: ChainBuilder =
+    exec(_.set("ELASTICBASEURL", ConfigurationTool.getURL("elasticapi")))
+      .exec(http("${LABEL}")
+        .post("${ELASTICBASEURL}/${URL}")
+        // enable if you want to pass the line number of the current request
+        // .queryParam("_", "${LINENUMBER}")
+        .body(StringBody("${QUERY}")).asJSON
         .check(status.is(HTTP_OK))
         .check(status.saveAs("lastResponseStatus"))
         .check(checkIf((response: Response, session: Session) =>
