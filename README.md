@@ -10,10 +10,6 @@ Thanks to Travis for the [build status](https://travis-ci.org/sgoeschl/gatling-b
 * Create a stand-alone Gatling distribution requiring only Java 1.8 and optionally Apache Ant 1.9.x 
 * Implement pretty-printing and custom filtering of JSON responses
 
-### 1.1 Words Of Caution
-
-* Please note that this project depends on [sgoeschl/gatling-blueprint-extensions](https://github.com/sgoeschl/gatling-blueprint-extensions) 
-
 ## 2. Motivation
 
 During my work at [Erste Group](https://www.erstegroup.com) I came across interesting test scenarios such as

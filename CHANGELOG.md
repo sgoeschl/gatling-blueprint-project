@@ -11,6 +11,9 @@ All notable changes to this project will be documented in this file. We try to a
 - Upgrade to Gatling 2.3.1
 - Update the logback configuration files to remove warning regarding `immediateFlush`
 
+# Fixed
+- Get rid of logback warning regarding "immediateFlush"
+
 ## 2.3.0
 
 ### Added
