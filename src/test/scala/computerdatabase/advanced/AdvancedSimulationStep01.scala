@@ -1,5 +1,5 @@
-/**
- * Copyright 2011-2017 GatlingCorp (http://gatling.io)
+/*
+ * Copyright 2011-2018 GatlingCorp (https://gatling.io)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package computerdatabase.advanced
 
 import io.gatling.core.Predef._
@@ -72,8 +73,8 @@ class AdvancedSimulationStep01 extends Simulation {
         .formParam("company", "37"))
   }
 
-  val httpConf = http
-    .baseURL("http://computer-database.gatling.io")
+  val httpProtocol = http
+    .baseUrl("http://computer-database.gatling.io")
     .acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
     .doNotTrackHeader("1")
     .acceptLanguageHeader("en-US,en;q=0.5")
@@ -83,5 +84,5 @@ class AdvancedSimulationStep01 extends Simulation {
   // Now, we can write the scenario as a composition
   val scn = scenario("Scenario Name").exec(Search.search, Browse.browse, Edit.edit)
 
-  setUp(scn.inject(atOnceUsers(1)).protocols(httpConf))
+  setUp(scn.inject(atOnceUsers(1)).protocols(httpProtocol))
 }

@@ -296,7 +296,7 @@ The Ant integration is used to more easily distribute Gatling test only requirin
 
 ```text
 mvn -Pstandalone clean install
-cd target/distributable/gatling-charts-highcharts-bundle-2.3.1/
+cd target/distributable/gatling-charts-highcharts-bundle-3.0.0-RC4/
 ```
 
 You can hava a look at all available Ant targets

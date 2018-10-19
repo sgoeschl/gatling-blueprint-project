@@ -89,7 +89,7 @@
 
     <!-- setup the classpath to run the Scala compiler -->
     <path id="gatling.compiler.class.path">
-        <fileset dir="${gatling.home}/lib/zinc">
+        <fileset dir="${gatling.home}/lib">
             <include name="*.jar" />
         </fileset>
         <pathelement location="${gatling.conf}" />
@@ -230,7 +230,7 @@
                 classname="io.gatling.compiler.ZincCompiler">
             <env key="GATLING_HOME" path="${gatling.home}" />
             <env key="GATLING_CONF" path="${gatling.conf}" />
-            <arg value="-ccp" />
+            <arg value="-cp" />
             <arg value="${toString:gatling.compilation.class.path}" />
         </java>
     </target>

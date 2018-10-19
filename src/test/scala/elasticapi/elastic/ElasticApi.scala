@@ -15,7 +15,7 @@ object ElasticApi {
         .post("${ELASTICBASEURL}/${URL}")
         // enable if you want to pass the line number of the current request
         // .queryParam("_", "${LINENUMBER}")
-        .body(StringBody("${QUERY}")).asJSON
+        .body(StringBody("${QUERY}")).asJson
         .check(status.is(HTTP_OK)))
 
   val searchAndSaveResponse: ChainBuilder =
@@ -24,7 +24,7 @@ object ElasticApi {
         .post("${ELASTICBASEURL}/${URL}")
         // enable if you want to pass the line number of the current request
         // .queryParam("_", "${LINENUMBER}")
-        .body(StringBody("${QUERY}")).asJSON
+        .body(StringBody("${QUERY}")).asJson
         .check(status.is(HTTP_OK))
         .check(status.saveAs("lastResponseStatus"))
         .check(checkIf((response: Response, session: Session) =>
@@ -32,7 +32,7 @@ object ElasticApi {
       .exec(session => {
         if (ConfigurationTool.isResponseSaved && session.contains("lastResponse")) {
           val jsonString = JsonResponseTool.modify(session, "lastResponse", "took")
-          JsonResponseTool.saveToFile(jsonString, "lastResponse", session.get("LINENUMBER").as[String])
+          JsonResponseTool.saveToFile(jsonString, "lastResponse", session.attributes.getOrElse("LINENUMBER", "").toString)
         }
         session
       })

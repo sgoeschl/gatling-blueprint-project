@@ -57,7 +57,7 @@ object JsonResponseTool {
   def saveToFile(session: Session, key: String, fileNameParts: String*): Unit = {
     if (isResponseSaved) {
       val file = FileUtil.createFile(directory, "json", seqAsJavaList(fileNameParts))
-      val prettyPrintedJson = FilteringJsonPrettyPrinter.prettyPrint((session get key).as[Any])
+      val prettyPrintedJson = FilteringJsonPrettyPrinter.prettyPrint(session.attributes.getOrElse(key, ""))
       FileUtil.writeToFile(file, prettyPrintedJson)
     }
   }
@@ -72,7 +72,7 @@ object JsonResponseTool {
     */
   def modify(session: Session, key: String, skippedJsonKeys: String*): String = {
     if (isResponseSaved) {
-      val json = (session get key).as[Any]
+      val json = session.attributes.getOrElse(key, null)
       FilteringJsonPrettyPrinter.print(json, seqAsJavaList(skippedJsonKeys))
     }
     else {

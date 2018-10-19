@@ -10,7 +10,7 @@ class Test extends ConfigurableSimulation {
   private val elasticTsv = tsv(resolveFile("elastic.tsv"))
 
   val scenarioBuilder: ScenarioBuilder = scenario("Elastic Smoke Test")
-    .repeat(elasticTsv.records.length) {
+    .repeat(elasticTsv.readRecords.length) {
       feed(elasticTsv.queue)
         .exec(
           ElasticApiChainBuilder.create("functional")

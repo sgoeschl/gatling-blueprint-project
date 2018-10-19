@@ -41,7 +41,7 @@ object ConfigurationTool {
 
   def init(configuration: GatlingConfiguration): Unit = {
     coordinates = SimulationCoordinates.from(configuration.core.simulationClass.get, System.getProperties)
-    dataDirectory = new File(configuration.core.directory.data).getAbsoluteFile
+    dataDirectory = new File(configuration.core.directory.resources).getAbsoluteFile
     resultDirectory = new File(configuration.core.directory.results).getAbsoluteFile
     environmentProperties = EnvironmentPropertiesResolver.resolveProperties(dataDirectory, coordinates)
     proxyHost = environmentProperties.getProperty("proxy.host")

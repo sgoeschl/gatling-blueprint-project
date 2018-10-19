@@ -1,5 +1,5 @@
-/**
- * Copyright 2011-2017 GatlingCorp (http://gatling.io)
+/*
+ * Copyright 2011-2018 GatlingCorp (https://gatling.io)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package computerdatabase.advanced
 
 import io.gatling.core.Predef._
@@ -69,8 +70,8 @@ class AdvancedSimulationStep02 extends Simulation {
         .formParam("company", "37"))
   }
 
-  val httpConf = http
-    .baseURL("http://computer-database.gatling.io")
+  val httpProtocol = http
+    .baseUrl("http://computer-database.gatling.io")
     .acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
     .doNotTrackHeader("1")
     .acceptLanguageHeader("en-US,en;q=0.5")
@@ -83,7 +84,7 @@ class AdvancedSimulationStep02 extends Simulation {
 
   // Let's have 10 regular users and 2 admins, and ramp them on 10 sec so we don't hammer the server
   setUp(
-    users.inject(rampUsers(10) over (10 seconds)),
-    admins.inject(rampUsers(2) over (10 seconds))
-  ).protocols(httpConf)
+    users.inject(rampUsers(10) during (10 seconds)),
+    admins.inject(rampUsers(2) during (10 seconds))
+  ).protocols(httpProtocol)
 }

@@ -10,7 +10,7 @@ object GitHubApi {
   val home: ChainBuilder = exec(http("Home")
     .get("/")
     .check(
-      bodyString.saveAs("lastResponse")))
+      bodyBytes.saveAs("lastResponse")))
     .exec(session => {
       JsonResponseTool.saveToFile(session, "lastResponse", "githubapi", "home")
       session
@@ -22,7 +22,7 @@ object GitHubApi {
     .queryParam("page", 1)
     .queryParam("per_page", 10)
     .check(
-      bodyString.saveAs("lastResponse")))
+      bodyBytes.saveAs("lastResponse")))
     .exec(session => {
       // remove "received_events_url" from the saved JSON response (just for fun)
       val jsonString = JsonResponseTool.modify(session, "lastResponse", "received_events_url")
@@ -36,7 +36,7 @@ object GitHubApi {
     .queryParam("page", 1)
     .queryParam("per_page", 10)
     .check(
-      jsonPath("$").ofType[Any].find.saveAs("lastResponse")))
+      bodyBytes.saveAs("lastResponse")))
     .exec(session => {
       val jsonString = JsonResponseTool.modify(session, "lastResponse")
       JsonResponseTool.saveToFile(jsonString, "githubapi", "events")

@@ -10,7 +10,7 @@ class Test extends ConfigurableSimulation {
 
   // The base URL is taken from "user-files/data/tenant/local/github/environment.properties"
   private val httpProtocol = DefaultHttpProtocolBuilder.create()
-    .baseURL(getBaseURL)
+    .baseUrl(getBaseURL)
     .build
 
   // 1) Executed test steps are moved into "GitHubApiChainBuilder"
@@ -24,7 +24,7 @@ class Test extends ConfigurableSimulation {
     }
 
   setUp(
-    users.inject(rampUsers(simulationUsers) over simulationUsersRampup))
+    users.inject(rampUsers(simulationUsers) during simulationUsersRampup))
     .protocols(httpProtocol)
     .pauses(constantPauses)
 

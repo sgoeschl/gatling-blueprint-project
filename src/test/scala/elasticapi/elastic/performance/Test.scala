@@ -19,8 +19,7 @@ class Test extends ConfigurableSimulation {
       }
     }
 
-  setUp(scenarioBuilder.inject(rampUsers(simulationUsers) over simulationUsersRampup))
+  setUp(scenarioBuilder.inject(rampUsers(simulationUsers) during simulationUsersRampup))
     .maxDuration(simulationDuration)
     .protocols(httpConfServer)
-    .onFailure(failure => println(failure))
 }
