@@ -63,6 +63,7 @@
     <!-- Internal Gatling test configuration                                 -->
     <!-- =================================================================== -->
 
+    <property name="gatling.build.dir" value="${basedir}/target" />
     <property name="gatling.results.dir" value="${basedir}/results" />
     <property name="gatling.work.dir" value="${gatling.results.dir}/${application}/${tenant}/${site}/${scope}"/>
     <property name="gatling.simulation.dir" value="${basedir}/user-files/simulations" />
@@ -95,14 +96,6 @@
         <pathelement location="${gatling.conf}" />
     </path>
 
-    <!-- setup the classpath to compile the Scala sources -->
-    <path id="gatling.compilation.class.path">
-        <fileset dir="${gatling.home}/lib">
-            <include name="*.jar" />
-        </fileset>
-        <pathelement location="${gatling.conf}" />
-    </path>
-
     <!-- setup the classpath to run the Gatling tests -->
     <path id="gatling.execution.class.path">
         <fileset dir="${gatling.home}/lib">
@@ -120,12 +113,20 @@
     <!-- General Tasks                                                       -->
     <!-- =================================================================== -->
 
-    <target name="clean" description="Clean the working directory for the current test scenario">
-        <delete dir="${gatling.work.dir}"/>
+    <target name="clean" description="Delete temporary directories">
+        <delete dir="${gatling.build.dir}"/>
+        <delete dir="${gatling.results.dir}"/>
     </target>
 
-    <target name="clean:all" description="Clean the working directory for all tests">
+    <target name="clear" description="Remove results of previous test runs">
+        <delete dir="${gatling.results.dir}"/>        
+    </target>
+
+    <target name="reset" description="Remove all temporary directories and data">
+        <delete dir="${gatling.archive.dir}"/>
+        <delete dir="${gatling.build.dir}"/>
         <delete dir="${gatling.results.dir}"/>
+        <delete dir="${basedir}/user-files/expected/"/>   
     </target>
 
     <target name="info" description="Print the current configuration">
@@ -154,18 +155,13 @@
         <echo message="visual.diff.executable            = ${visual.diff.executable}" />
     </target>
 
-    <target name="reset" depends="clean:all" description="Remove expected JSON responses for all tests">
-        <delete dir="${basedir}/user-files/expected/"/>
-        <delete dir="${basedir}/target"/>
-    </target>
-
-    <target name="run" depends="clean" description="Run the functional test but ignore failures">
+    <target name="run" depends="clear" description="Run the functional test but ignore failures">
         <antcall target="gatling:execute">
             <param name="simulation" value="${simulation}"/>
         </antcall>
     </target>
 
-    <target name="test" depends="clean" description="Run the functional test and fail on error">
+    <target name="test" depends="clear" description="Run the functional test and fail on error">
         <antcall target="run"/>
         <antcall target="fail-on-error"/>
     </target>
@@ -215,11 +211,6 @@
     <!-- Internal Tasks                                                      -->
     <!-- =================================================================== -->
 
-    <!-- Delete the compiled Scala classes -->
-    <target name="gatling:clean">
-        <delete dir="${gatling.home}/target/test-classes" />
-    </target>
-
     <!-- Compile the Scala source files -->
     <target name="gatling:compile">
         <java
@@ -230,8 +221,6 @@
                 classname="io.gatling.compiler.ZincCompiler">
             <env key="GATLING_HOME" path="${gatling.home}" />
             <env key="GATLING_CONF" path="${gatling.conf}" />
-            <arg value="-cp" />
-            <arg value="${toString:gatling.compilation.class.path}" />
         </java>
     </target>
 
@@ -244,11 +233,12 @@
                 fork="true"
                 failonerror="false"
                 resultproperty="gatling.exit.code"
-                maxmemory="1536m"
+                maxmemory="1024m"
                 classpathref="gatling.execution.class.path"
                 classname="io.gatling.app.Gatling">
             <env key="GATLING_HOME" path="${gatling.home}" />
             <env key="GATLING_CONF" path="${gatling.conf}" />
+            <jvmarg value="-server" />
             <jvmarg value="-XX:+UseG1GC" />
             <jvmarg value="-XX:MaxGCPauseMillis=30" />
             <jvmarg value="-XX:G1HeapRegionSize=16m" />
@@ -263,11 +253,11 @@
             <jvmarg value="-Dsite=${site}" />
             <jvmarg value="-Dresponse.dir=${gatling.response.current.dir}" />
             <jvmarg value="-Dlogback.configurationFile=${logback.configuration.file}" />
-            <arg value="--output-name" />
-            <arg value="${gatling.work.dir}/results" />
-            <arg value="--simulation" />
+            <arg value="-rf" />
+            <arg value="${gatling.work.dir}/results" />            
+            <arg value="-s" />
             <arg value="${simulation}" />
-            <arg value="--run-description" />
+            <arg value="-rd" />
             <arg value="${id}" />
         </java>
         <if>
