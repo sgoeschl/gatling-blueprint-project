@@ -5,7 +5,7 @@
 
     <groupId>org.github.sgoeschl.gatling</groupId>
     <artifactId>gatling-blueprint-project</artifactId>
-    <version>2.3.1</version>
+    <version>3.0.0.1</version>
     <name>Gatling Blueprint Project</name>
     <description>Gatling sample project to show multi-tenant &amp; multi-site support</description>
     <url>https://github.com/sgoeschl/gatling-blueprint</url>
@@ -32,9 +32,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <slf4j.version>1.7.25</slf4j.version>
-        <gatling.version>2.3.1</gatling.version>
+        <gatling.version>3.0.0</gatling.version>
         <gatling.blueprint.extensions.version>2.2.6.1</gatling.blueprint.extensions.version>
-        <gatling-plugin.version>2.2.4</gatling-plugin.version>
+        <gatling-plugin.version>3.0.0</gatling-plugin.version>
         <scala-maven-plugin.version>3.3.1</scala-maven-plugin.version>
 
         <distributable.dir>${project.build.directory}/distributable</distributable.dir>
@@ -85,13 +85,12 @@
                 <version>${gatling-plugin.version}</version>
                 <configuration>
                     <configFolder>${project.basedir}/conf</configFolder>
-                    <bodiesFolder>${project.basedir}/user-files/bodies</bodiesFolder>
-                    <dataFolder>${project.basedir}/user-files/data</dataFolder>
+                    <resourcesFolder>${project.basedir}/user-files/resources</resourcesFolder>
                 </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>src-distribution</id>
@@ -119,7 +118,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.10</version>
+                        <version>3.1.1</version>
                         <executions>
                             <execution>
                                 <id>unpack-gatling-bundle</id>
@@ -194,7 +193,7 @@
                         <!-- Make the stand-alone Apache Ant distribution "attached artifact" -->
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>1.12</version>
+                        <version>3.0.0</version>
                         <executions>
                             <execution>
                                 <id>attach-artifacts</id>

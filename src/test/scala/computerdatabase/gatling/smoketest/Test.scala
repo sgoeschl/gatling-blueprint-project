@@ -4,17 +4,16 @@ import computerdatabase.gatling.ComputerDatabaseChainBuilder
 import gatling.blueprint.ConfigurationTool.coordinates
 import gatling.blueprint.{ConfigurableSimulation, DefaultHttpProtocolBuilder}
 import io.gatling.core.Predef._
-import io.gatling.core.feeder.RecordSeqFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 
 class Test extends ConfigurableSimulation {
 
   // Resolve to "user-files/data/tenant/local/computerdatabase/smoketest/search.csv""
-  val feeder: RecordSeqFeederBuilder[String] = csv(resolveFile("search.csv"))
+  val feeder = csv(resolveFile("search.csv"))
 
   // The base URL is taken from "user-files/data/computerdatabase/tenant/environment.properties"
   private val httpProtocol = DefaultHttpProtocolBuilder.create()
-    .baseURL(getBaseURL)
+    .baseUrl(getBaseURL)
     .build
 
   // 1) Executed test steps are moved into "ComputerDatabaseChainBuilder"
@@ -29,7 +28,7 @@ class Test extends ConfigurableSimulation {
     }
 
   setUp(
-    users.inject(atOnceUsers(simulationUsersAtOnce), rampUsers(simulationUsers) over simulationUsersRampup))
+    users.inject(atOnceUsers(simulationUsersAtOnce), rampUsers(simulationUsers) during simulationUsersRampup))
     .protocols(httpProtocol)
     .pauses(constantPauses)
 

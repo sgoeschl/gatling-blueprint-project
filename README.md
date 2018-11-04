@@ -44,13 +44,13 @@ In case you are still interested here are list of links with background informat
 * The configuration information is stored in `environment.properties` files in a hierarchical directory layout
 * Other configuration files, e.g. CSV files, can be picked from a hierarchical directory layout
 
-## 5. Code Samples
+## 5. Working Sample Projects
 
-In order to make things understandable there are two sample project provided - both are a bit artificial but demonstrate many key points
+In order to make things understandable there are three sample project provided - both are a bit artificial but demonstrate many key points
 
 ### 5.1 Original Computer Database
 
-This is a 1:1 copy of the original sample
+This is a 1:1 copy of the original Gatling sample
 
 #### Running Tests From The IDE
 
@@ -173,7 +173,7 @@ object GitHubApi {
   val home: ChainBuilder = exec(http("Home")
     .get("/")
     .check(
-      jsonPath("$").ofType[Any].find.saveAs("lastResponse")))
+      bodyBytes.saveAs("lastResponse")))
     .exec(session => {
       JsonResponseTool.saveToFile(session, "lastResponse", "githubapi", "home")
       session
@@ -208,7 +208,7 @@ After the test run you will see the following directory content
 
 ![GitHub JSON Response File](./src/site/image/github-json-reponse-files.png)
 
-## 6. Testing Elastic Server
+## 6. How To Test Elastic Server
 
 [Erste Group](https://www.erstegroup.com) is also using Elastic heavily so over the years I implemented some bits & pices to make that testing Elastic more straight-forward
 
@@ -257,27 +257,31 @@ mvn -Dgatling.simulationClass=computerdatabase.gatling.functional.Test clean gat
 mvn -Dlogback.configurationFile=conf/logback-debug.xml -Dgatling.simulationClass=computerdatabase.gatling.functional.Test clean gatling:test
 ```
 
-There are a couple of system parameters allowing to overwrite the [Gatling 2.2.4 Maven plugin configuration](https://github.com/gatling/gatling-maven-plugin/blob/master/src/main/java/io/gatling/mojo/GatlingMojo.java)
+There are a couple of system parameters allowing to overwrite the [Gatling 3.0.0 Maven plugin configuration](https://github.com/gatling/gatling-maven-plugin/blob/master/src/main/java/io/gatling/mojo/GatlingMojo.java)
 
 | Property                            | Description                                                                                                 |
 |-------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| gatling.noReports                   | Run simulation but does not generate reports. By default false.                                             |
-| gatling.reportsOnly                 | Generate the reports for the simulation in this folder.                                                     |
-| gatling.simulationsFolder           | Use this folder to discover simulations that could be run.                                                  |
-| gatling.simulationClass             | A name of a Simulation class to run.                                                                        |
-| gatling.dataFolder                  | Use this folder as the folder where feeders are stored.                                                     |
-| gatling.resultsFolder               | Use this folder as the folder where results are stored.                                                     |
-| gatling.jvmArgs                     | Extra JVM arguments to pass when running Gatling.                                                           |
-| gatling.zincJvmArgs                 | Extra JVM arguments to pass when running Zinc.                                                              |
-| gatling.failOnError                 | Will cause the project build to look successful, rather than fail, even if there are Gatling test failures. |
-| gatling.continueOnAssertionFailure  | Continue execution of simulations despite assertion failure.                                                |
-| gatling.outputName                  | Force the name of the directory generated for the results of the run.                                       |
-| gatling.propagateSystemProperties   | Propagate System properties to forked processes.                                                            |
-| gatling.skip                        | Disable the plugin.                                                                                         |
-| gatling.disableCompiler             | Disable the Scala compiler, if scala-maven-plugin is already in charge of compiling the simulations.        |
+| gatling.simulationClass             | A name of a simulation class to run.                                                                        |
+| gatling.runMultipleSimulations      | Iterate over multiple simulations if more than one simulation file is found                                 |
 | gatling.includes                    | List of list of include patterns to use for scanning.                                                       |
 | gatling.excludes                    | List of list of exclude patterns to use for scanning.                                                       |
+| gatling.noReports                   | Run simulation but does not generate reports. By default false.                                             |
+| gatling.reportsOnly                 | Generate the reports for the simulation in this folder.                                                     |
 | gatling.runDescription              | A short description of the run to include in the report.                                                    |
+| gatling.skip                        | Disable the plugin.                                                                                         |
+| gatling.failOnError                 | Will cause the project build to look successful, rather than fail, even if there are Gatling test failures. |
+| gatling.continueOnAssertionFailure  | Continue execution of simulations despite assertion failure.                                                |
+| gatling.useOldJenkinsJUnitSupport   |                                                                                                             |
+| gatling.jvmArgs                     | Extra JVM arguments to pass when running Gatling.                                                           |
+| gatling.overrideJvmArgs             | Override Gatling's default JVM args, instead of replacing them.                                             |
+| gatling.propagateSystemProperties   | Propagate System properties to forked processes.                                                            |
+| gatling.compilerJvmArgs             | Extra JVM arguments to pass when running Zinc.                                                              |
+| gatling.overrideCompilerJvmArgs     | Override Zinc's default JVM args, instead of replacing them.                                                |
+| gatling.extraScalacOptions          | Extra options to be passed to scalac when compiling the Scala code.                                         |
+| gatling.disableCompiler             | Disable the Scala compiler, if scala-maven-plugin is already in charge of compiling the simulations.        |
+| gatling.simulationsFolder           | Use this folder to discover simulations that could be run.                                                  |
+| gatling.resourcesFolder             | Use this folder as the folder where feeders are stored.                                                     |
+| gatling.resultsFolder               | Use this folder as the folder where results are stored.                                                     |
 
 ### 7.3 Running the Standalone Gatling Distribution Using Shell Scripts
 
@@ -296,7 +300,7 @@ The Ant integration is used to more easily distribute Gatling test only requirin
 
 ```text
 mvn -Pstandalone clean install
-cd target/distributable/gatling-charts-highcharts-bundle-2.3.1/
+cd target/distributable/gatling-charts-highcharts-bundle-3.0.0/
 ```
 
 You can hava a look at all available Ant targets

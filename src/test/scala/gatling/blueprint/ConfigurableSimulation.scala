@@ -21,7 +21,7 @@ import gatling.blueprint.ConfigurationTool.{proxyHost, proxyPort, proxyPortSecur
 import io.gatling.core.Predef.DurationInteger
 import io.gatling.core.config.GatlingConfiguration
 import io.gatling.core.scenario.Simulation
-import io.gatling.http.protocol.HttpProxyBuilder
+import io.gatling.http.protocol.ProxyBuilder
 
 import scala.concurrent.duration.FiniteDuration
 
@@ -63,7 +63,7 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
 
   def hasProxy: Boolean = ConfigurationTool.hasProxy
 
-  def httpProxy: HttpProxyBuilder = HttpProxyBuilder(proxyHost, proxyPort).httpsPort(proxyPortSecure)
+  def proxyBuilder: ProxyBuilder = ProxyBuilder(proxyHost, proxyPort).httpsPort(proxyPortSecure)
 
   override def toString: String = s"(" +
     s"usersAtOnce=$simulationUsersAtOnce, " +
