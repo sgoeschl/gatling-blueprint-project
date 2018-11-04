@@ -25,7 +25,7 @@
   <!-- import environment variables -->
   <property environment="env"/>
 
-    <property name="gatling.dist.name" value="gatling-charts-highcharts-bundle-3.0.0-RC4"/>
+    <property name="gatling.dist.name" value="gatling-charts-highcharts-bundle-3.0.0"/>
     <property name="maven.build.dir" value="${basedir}/target"/>
     <property name="gatling.dist.dir" value="${maven.build.dir}/distributable/${gatling.dist.name}"/>
     <property name="gatling.dist.userfiles.dir" value="${gatling.dist.dir}/user-files"/>
