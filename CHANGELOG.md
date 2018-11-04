@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. We try to adhere to https://github.com/olivierlacan/keep-a-changelog.
 
+## 3.0.0.1
+
+### Changed
+- Support of Gatling 3.0.0 release
+
 ## 2.3.1
 
 ### Added

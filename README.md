@@ -44,13 +44,13 @@ In case you are still interested here are list of links with background informat
 * The configuration information is stored in `environment.properties` files in a hierarchical directory layout
 * Other configuration files, e.g. CSV files, can be picked from a hierarchical directory layout
 
-## 5. Code Samples
+## 5. Working Sample Projects
 
-In order to make things understandable there are two sample project provided - both are a bit artificial but demonstrate many key points
+In order to make things understandable there are three sample project provided - both are a bit artificial but demonstrate many key points
 
 ### 5.1 Original Computer Database
 
-This is a 1:1 copy of the original sample
+This is a 1:1 copy of the original Gatling sample
 
 #### Running Tests From The IDE
 
@@ -173,7 +173,7 @@ object GitHubApi {
   val home: ChainBuilder = exec(http("Home")
     .get("/")
     .check(
-      jsonPath("$").ofType[Any].find.saveAs("lastResponse")))
+      bodyBytes.saveAs("lastResponse")))
     .exec(session => {
       JsonResponseTool.saveToFile(session, "lastResponse", "githubapi", "home")
       session
@@ -208,7 +208,7 @@ After the test run you will see the following directory content
 
 ![GitHub JSON Response File](./src/site/image/github-json-reponse-files.png)
 
-## 6. Testing Elastic Server
+## 6. How To Test Elastic Server
 
 [Erste Group](https://www.erstegroup.com) is also using Elastic heavily so over the years I implemented some bits & pices to make that testing Elastic more straight-forward
 
