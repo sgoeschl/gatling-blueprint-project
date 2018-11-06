@@ -8,7 +8,7 @@
     <version>3.0.0.1</version>
     <name>Gatling Blueprint Project</name>
     <description>Gatling sample project to show multi-tenant &amp; multi-site support</description>
-    <url>https://github.com/sgoeschl/gatling-blueprint</url>
+    <url>https://github.com/sgoeschl/gatling-blueprint-project</url>
 
     <licenses>
         <license>
@@ -27,19 +27,16 @@
     </developers>
 
     <properties>
-        <source.property>1.8</source.property>
-        <target.property>1.8</target.property>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <slf4j.version>1.7.25</slf4j.version>
-        <gatling.version>3.0.0</gatling.version>
-        <gatling.blueprint.extensions.version>2.2.6.1</gatling.blueprint.extensions.version>
-        <gatling-plugin.version>3.0.0</gatling-plugin.version>
-        <scala-maven-plugin.version>3.3.1</scala-maven-plugin.version>
-
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <encoding>UTF-8</encoding>
         <distributable.dir>${project.build.directory}/distributable</distributable.dir>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+        <gatling.version>3.0.0</gatling.version>
+        <gatling-plugin.version>3.0.0</gatling-plugin.version>
+        <gatling.blueprint.extensions.version>2.2.6.1</gatling.blueprint.extensions.version>
+        <scala-maven-plugin.version>3.3.1</scala-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -49,30 +46,14 @@
             <version>${gatling.version}</version>
         </dependency>
         <dependency>
+            <!-- Required only if you are using ConfigurableSimulation -->
             <groupId>com.github.sgoeschl.gatling</groupId>
             <artifactId>gatling-blueprint-extensions</artifactId>
             <version>${gatling.blueprint.extensions.version}</version>
         </dependency>        
-        <dependency>
-            <!-- See https://github.com/gatling/gatling/issues/3290 -->
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
-        <resources>
-            <!-- Gatling config files are loaded from the classpath -->
-            <resource>
-                <directory>${basedir}/conf</directory>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-
         <plugins>
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
@@ -85,10 +66,11 @@
                 <version>${gatling-plugin.version}</version>
                 <configuration>
                     <configFolder>${project.basedir}/conf</configFolder>
-                    <resourcesFolder>${project.basedir}/user-files/resources</resourcesFolder>
+                    <resourcesFolder>src/test/resources</resourcesFolder>
                 </configuration>
             </plugin>
             <plugin>
+                <!-- Build a gatling-blueprint-project-${version}-src.tar.gz -->
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
@@ -112,6 +94,7 @@
 
     <profiles>
         <profile>
+            <!-- Build a stand-alone distribution using JDK & Ant only -->
             <id>standalone</id>
             <build>
                 <plugins>

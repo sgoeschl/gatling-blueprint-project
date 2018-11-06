@@ -67,6 +67,7 @@ Invoking the `Engine` class within the IDE with one of the following system prop
 
 Fist we start the smoke test using
 
+> mvn -Dgatling.simulationClass=computerdatabase.BasicSimulation gatling:test
 > mvn -Dgatling.simulationClass=computerdatabase.advanced.AdvancedSimulationStep01 gatling:test
 > mvn -Dgatling.simulationClass=computerdatabase.advanced.AdvancedSimulationStep02 gatling:test
 > mvn -Dgatling.simulationClass=computerdatabase.advanced.AdvancedSimulationStep03 gatling:test

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. We try to adhere to https://github.com/olivierlacan/keep-a-changelog.
 
+## 3.0.0.2
+
+### Added 
+- Added `pom-minimal.xml` 
+
+### Changed
+- Removed explicit `SL4FJ` dependency since this was a bugifx vor Gatling 2.3
+- Updated original Gatling example code
+- Moved `user-files/resources`to `src/test/resources` to align with Gatling Maven archetype
+
 ## 3.0.0.1
 
 ### Changed

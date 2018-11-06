@@ -22,61 +22,54 @@
 -->
 <project name="gatling-blueprint-project" default="package" basedir=".">
 
-  <!-- import environment variables -->
-  <property environment="env"/>
+    <!-- import environment variables -->
+    <property environment="env" />
 
-    <property name="gatling.dist.name" value="gatling-charts-highcharts-bundle-3.0.0"/>
-    <property name="maven.build.dir" value="${basedir}/target"/>
-    <property name="gatling.dist.dir" value="${maven.build.dir}/distributable/${gatling.dist.name}"/>
-    <property name="gatling.dist.userfiles.dir" value="${gatling.dist.dir}/user-files"/>
-    <property name="gatling.dist.simulation.dir" value="${gatling.dist.userfiles.dir}/simulations"/>
+    <property name="gatling.dist.name" value="gatling-charts-highcharts-bundle-3.0.0" />
+    <property name="maven.build.dir" value="${basedir}/target" />
+    <property name="gatling.dist.dir" value="${maven.build.dir}/distributable/${gatling.dist.name}" />
 
-  <!-- ############################################################## -->
-  <!-- General Targets                                                -->
-  <!-- ############################################################## -->
+    <!-- ############################################################## -->
+    <!-- General Targets                                                -->
+    <!-- ############################################################## -->
 
     <target name="package" description="Build the project">
         <antcall target="gatling:copy-gatling-from-maven-setup" />
         <antcall target="gatling:create-distributables" />
-  </target>
+    </target>
 
-  <!-- ############################################################## -->
-  <!-- Misc                                                           -->
-  <!-- ############################################################## -->
+    <!-- ############################################################## -->
+    <!-- Misc                                                           -->
+    <!-- ############################################################## -->
 
-  <target name="gatling:copy-gatling-from-maven-setup">
-    <delete includeEmptyDirs="true">
-      <fileset dir="${gatling.dist.userfiles.dir}"/>
-    </delete>
-    <delete dir="${gatling.dist.dir}/conf"/>
-    <!-- copy the "user-files" -->
-    <copy todir="${gatling.dist.dir}/user-files">
-      <fileset dir="${basedir}/user-files"/>
-    </copy>
-    <!-- copy the Gatling tests -->
-    <copy todir="${gatling.dist.dir}/user-files/simulations">
-      <fileset dir="${basedir}/src/test/scala"/>
-    </copy>
-    <!-- copy the Gatling configuration files -->
-    <copy todir="${gatling.dist.dir}/conf">
-      <fileset dir="${basedir}/conf"/>
-    </copy>
-    <!-- copy the overlayed directories -->
-    <copy todir="${gatling.dist.dir}" overwrite="true">
-      <fileset dir="${basedir}/src/overlay"/>
-    </copy>
-    <!-- make the Gatling scripts executable -->
-    <chmod dir="${gatling.dist.dir}/bin" perm="ugo+rx" includes="**/*.sh"/>
+    <target name="gatling:copy-gatling-from-maven-setup">
+        <delete dir="${gatling.dist.dir}/conf" />
+        <!-- copy the "user-files" -->
+        <copy todir="${gatling.dist.dir}/user-files">
+            <fileset dir="${basedir}/src/test/resources" />
+        </copy>
+        <!-- copy the Gatling tests -->
+        <copy todir="${gatling.dist.dir}/user-files/simulations">
+            <fileset dir="${basedir}/src/test/scala" />
+        </copy>
+        <!-- copy the Gatling configuration files -->
+        <copy todir="${gatling.dist.dir}/conf">
+            <fileset dir="${basedir}/conf" />
+        </copy>
+        <!-- copy the overlayed directories -->
+        <copy todir="${gatling.dist.dir}" overwrite="true">
+            <fileset dir="${basedir}/src/overlay" />
+        </copy>
+        <!-- make the Gatling scripts executable -->
+        <chmod dir="${gatling.dist.dir}/bin" perm="ugo+rx" includes="**/*.sh" />
         <!-- copy the "README.md" -->
-        <copy file="README.md" tofile="${gatling.dist.dir}/README.md"/>
-        <!-- copy the "VERSION.txt" -->
-        <copy file="${maven.build.dir}/classes/VERSION.txt" tofile="${gatling.dist.dir}/VERSION.txt"/>
+        <copy file="README.md" tofile="${gatling.dist.dir}/README.md" />
         <!-- copy the "CHANGELOG.md" -->
         <copy file="${basedir}/CHANGELOG.md" tofile="${gatling.dist.dir}/CHANGELOG.md" />
     </target>
 
     <target name="gatling:create-distributables">
         <tar destfile="./target/gatling-blueprint-project.tar.gz" compression="gzip" basedir="${gatling.dist.dir}" />
-  </target>
+    </target>
 
 </project>

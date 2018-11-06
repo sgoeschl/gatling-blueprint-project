@@ -31,9 +31,6 @@
     <!-- executable for visual diffing -->
     <property name="visual.diff.executable" value="diff"/>
 
-    <!-- banner text to be displayed during startup -->
-    <loadfile property="version.txt" srcFile="${basedir}/VERSION.txt" />
-
     <!-- =================================================================== -->
     <!-- User-provided Gatling test configuration                            -->
     <!-- =================================================================== -->
@@ -130,8 +127,6 @@
     </target>
 
     <target name="info" description="Print the current configuration">
-        <echo message="${version.txt}" />
-        <echo message="" />
         <echo message="----------------------------------------------------------------------" />
         <echo message="ANT_HOME                          = ${env.ANT_HOME}"/>
         <echo message="JAVA_HOME                         = ${env.JAVA_HOME}"/>

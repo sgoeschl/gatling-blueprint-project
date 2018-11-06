@@ -1,7 +1,9 @@
 *.iml
 *.swp
 *.class
+.gradle/
 .idea/
+build/
 results/
 target/
 user.properties

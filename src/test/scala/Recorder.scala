@@ -3,9 +3,10 @@ import io.gatling.recorder.config.RecorderPropertiesBuilder
 
 object Recorder extends App {
 
-  val props = new RecorderPropertiesBuilder
-  props.simulationPackage("computerdatabase")
-  props.resourcesFolder(IDEPathHelper.mavenResourcesDirectory.toString)
+  val props = new RecorderPropertiesBuilder()
+    .simulationsFolder(IDEPathHelper.recorderSimulationsDirectory.toString)
+    .simulationPackage("com.company.project")
+    .resourcesFolder(IDEPathHelper.resourcesDirectory.toString)
 
   GatlingRecorder.fromMap(props.build, Some(IDEPathHelper.recorderConfigFile))
 }
