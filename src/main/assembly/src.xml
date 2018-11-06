@@ -13,12 +13,14 @@
             <excludes>
                 <exclude>./*.iml</exclude>
                 <exclude>./.idea/**</exclude>
+                <exclude>./.gradle/**</exclude>
                 <exclude>./target/**</exclude>
                 <exclude>./user-files/archive/**</exclude>
                 <exclude>./user-files/expected/**</exclude>
                 <exclude>./lib/**</exclude>
                 <exclude>./src/main/assembly/**</exclude>
                 <exclude>./src/overlay/**</exclude>
+                <exclude>./build/**</exclude>
             </excludes>
         </fileSet>
     </fileSets>

@@ -1,9 +1,31 @@
+# eclipse conf file
+.settings
+.classpath
+.project
+.manager
+.scala_dependencies
+.cache
+
+# idea conf files
+.idea
 *.iml
-*.swp
-*.class
-.gradle/
-.idea/
-build/
-results/
-target/
-user.properties
+*.ipr
+*.iws
+
+# building
+target
+build
+null
+tmp
+temp
+dist
+test-output
+build.log
+.gradle
+
+# misc
+.DS_Store
+
+# project files to ignore
+!/results/.gitkeep
+

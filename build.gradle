@@ -1,0 +1,21 @@
+plugins {
+  id "com.github.lkishalmi.gatling" version "3.0.1"
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'scala'
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.11.8'
+    compile 'com.github.sgoeschl.gatling:gatling-blueprint-extensions:2.2.6.1'
+}
+
+gatling {
+    // do not include classes and resources from src/main
+    includeMainOutput = true
+    // do not include classes and resources from src/test
+    includeTestOutput = true
+}

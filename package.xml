@@ -45,7 +45,7 @@
     <target name="gatling:copy-gatling-from-maven-setup">
         <delete dir="${gatling.dist.dir}/conf" />
         <!-- copy the "user-files" -->
-        <copy todir="${gatling.dist.dir}/user-files">
+        <copy todir="${gatling.dist.dir}/user-files/resources">
             <fileset dir="${basedir}/src/test/resources" />
         </copy>
         <!-- copy the Gatling tests -->
