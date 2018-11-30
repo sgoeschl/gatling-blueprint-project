@@ -2,7 +2,6 @@
 
 # Run all the samples being documented 
 
-echo "Computer Database BasicSimulation"
 mvn -Pstandalone clean package
 
 echo "Computer Database BasicSimulation"
