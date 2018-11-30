@@ -24,6 +24,7 @@ In case you are still interested here are list of links with background informat
 
 * [http://people.apache.org/~sgoeschl/presentations/2016/testworks/gatling.pdf](http://people.apache.org/~sgoeschl/presentations/2016/testworks/gatling.pdf)
 * [https://huddle.eurostarsoftwaretesting.com/gatling-tales-from-a-journey/](https://huddle.eurostarsoftwaretesting.com/gatling-tales-from-a-journey/)
+* [https://github.com/sgoeschl/presentations/blob/master/java2days/kickstartgatling/slides/src/docs/asciidoc/index.adoc](https://github.com/sgoeschl/presentations/blob/master/java2days/kickstartgatling/slides/src/docs/asciidoc/index.adoc)
 
 ## 3. Scope
 
