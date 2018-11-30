@@ -5,7 +5,7 @@
 
     <groupId>org.github.sgoeschl.gatling</groupId>
     <artifactId>gatling-blueprint-project</artifactId>
-    <version>3.0.0.2-SNAPSHOT</version>
+    <version>3.0.1.1-SNAPSHOT</version>
     <name>Gatling Blueprint Project</name>
     <description>Gatling sample project to show multi-tenant &amp; multi-site support</description>
     <url>https://github.com/sgoeschl/gatling-blueprint-project</url>
@@ -33,9 +33,9 @@
         <distributable.dir>${project.build.directory}/distributable</distributable.dir>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-        <gatling.version>3.0.0</gatling.version>
-        <gatling-plugin.version>3.0.0</gatling-plugin.version>
-        <gatling.blueprint.extensions.version>2.2.6.1</gatling.blueprint.extensions.version>
+        <gatling.version>3.0.1.1</gatling.version>
+        <gatling-maven-plugin.version>3.0.1</gatling-maven-plugin.version>
+        <gatling-blueprint-extensions.version>2.2.6.1</gatling-blueprint-extensions.version>
         <scala-maven-plugin.version>3.3.1</scala-maven-plugin.version>
     </properties>
 
@@ -49,7 +49,7 @@
             <!-- Required only if you are using ConfigurableSimulation -->
             <groupId>com.github.sgoeschl.gatling</groupId>
             <artifactId>gatling-blueprint-extensions</artifactId>
-            <version>${gatling.blueprint.extensions.version}</version>
+            <version>${gatling-blueprint-extensions.version}</version>
         </dependency>        
     </dependencies>
 
@@ -63,7 +63,7 @@
             <plugin>
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-maven-plugin</artifactId>
-                <version>${gatling-plugin.version}</version>
+                <version>${gatling-maven-plugin.version}</version>
                 <configuration>
                     <configFolder>${project.basedir}/conf</configFolder>
                     <resourcesFolder>src/test/resources</resourcesFolder>
@@ -141,7 +141,7 @@
                                         <artifactItem>
                                             <groupId>com.github.sgoeschl.gatling</groupId>
                                             <artifactId>gatling-blueprint-extensions</artifactId>
-                                            <version>${gatling.blueprint.extensions.version}</version>
+                                            <version>${gatling-blueprint-extensions.version}</version>
                                             <overWrite>false</overWrite>
                                         </artifactItem>
                                     </artifactItems>
