@@ -37,7 +37,7 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
   val simulationLoops: Int = getProperty("simulation.loops", "1").toInt
   val simulationTryMax: Int = getProperty("simulation.try.max", "1").toInt
   val simulationPause: FiniteDuration = ConfigurationTool.getPause
-  val scenarionName: String = ConfigurationTool.coordinates.toScenarioName
+  val scenarioName: String = ConfigurationTool.coordinates.toScenarioName
 
   println("Coordinates: " + ConfigurationTool.coordinates)
   println("Environment: " + ConfigurationTool.environmentProperties)
@@ -72,5 +72,6 @@ abstract class ConfigurableSimulation(implicit configuration: GatlingConfigurati
     s"duration=$simulationDuration, " +
     s"loops=$simulationLoops, " +
     s"tryMax=$simulationTryMax, " +
-    s"pause=$simulationPause)"
+    s"pause=$simulationPause), " +
+    s"$scenarioName"
 }

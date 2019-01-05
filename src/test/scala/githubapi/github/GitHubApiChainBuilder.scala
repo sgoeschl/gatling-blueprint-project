@@ -9,7 +9,7 @@ object GitHubApiChainBuilder {
 
   def create(scope: String): List[ChainBuilder] = {
     scope.toLowerCase match {
-      case "functional" | "performance" | "wiremock" =>
+      case "functional" | "performance"  =>
         List(
           GitHubApi.home,
           GitHubApi.users,

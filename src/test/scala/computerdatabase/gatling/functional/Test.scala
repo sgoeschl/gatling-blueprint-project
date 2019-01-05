@@ -22,7 +22,7 @@ class Test extends ConfigurableSimulation {
 
   // 1) Executed test steps are moved into "ComputerDatabaseChainBuilder"
   // 2) Scenario name is derived from the simulation coordinates
-  private val users: ScenarioBuilder = scenario(scenarionName)
+  private val users: ScenarioBuilder = scenario(scenarioName)
     .feed(feeder)
     .repeat(simulationLoops) {
       tryMax(simulationTryMax) {
