@@ -22,9 +22,9 @@ import io.gatling.http.Predef._
 
 class Test extends Simulation {
 
-  val httpProtocol = http.baseUrl("https://postman-echo.com")
+  private val httpProtocol = http.baseUrl("https://postman-echo.com")
 
-  val scn = scenario("Postman")
+  private val scn = scenario("Postman")
     .exec(http("GET")
       .get("/get?foo1=bar1&foo2=bar2")
       .check(status is 200)

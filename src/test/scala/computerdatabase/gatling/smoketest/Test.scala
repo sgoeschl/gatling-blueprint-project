@@ -9,7 +9,7 @@ import io.gatling.core.structure.ScenarioBuilder
 class Test extends ConfigurableSimulation {
 
   // Resolve to "user-files/data/tenant/local/computerdatabase/smoketest/search.csv""
-  val feeder = csv(resolveFile("search.csv"))
+  private val feeder = csv(resolveFile("search.csv"))
 
   // The base URL is taken from "user-files/data/computerdatabase/tenant/environment.properties"
   private val httpProtocol = DefaultHttpProtocolBuilder.create()
