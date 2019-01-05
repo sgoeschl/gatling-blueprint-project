@@ -18,7 +18,6 @@
                 <exclude>./user-files/archive/**</exclude>
                 <exclude>./user-files/expected/**</exclude>
                 <exclude>./lib/**</exclude>
-                <exclude>./src/main/assembly/**</exclude>
                 <exclude>./src/overlay/**</exclude>
                 <exclude>./build/**</exclude>
             </excludes>

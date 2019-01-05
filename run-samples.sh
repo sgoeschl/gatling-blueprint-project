@@ -2,7 +2,7 @@
 
 # Run all the samples being documented 
 
-mvn -Pstandalone clean package
+mvn clean package
 
 echo "Computer Database BasicSimulation"
 mvn -Dgatling.simulationClass=computerdatabase.BasicSimulation gatling:test
