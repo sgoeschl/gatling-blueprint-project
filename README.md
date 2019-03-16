@@ -228,7 +228,7 @@ or run the `Ant Standalone Distribution` using
 
 ```text
 > mvn -Pstandalone clean package
-> cd target/distributable/gatling-charts-highcharts-bundle-3.0.2/
+> cd target/distributable/gatling-charts-highcharts-bundle-3.0.3/
 > ant -Dapplication=elasticapi -Dtenant=elastic -Dscope=smoketest -Dsite=local clean info test
 ```
 
@@ -302,7 +302,7 @@ The Ant integration is used to more easily distribute Gatling test only requirin
 
 ```text
 mvn -Pstandalone clean install
-cd target/distributable/gatling-charts-highcharts-bundle-3.0.2/
+cd target/distributable/gatling-charts-highcharts-bundle-3.0.3/
 ```
 
 You can hava a look at all available Ant targets

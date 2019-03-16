@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. We try to adhere to https://github.com/olivierlacan/keep-a-changelog.
 
+## 3.0.3
+
+### Changed
+- Upgrad to Gatling 3.0.3 and Gatling Maven Plugin 3.0.2
+
 ## 3.0.2
 
 ### Changed
