@@ -149,7 +149,13 @@
                                             <artifactId>boon-json</artifactId>
                                             <version>0.6.6</version>
                                             <overWrite>false</overWrite>
-                                        </artifactItem>                                        
+                                        </artifactItem>      
+                                        <artifactItem>
+                                            <groupId>io.advantageous.boon</groupId>
+                                            <artifactId>boon-reflekt</artifactId>
+                                            <version>0.6.6</version>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>                                                                             
                                     </artifactItems>
                                     <outputDirectory>
                                         ${distributable.dir}/gatling-charts-highcharts-bundle-${gatling.version}/lib
