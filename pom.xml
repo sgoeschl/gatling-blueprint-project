@@ -5,7 +5,7 @@
 
     <groupId>org.github.sgoeschl.gatling</groupId>
     <artifactId>gatling-blueprint-project</artifactId>
-    <version>3.0.3.</version>
+    <version>3.1.1</version>
     <name>Gatling Blueprint Project</name>
     <description>Gatling sample project to show multi-tenant &amp; multi-site support</description>
     <url>https://github.com/sgoeschl/gatling-blueprint-project</url>
@@ -33,10 +33,10 @@
         <distributable.dir>${project.build.directory}/distributable</distributable.dir>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-        <gatling.version>3.0.3</gatling.version>
+        <gatling.version>3.1.1</gatling.version>
         <gatling-maven-plugin.version>3.0.2</gatling-maven-plugin.version>
         <gatling-blueprint-extensions.version>2.2.6.1</gatling-blueprint-extensions.version>
-        <scala-maven-plugin.version>3.3.1</scala-maven-plugin.version>
+        <scala-maven-plugin.version>3.4.6</scala-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -138,6 +138,16 @@
                                             <version>1.0b3</version>
                                             <overWrite>false</overWrite>
                                         </artifactItem>
+                                        <dependency>
+                                            <groupId>io.advantageous.boon</groupId>
+                                            <artifactId>boon-json</artifactId>
+                                            <version>0.6.6</version>
+                                        </dependency>
+                                        <dependency>
+                                            <groupId>io.advantageous.boon</groupId>
+                                            <artifactId>boon-reflekt</artifactId>
+                                            <version>0.6.6</version>
+                                        </dependency>
                                         <artifactItem>
                                             <groupId>com.github.sgoeschl.gatling</groupId>
                                             <artifactId>gatling-blueprint-extensions</artifactId>

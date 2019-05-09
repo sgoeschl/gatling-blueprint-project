@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file. We try to a
 ## 3.0.3
 
 ### Changed
+- Upgrade to Gatling 3.1.1 and Scala Maven Plugin 3.4.6
+
+### Fixed
+- Gatling Standalone Distribution lacked "boon-reflekt" library
+
+## 3.0.3
+
+### Changed
 - Upgrad to Gatling 3.0.3 and Gatling Maven Plugin 3.0.2
 
 ## 3.0.2

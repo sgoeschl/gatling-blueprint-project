@@ -228,7 +228,7 @@ or run the `Ant Standalone Distribution` using
 
 ```text
 > mvn -Pstandalone clean package
-> cd target/distributable/gatling-charts-highcharts-bundle-3.0.3/
+> cd target/distributable/gatling-charts-highcharts-bundle-3.1.1/
 > ant -Dapplication=elasticapi -Dtenant=elastic -Dscope=smoketest -Dsite=local clean info test
 ```
 
