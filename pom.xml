@@ -5,7 +5,7 @@
 
     <groupId>org.github.sgoeschl.gatling</groupId>
     <artifactId>gatling-blueprint-project</artifactId>
-    <version>3.1.1</version>
+    <version>3.1.2</version>
     <name>Gatling Blueprint Project</name>
     <description>Gatling sample project to show multi-tenant &amp; multi-site support</description>
     <url>https://github.com/sgoeschl/gatling-blueprint-project</url>
@@ -33,7 +33,7 @@
         <distributable.dir>${project.build.directory}/distributable</distributable.dir>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-        <gatling.version>3.1.1</gatling.version>
+        <gatling.version>3.1.2</gatling.version>
         <gatling-maven-plugin.version>3.0.2</gatling-maven-plugin.version>
         <gatling-blueprint-extensions.version>2.2.6.1</gatling-blueprint-extensions.version>
         <scala-maven-plugin.version>3.4.6</scala-maven-plugin.version>
@@ -209,8 +209,8 @@
                                 <configuration>
                                     <artifacts>
                                         <artifact>
-                                            <file>${project.basedir}/target/gatling-blueprint-project.tar.gz</file>
-                                            <type>tar.gz</type>
+                                            <file>${project.basedir}/target/gatling-charts-highcharts-bundle-${gatling.version}-bundle.zip</file>
+                                            <type>zip</type>
                                             <classifier>standalone</classifier>
                                         </artifact>
                                     </artifacts>

@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file. We try to adhere to https://github.com/olivierlacan/keep-a-changelog.
 
-## 3.0.3
+## 3.1.2
+
+# Changed
+
+- Upgrade to Gatling 3.1.2
+
+# Fixed
+
+- Add missing dependency for standalone distribution (Boon)
+
+## 3.1.1
 
 ### Changed
 - Upgrade to Gatling 3.1.1 and Scala Maven Plugin 3.4.6

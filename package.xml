@@ -25,9 +25,9 @@
     <!-- import environment variables -->
     <property environment="env" />
 
-    <property name="gatling.dist.name" value="gatling-charts-highcharts-bundle-3.1.1" />
-    <property name="maven.build.dir" value="${basedir}/target" />
-    <property name="gatling.dist.dir" value="${maven.build.dir}/distributable/${gatling.dist.name}" />
+    <property name="gatling.dist.name" value="gatling-charts-highcharts-bundle-3.1.2" />
+    <property name="maven.distributable.dir" value="${basedir}/target/distributable" />
+    <property name="gatling.dist.dir" value="${maven.distributable.dir}/${gatling.dist.name}" />
 
     <!-- ############################################################## -->
     <!-- General Targets                                                -->
@@ -69,7 +69,8 @@
     </target>
 
     <target name="gatling:create-distributables">
-        <tar destfile="./target/gatling-blueprint-project.tar.gz" compression="gzip" basedir="${gatling.dist.dir}" />
+        <!-- <tar destfile="./target/${gatling.dist.name}-bundle.tar.gz" compression="gzip" basedir="${maven.distributable.dir}" /> -->
+        <zip destfile="./target/${gatling.dist.name}-bundle.zip" basedir="${maven.distributable.dir}"/>
     </target>
 
 </project>

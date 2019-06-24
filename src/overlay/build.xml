@@ -211,11 +211,24 @@
         <java
                 fork="true"
                 failonerror="true"
-                maxmemory="256m"
+                maxmemory="1024m"
                 classpathref="gatling.compiler.class.path"
                 classname="io.gatling.compiler.ZincCompiler">
             <env key="GATLING_HOME" path="${gatling.home}" />
             <env key="GATLING_CONF" path="${gatling.conf}" />
+            <jvmarg value="-Xss100M" />
+            <jvmarg value="-server" />
+            <jvmarg value="-XX:+HeapDumpOnOutOfMemoryError" />
+            <jvmarg value="-XX:+UseG1GC" />
+            <jvmarg value="-XX:MaxGCPauseMillis=30" />
+            <jvmarg value="-XX:G1HeapRegionSize=16m" />
+            <jvmarg value="-XX:InitiatingHeapOccupancyPercent=75" />
+            <jvmarg value="-XX:+ParallelRefProcEnabled" />
+            <jvmarg value="-XX:+PerfDisableSharedMem" />
+            <jvmarg value="-XX:+AggressiveOpts" />
+            <jvmarg value="-XX:+OptimizeStringConcat" />
+            <jvmarg value="-Djava.net.preferIPv4Stack=true" />
+            <jvmarg value="-Djava.net.preferIPv6Addresses=false" />
         </java>
     </target>
 
@@ -234,6 +247,7 @@
             <env key="GATLING_HOME" path="${gatling.home}" />
             <env key="GATLING_CONF" path="${gatling.conf}" />
             <jvmarg value="-server" />
+            <jvmarg value="-XX:+HeapDumpOnOutOfMemoryError" />
             <jvmarg value="-XX:+UseG1GC" />
             <jvmarg value="-XX:MaxGCPauseMillis=30" />
             <jvmarg value="-XX:G1HeapRegionSize=16m" />
@@ -242,7 +256,6 @@
             <jvmarg value="-XX:+PerfDisableSharedMem" />
             <jvmarg value="-XX:+AggressiveOpts" />
             <jvmarg value="-XX:+OptimizeStringConcat" />
-            <jvmarg value="-XX:+HeapDumpOnOutOfMemoryError" />
             <jvmarg value="-Djava.net.preferIPv4Stack=true" />
             <jvmarg value="-Djava.net.preferIPv6Addresses=false" />
             <jvmarg value="-Dsite=${site}" />
@@ -255,6 +268,7 @@
             <arg value="-rd" />
             <arg value="${id}" />
         </java>
+        <echo>Gatling Exit Code : ${gatling.exit.code}</echo>
         <if>
             <not>
                 <equals arg1="${gatling.exit.code}" arg2="0" />
