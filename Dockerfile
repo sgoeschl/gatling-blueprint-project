@@ -33,4 +33,4 @@ RUN rm -rf ${GATLING_HOME}/conf && \
 	wget ${MAVEN_REPO_URL}/io/advantageous/boon/boon-reflekt/0.6.6/boon-reflekt-0.6.6.jar -O $GATLING_HOME/lib/boon-reflekt-0.6.6.jar && \
 	wget ${MAVEN_REPO_URL}/com/github/sgoeschl/gatling/gatling-blueprint-extensions/2.2.6.1/gatling-blueprint-extensions-2.2.6.1.jar -O $GATLING_HOME/lib/gatling-blueprint-extensions-2.2.6.1.jar
 
-COPY ./conf ${GATLING_HOME}/conf 
+COPY ./conf ${GATLING_HOME}/conf

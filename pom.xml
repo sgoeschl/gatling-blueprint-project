@@ -87,6 +87,19 @@
                             <goal>single</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>simulation-distribution</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tarLongFileMode>gnu</tarLongFileMode>
+                            <descriptors>
+                                <descriptor>src/main/assembly/simulation.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file. We try to a
 # Added
 
 - Dockerfile
+- Create a "gatling-blueprint-project-x.y.z-simulation.zip" which is compatible with Gatling Standalone usage
+- Add "simulation.sh" which is compatible with Gatling Standalone usage
 
 # Changed
 
