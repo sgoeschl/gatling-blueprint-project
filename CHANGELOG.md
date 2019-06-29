@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. We try to a
 
 ## 3.1.2
 
+# Added
+
+- Dockerfile
+
 # Changed
 
 - Upgrade to Gatling 3.1.2

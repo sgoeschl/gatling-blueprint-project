@@ -31,6 +31,7 @@ class Test extends ConfigurableSimulation {
     users.inject(atOnceUsers(simulationUsersAtOnce), rampUsers(simulationUsers) during simulationUsersRampup))
     .protocols(httpProtocol)
     .pauses(constantPauses)
+    .assertions(global.failedRequests.count.is(0))
 
   before {
     println("Simulation is about to start!")
