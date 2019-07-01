@@ -5,6 +5,8 @@
 #
 # > docker build -t gatling-blueprint-project:3.1.2 .
 # > docker run --rm -it --entrypoint=/bin/bash gatling-blueprint-project:3.1.2
+# > docker run gatling-blueprint-project:3.1.2 /bin/bash -c "cd /usr/share/gatling; ./bin/gatling.sh -s computerdatabase.BasicSimulation"; echo "$?"
+
 
 FROM openjdk:8-jdk-stretch
 
@@ -25,8 +27,8 @@ RUN apt-get update && \
 	rm /tmp/gatling.zip && \
  	mkdir $GATLING_HOME/target && \
  	chmod 555 $GATLING_HOME/bin/*.sh && \
- 	chmod 666 $GATLING_HOME/target && \
- 	chmod 666 $GATLING_HOME/results 	
+ 	chmod -R 777 $GATLING_HOME/target && \
+ 	chmod -R 777 $GATLING_HOME/results
 
 RUN rm -rf ${GATLING_HOME}/conf && \
 	wget ${MAVEN_REPO_URL}/io/advantageous/boon/boon-json/0.6.6/boon-json-0.6.6.jar -O $GATLING_HOME/lib/boon-json-0.6.6.jar && \
