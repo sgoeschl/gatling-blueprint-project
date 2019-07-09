@@ -15,7 +15,7 @@
     <!-- Disable NativeLibraryLoader debug output since it shows ugly exceptions -->
     <logger name="io.netty.util.internal.NativeLibraryLoader" level="INFO" />
 
-    <root level="INFO">
+    <root level="WARN">
         <appender-ref ref="CONSOLE" />
     </root>
 
