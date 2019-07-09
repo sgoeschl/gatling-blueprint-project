@@ -3,9 +3,9 @@
 # - Create a Gatling installation in "/usr/share/gatling"
 # - Install additional libraries for gatling-blueprint-project
 #
-# > docker build -t gatling-blueprint-project:3.1.2 .
-# > docker run --rm -it --entrypoint=/bin/bash gatling-blueprint-project:3.1.2
-# > docker run gatling-blueprint-project:3.1.2 /bin/bash -c "cd /usr/share/gatling; ./bin/gatling.sh -s computerdatabase.BasicSimulation"; echo "$?"
+# > docker build -t gatling-blueprint-project:3.1.3 .
+# > docker run --rm -it --entrypoint=/bin/bash gatling-blueprint-project:3.1.3
+# > docker run gatling-blueprint-project:3.1.3 /bin/bash -c "cd /usr/share/gatling; ./bin/gatling.sh -s computerdatabase.BasicSimulation"; echo "$?"
 
 
 FROM openjdk:8-jdk-stretch
