@@ -12,7 +12,7 @@ Thanks to Travis for the [build status](https://travis-ci.org/sgoeschl/gatling-b
 
 ## 2. Motivation
 
-During my work at [Erste Group](https://www.erstegroup.com) I came across interesting test scenarios such as
+During my work at various customer sites I came across interesting test scenarios such as
 
 * End-to-End performance testing spanning multiple REST APIs
 * Support of multiple tenants with different test scripts and test data
@@ -212,7 +212,7 @@ After the test run you will see the following directory content
 
 ## 6. How To Test Elastic Server
 
-[Erste Group](https://www.erstegroup.com) is also using Elastic heavily so over the years I implemented some bits & pices to make that testing Elastic more straight-forward
+One of my customers is also using Elastic heavily so over the years I implemented some bits & pices to make that testing Elastic more straight-forward
 
 * The [elastic-slow-query-log-parser](https://github.com/sgoeschl/elastic-slow-query-log-parser) is a blue-print to convert an Elastic slow query log into a TSV file to be used with JMeter or Gatling
 * The TSV file is placed under `./user-files/data/elasticapi/local/elastic` or `./user-files/data/elasticapi/local/elastic/${scope}`
@@ -240,7 +240,9 @@ simulation.users.rampup=10
 simulation.duration=600
 ```
 
-would fire up 10 virtual users within 10 seconds and run as fast as possible for 600 seconds
+would fire up 10 virtual users within 10 seconds and run as fast as possible for 600 seconds-
+
+Please note that this tests requires a running Elastic cluster.
 
 ## 7. Tips And Tricks
 
