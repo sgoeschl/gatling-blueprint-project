@@ -3,4 +3,4 @@ sudo: false
 install: ./travis.sh
 script: mvn clean verify
 jdk:
-  - oraclejdk8
+  - openjdk8
