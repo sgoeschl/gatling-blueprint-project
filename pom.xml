@@ -36,7 +36,7 @@
         <gatling.version>3.3.1</gatling.version>
         <gatling-maven-plugin.version>3.0.5</gatling-maven-plugin.version>
         <gatling-blueprint-extensions.version>2.2.6.1</gatling-blueprint-extensions.version>
-        <scala-maven-plugin.version>3.4.6</scala-maven-plugin.version>
+        <scala-maven-plugin.version>4.3.1</scala-maven-plugin.version>
     </properties>
 
     <dependencies>
