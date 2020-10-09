@@ -247,15 +247,13 @@
             <env key="GATLING_HOME" path="${gatling.home}" />
             <env key="GATLING_CONF" path="${gatling.conf}" />
             <jvmarg value="-server" />
-            <jvmarg value="-XX:+HeapDumpOnOutOfMemoryError" />
-            <jvmarg value="-XX:+UseG1GC" />
+            <jvmarg value="-XX:+UseG1GC" />            
             <jvmarg value="-XX:MaxGCPauseMillis=30" />
             <jvmarg value="-XX:G1HeapRegionSize=16m" />
             <jvmarg value="-XX:InitiatingHeapOccupancyPercent=75" />
             <jvmarg value="-XX:+ParallelRefProcEnabled" />
             <jvmarg value="-XX:+PerfDisableSharedMem" />
-            <jvmarg value="-XX:+AggressiveOpts" />
-            <jvmarg value="-XX:+OptimizeStringConcat" />
+            <jvmarg value="-XX:+HeapDumpOnOutOfMemoryError" />
             <jvmarg value="-Djava.net.preferIPv4Stack=true" />
             <jvmarg value="-Djava.net.preferIPv6Addresses=false" />
             <jvmarg value="-Dsite=${site}" />

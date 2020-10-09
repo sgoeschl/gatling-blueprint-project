@@ -3,14 +3,18 @@
 # - Create a Gatling installation in "/usr/share/gatling"
 # - Install additional libraries for gatling-blueprint-project
 #
-# > docker build -t gatling-blueprint-project:3.1.3 .
-# > docker run --rm -it --entrypoint=/bin/bash gatling-blueprint-project:3.1.3
-# > docker run gatling-blueprint-project:3.1.3 /bin/bash -c "cd /usr/share/gatling; ./bin/gatling.sh -s computerdatabase.BasicSimulation"; echo "$?"
+# > docker build -t gatling-blueprint-project:3.3.1 .
+#
+# Connect into the container and run Gatling tests
+# > docker run --rm -it --entrypoint=/bin/bash gatling-blueprint-project:3.3.1
+#
+# Start Docker Container and execute Gatling tests
+# > docker run gatling-blueprint-project:3.3.1 /bin/bash -c "cd /usr/share/gatling; ./bin/gatling.sh -s computerdatabase.BasicSimulation"; echo "$?"
 
 
 FROM openjdk:8-jdk-stretch
 
-ARG	GATLING_VERSION=3.1.2
+ARG	GATLING_VERSION=3.3.1
 ARG GATLING_HOME=/usr/share/gatling
 ARG MAVEN_REPO_URL=https://repo1.maven.org/maven2
 

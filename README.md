@@ -115,7 +115,7 @@ Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project
 Resolve file 'search.csv' to 'gatling/local/computerdatabase/smoketest/search.csv'
 
 ================================================================================
-2017-11-28 15:09:37                                           1s elapsed
+2020-10-09 20:47:36                                           0s elapsed
 ---- Requests ------------------------------------------------------------------
 > Global                                                   (OK=10     KO=0     )
 > Home                                                     (OK=2      KO=0     )
@@ -126,7 +126,7 @@ Resolve file 'search.csv' to 'gatling/local/computerdatabase/smoketest/search.cs
 
 ---- computerdatabase-gatling-local-smoketest ----------------------------------
 [##########################################################################]100%
-          waiting: 0      / active: 0      / done:2     
+          waiting: 0      / active: 0      / done: 2     
 ================================================================================
 ```
 
@@ -143,7 +143,7 @@ Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project
 Resolve file 'search.csv' to 'gatling/local/computerdatabase/search.csv'
 
 ================================================================================
-2017-11-28 15:12:35                                          49s elapsed
+2020-10-09 20:49:16                                          48s elapsed
 ---- Requests ------------------------------------------------------------------
 > Global                                                   (OK=45     KO=0     )
 > Home                                                     (OK=5      KO=0     )
@@ -158,8 +158,9 @@ Resolve file 'search.csv' to 'gatling/local/computerdatabase/search.csv'
 
 ---- computerdatabase-gatling-local-functional ---------------------------------
 [##########################################################################]100%
-          waiting: 0      / active: 0      / done:5     
+          waiting: 0      / active: 0      / done: 5     
 ================================================================================
+
 ```
 
 ### 5.3 GitHub REST API
@@ -193,7 +194,7 @@ Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/u
 Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/target/gatling
 
 ================================================================================
-2017-11-28 15:14:30                                           6s elapsed
+2020-10-09 20:50:07                                           5s elapsed
 ---- Requests ------------------------------------------------------------------
 > Global                                                   (OK=3      KO=0     )
 > Home                                                     (OK=1      KO=0     )
@@ -202,7 +203,7 @@ Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project
 
 ---- githubapi-github-local-functional -----------------------------------------
 [##########################################################################]100%
-          waiting: 0      / active: 0      / done:1     
+          waiting: 0      / active: 0      / done: 1     
 ================================================================================
 ```
 
@@ -261,7 +262,7 @@ mvn -Dgatling.simulationClass=computerdatabase.gatling.functional.Test clean gat
 mvn -Dlogback.configurationFile=conf/logback-debug.xml -Dgatling.simulationClass=computerdatabase.gatling.functional.Test clean gatling:test
 ```
 
-There are a couple of system parameters allowing to overwrite the [Gatling 3.0.0 Maven plugin configuration](https://github.com/gatling/gatling-maven-plugin/blob/master/src/main/java/io/gatling/mojo/GatlingMojo.java)
+There are a couple of system parameters allowing to overwrite the [Gatling Maven plugin configuration](https://github.com/gatling/gatling-maven-plugin/blob/master/src/main/java/io/gatling/mojo/GatlingMojo.java)
 
 | Property                            | Description                                                                                                 |
 |-------------------------------------|-------------------------------------------------------------------------------------------------------------|
@@ -300,11 +301,13 @@ Please note that doing that on Windows has issues - you start a batch file which
 
 ### 7.4 Running the Standalone Gatling Distribution Using Apache Ant
 
-The Ant integration is used to more easily distribute Gatling test only requiring JDK 1.8 and Ant installation in secure environments. Before you can use the Ant integration you need to create the stand-alone distribution as shown below
+The Ant integration is used to more easily distribute Gatling test only requiring JDK 1.8 and Ant installation in secure environments (aka unable to download Maven dependencies)-
+
+Before you can use the Ant integration you need to create the stand-alone distribution as shown below
 
 ```text
 mvn -Pstandalone clean install
-cd target/distributable/gatling-charts-highcharts-bundle-3.1.2/
+cd target/distributable/gatling-charts-highcharts-bundle-3.3.1/
 ```
 
 You can hava a look at all available Ant targets

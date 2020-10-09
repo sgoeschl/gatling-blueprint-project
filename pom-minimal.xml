@@ -16,8 +16,8 @@
         <scala.version>2.12.10</scala.version>
         <encoding>UTF-8</encoding>
         <gatling.version>3.3.1</gatling.version>
-        <gatling-plugin.version>3.0.5</gatling-plugin.version>
-        <scala-maven-plugin.version>3.4.6</scala-maven-plugin.version>
+        <gatling-plugin.version>3.1.0</gatling-plugin.version>
+        <scala-maven-plugin.version>4.4.0</scala-maven-plugin.version>
         <gatling-blueprint-extensions.version>2.2.6.1</gatling-blueprint-extensions.version>
     </properties>
 
