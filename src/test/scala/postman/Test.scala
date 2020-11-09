@@ -30,12 +30,21 @@ class Test extends Simulation {
       .check(status is 200)
       .check(bodyBytes.transform(_.length > 200).is(true))
     )
-    .exec(http("POST")
+    .exec(http("POST Form Data")
       .post("/post")
       .formParam("foo", "bar")
       .check(status is 200)
       .check(bodyBytes.transform(_.length > 200).is(true)))
-
+    .exec(http("POST JSON")
+      .post("/post")
+      .body(StringBody(
+        """{
+          "customerRewardsId":"customerRewardsId",
+          "customerId":"customerId",
+          "transactionDate":"transactionDate"
+        }""")).asJson
+      .check(status is 200)
+      .check(bodyBytes.transform(_.length > 200).is(true)))
 
   setUp(scn.inject(atOnceUsers(1)).protocols(httpProtocol)).assertions(global.failedRequests.count.is(0))
 }

@@ -11,7 +11,6 @@
 # Start Docker Container and execute Gatling tests
 # > docker run gatling-blueprint-project:3.3.1 /bin/bash -c "cd /usr/share/gatling; ./bin/gatling.sh -s computerdatabase.BasicSimulation"; echo "$?"
 
-
 FROM openjdk:8-jdk-stretch
 
 ARG	GATLING_VERSION=3.3.1
