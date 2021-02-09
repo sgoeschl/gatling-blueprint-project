@@ -41,13 +41,13 @@ object ConfigurationTool {
 
   def init(configuration: GatlingConfiguration): Unit = {
     coordinates = SimulationCoordinates.from(configuration.core.simulationClass.get, System.getProperties)
-    dataDirectory = new File(configuration.core.directory.resources).getAbsoluteFile
-    resultDirectory = new File(configuration.core.directory.results).getAbsoluteFile
+    dataDirectory = configuration.core.directory.resources.toFile
+    resultDirectory = configuration.core.directory.results.toFile
     environmentProperties = EnvironmentPropertiesResolver.resolveProperties(dataDirectory, coordinates)
     proxyHost = environmentProperties.getProperty("proxy.host")
     proxyPort = environmentProperties.getProperty("proxy.port", "8080").toInt
     proxyPortSecure = environmentProperties.getProperty("proxy.port.secure", "8080").toInt
-    hasProxy = proxyHost != null && !proxyHost.trim.isEmpty
+    hasProxy = proxyHost != null && proxyHost.trim.nonEmpty
     initialized = true
   }
 
@@ -67,7 +67,7 @@ object ConfigurationTool {
 
   def hasBaseURL(system: String): Boolean = {
     val baseURL = createBaseURL(system)
-    baseURL != null && !baseURL.isEmpty
+    baseURL != null && baseURL.nonEmpty
   }
 
   /**

@@ -18,12 +18,11 @@
 package gatling.blueprint
 
 import java.io.File
-
 import io.gatling.core.Predef._
 import org.github.sgoeschl.gatling.blueprint.extensions.boon.FilteringJsonPrettyPrinter
 import org.github.sgoeschl.gatling.blueprint.extensions.file.FileUtil
 
-import scala.collection.JavaConverters._
+import scala.jdk.javaapi.CollectionConverters.asJava
 
 object JsonResponseTool {
 
@@ -41,7 +40,7 @@ object JsonResponseTool {
     */
   def saveToFile(value: String, fileNameParts: String*): Unit = {
     if (isResponseSaved) {
-      val file = FileUtil.createFile(directory, "json", seqAsJavaList(fileNameParts))
+      val file = FileUtil.createFile(directory, "json", asJava(fileNameParts))
       FileUtil.writeToFile(file, value)
     }
   }
@@ -56,7 +55,7 @@ object JsonResponseTool {
     */
   def saveToFile(session: Session, key: String, fileNameParts: String*): Unit = {
     if (isResponseSaved) {
-      val file = FileUtil.createFile(directory, "json", seqAsJavaList(fileNameParts))
+      val file = FileUtil.createFile(directory, "json", asJava(fileNameParts))
       val prettyPrintedJson = FilteringJsonPrettyPrinter.prettyPrint(session.attributes.getOrElse(key, ""))
       FileUtil.writeToFile(file, prettyPrintedJson)
     }
@@ -73,7 +72,7 @@ object JsonResponseTool {
   def modify(session: Session, key: String, skippedJsonKeys: String*): String = {
     if (isResponseSaved) {
       val json = session.attributes.getOrElse(key, null)
-      FilteringJsonPrettyPrinter.print(json, seqAsJavaList(skippedJsonKeys))
+      FilteringJsonPrettyPrinter.print(json, asJava(skippedJsonKeys))
     }
     else {
       emptyJson

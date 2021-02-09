@@ -5,7 +5,7 @@
 
     <groupId>org.github.sgoeschl.gatling</groupId>
     <artifactId>gatling-blueprint-project</artifactId>
-    <version>3.3.1</version>
+    <version>3.5.1</version>
     <name>Gatling Blueprint Project</name>
     <description>Gatling sample project to show multi-tenant &amp; multi-site support</description>
     <url>https://github.com/sgoeschl/gatling-blueprint-project</url>
@@ -33,8 +33,8 @@
         <distributable.dir>${project.build.directory}/distributable</distributable.dir>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-        <gatling.version>3.3.1</gatling.version>
-        <gatling-maven-plugin.version>3.1.0</gatling-maven-plugin.version>
+        <gatling.version>3.5.1</gatling.version>
+        <gatling-maven-plugin.version>3.1.1</gatling-maven-plugin.version>
         <gatling-blueprint-extensions.version>2.2.6.1</gatling-blueprint-extensions.version>
         <scala-maven-plugin.version>4.4.0</scala-maven-plugin.version>
     </properties>
@@ -59,6 +59,26 @@
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
                 <version>${scala-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <jvmArgs>
+                                <jvmArg>-Xss100M</jvmArg>
+                            </jvmArgs>
+                            <args>
+                                <arg>-target:jvm-1.8</arg>
+                                <arg>-deprecation</arg>
+                                <arg>-feature</arg>
+                                <arg>-unchecked</arg>
+                                <arg>-language:implicitConversions</arg>
+                                <arg>-language:postfixOps</arg>
+                            </args>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>io.gatling</groupId>
@@ -66,7 +86,7 @@
                 <version>${gatling-maven-plugin.version}</version>
                 <configuration>
                     <configFolder>${project.basedir}/conf</configFolder>
-                    <resourcesFolder>src/test/resources</resourcesFolder>
+                    <resourcesFolder>${project.basedir}/src/test/resources</resourcesFolder>
                 </configuration>
             </plugin>
             <plugin>

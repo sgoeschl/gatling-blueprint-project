@@ -3,17 +3,17 @@
 # - Create a Gatling installation in "/usr/share/gatling"
 # - Install additional libraries for gatling-blueprint-project
 #
-# > docker build -t gatling-blueprint-project:3.3.1 .
+# > docker build -t gatling-blueprint-project:3.5.1 .
 #
 # Connect into the container and run Gatling tests
-# > docker run --rm -it --entrypoint=/bin/bash gatling-blueprint-project:3.3.1
+# > docker run --rm -it --entrypoint=/bin/bash gatling-blueprint-project:3.5.1
 #
 # Start Docker Container and execute Gatling tests
-# > docker run gatling-blueprint-project:3.3.1 /bin/bash -c "cd /usr/share/gatling; ./bin/gatling.sh -s computerdatabase.BasicSimulation"; echo "$?"
+# > docker run gatling-blueprint-project:3.5.1 /bin/bash -c "cd /usr/share/gatling; ./bin/gatling.sh -s computerdatabase.BasicSimulation"; echo "$?"
 
 FROM openjdk:8-jdk-stretch
 
-ARG	GATLING_VERSION=3.3.1
+ARG	GATLING_VERSION=3.5.1
 ARG GATLING_HOME=/usr/share/gatling
 ARG MAVEN_REPO_URL=https://repo1.maven.org/maven2
 
@@ -31,10 +31,10 @@ RUN apt-get update && \
  	mkdir $GATLING_HOME/target && \
  	chmod 555 $GATLING_HOME/bin/*.sh && \
  	chmod -R 777 $GATLING_HOME/target && \
- 	chmod -R 777 $GATLING_HOME/results
+ 	chmod -R 777 $GATLING_HOME/results && \
+ 	rm -rf ${GATLING_HOME}/conf
 
-RUN rm -rf ${GATLING_HOME}/conf && \
-	wget ${MAVEN_REPO_URL}/io/advantageous/boon/boon-json/0.6.6/boon-json-0.6.6.jar -O $GATLING_HOME/lib/boon-json-0.6.6.jar && \
+RUN wget ${MAVEN_REPO_URL}/io/advantageous/boon/boon-json/0.6.6/boon-json-0.6.6.jar -O $GATLING_HOME/lib/boon-json-0.6.6.jar && \
 	wget ${MAVEN_REPO_URL}/io/advantageous/boon/boon-reflekt/0.6.6/boon-reflekt-0.6.6.jar -O $GATLING_HOME/lib/boon-reflekt-0.6.6.jar && \
 	wget ${MAVEN_REPO_URL}/com/github/sgoeschl/gatling/gatling-blueprint-extensions/2.2.6.1/gatling-blueprint-extensions-2.2.6.1.jar -O $GATLING_HOME/lib/gatling-blueprint-extensions-2.2.6.1.jar
 
