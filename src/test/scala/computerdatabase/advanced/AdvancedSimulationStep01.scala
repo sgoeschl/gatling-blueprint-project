@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2018 GatlingCorp (https://gatling.io)
+ * Copyright 2011-2021 GatlingCorp (https://gatling.io)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,10 @@
 
 package computerdatabase.advanced
 
+import scala.concurrent.duration._
+
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import scala.concurrent.duration._
 
 class AdvancedSimulationStep01 extends Simulation {
 
@@ -27,50 +28,64 @@ class AdvancedSimulationStep01 extends Simulation {
   // object are native Scala singletons
   object Search {
 
-    val search = exec(http("Home") // let's give proper names, they are displayed in the reports, and used as keys
-      .get("/"))
-      .pause(1) // let's set the pauses to 1 sec for demo purpose
-      .exec(http("Search")
-        .get("/computers?f=macbook"))
+    val search = exec(
+      http("Home") // let's give proper names, they are displayed in the reports, and used as keys
+        .get("/")
+    ).pause(1) // let's set the pauses to 1 sec for demo purpose
+      .exec(
+        http("Search")
+          .get("/computers?f=macbook")
+      )
       .pause(1)
-      .exec(http("Select")
-        .get("/computers/6"))
+      .exec(
+        http("Select")
+          .get("/computers/6")
+      )
       .pause(1)
   }
 
   object Browse {
 
-    val browse = exec(http("Home")
-      .get("/"))
-      .pause(2)
-      .exec(http("Page 1")
-        .get("/computers?p=1"))
-      .pause(670 milliseconds)
-      .exec(http("Page 2")
-        .get("/computers?p=2"))
-      .pause(629 milliseconds)
-      .exec(http("Page 3")
-        .get("/computers?p=3"))
-      .pause(734 milliseconds)
-      .exec(http("Page 4")
-        .get("/computers?p=4"))
+    val browse = exec(
+      http("Home")
+        .get("/")
+    ).pause(2)
+      .exec(
+        http("Page 1")
+          .get("/computers?p=1")
+      )
+      .pause(670.milliseconds)
+      .exec(
+        http("Page 2")
+          .get("/computers?p=2")
+      )
+      .pause(629.milliseconds)
+      .exec(
+        http("Page 3")
+          .get("/computers?p=3")
+      )
+      .pause(734.milliseconds)
+      .exec(
+        http("Page 4")
+          .get("/computers?p=4")
+      )
       .pause(5)
   }
 
   object Edit {
 
-    val headers_10 = Map("Content-Type" -> "application/x-www-form-urlencoded")
-
-    val edit = exec(http("Form")
-      .get("/computers/new"))
-      .pause(1)
-      .exec(http("Post")
-        .post("/computers")
-        .headers(headers_10)
-        .formParam("name", "Beautiful Computer")
-        .formParam("introduced", "2012-05-30")
-        .formParam("discontinued", "")
-        .formParam("company", "37"))
+    val edit = exec(
+      http("Form")
+        .get("/computers/new")
+    ).pause(1)
+      .exec(
+        http("Post")
+          .post("/computers")
+          .formParam("name", "Beautiful Computer")
+          .formParam("introduced", "2012-05-30")
+          .formParam("discontinued", "")
+          .formParam("company", "37")
+      )
   }
 
   val httpProtocol = http

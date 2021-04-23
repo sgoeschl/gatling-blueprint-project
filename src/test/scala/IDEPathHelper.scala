@@ -1,18 +1,14 @@
-import io.gatling.commons.shared.unstable.util.PathHelper.RichPath
-
-import java.nio.file.{Path, Paths}
+import java.nio.file.Paths
 
 object IDEPathHelper {
 
-  val projectRootDir: Path = Paths.get(getClass.getClassLoader.getResource("gatling.conf").toURI).getParent.getParent.getParent
+	private val projectRootDir = Paths.get(getClass.getClassLoader.getResource("gatling.conf").toURI).getParent.getParent.getParent
+	private val mavenTargetDirectory = projectRootDir.resolve("target")
+	private val mavenSrcTestDirectory = projectRootDir.resolve("src").resolve("test")
 
-  val mavenSourcesDirectory: Path = projectRootDir / "src" / "test" / "scala"
-  val mavenResourcesDirectory: Path = projectRootDir / "src" / "test" / "resources"
-  val mavenTargetDirectory: Path = projectRootDir / "target"
-  val mavenBinariesDirectory: Path = mavenTargetDirectory / "test-classes"
-
-  val resourcesDirectory: Path = mavenResourcesDirectory
-  val recorderSimulationsDirectory: Path = mavenSourcesDirectory
-  val resultsDirectory: Path = mavenTargetDirectory / "gatling"
-  val recorderConfigFile: Path = projectRootDir / "conf" / "recorder.conf"
+	val mavenSourcesDirectory = mavenSrcTestDirectory.resolve("scala")
+	val mavenResourcesDirectory = mavenSrcTestDirectory.resolve("resources")
+	val mavenBinariesDirectory = mavenTargetDirectory.resolve("test-classes")
+	val resultsDirectory = mavenTargetDirectory.resolve("gatling")
+	val recorderConfigFile = mavenResourcesDirectory.resolve("recorder.conf")
 }

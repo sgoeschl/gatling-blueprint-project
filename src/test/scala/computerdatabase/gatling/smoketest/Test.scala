@@ -28,7 +28,7 @@ class Test extends ConfigurableSimulation {
     }
 
   setUp(
-    users.inject(atOnceUsers(simulationUsersAtOnce), rampUsers(simulationUsers) during simulationUsersRampup))
+    users.inject(atOnceUsers(simulationUsersAtOnce)))
     .protocols(httpProtocol)
     .pauses(constantPauses)
     .assertions(global.failedRequests.count.is(0))

@@ -1,60 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.github.sgoeschl.gatling</groupId>
     <artifactId>gatling-blueprint-project</artifactId>
     <version>3.5.1</version>
-    <name>Gatling Blueprint Project</name>
-    <description>Gatling sample project to show multi-tenant &amp; multi-site support</description>
+    <name>Gatling Blueprint POM</name>
+    <description>Minimal POM based on the Gatling archetype</description>
     <url>https://github.com/sgoeschl/gatling-blueprint-project</url>
-
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <name>Siegfried Goeschl</name>
-            <organization>GitHub</organization>
-            <organizationUrl>https://github.com/sgoeschl</organizationUrl>
-        </developer>
-    </developers>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <encoding>UTF-8</encoding>
-        <distributable.dir>${project.build.directory}/distributable</distributable.dir>
-        <build.timestamp>${maven.build.timestamp}</build.timestamp>
-        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-        <gatling.version>3.5.1</gatling.version>
-        <gatling-maven-plugin.version>3.1.1</gatling-maven-plugin.version>
-        <gatling-blueprint-extensions.version>2.2.6.1</gatling-blueprint-extensions.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <gatling.version>${project.version}</gatling.version>
+        <gatling-maven-plugin.version>3.1.2</gatling-maven-plugin.version>
+        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
         <scala-maven-plugin.version>4.4.0</scala-maven-plugin.version>
+        <gatling-blueprint-extensions.version>2.2.6.1</gatling-blueprint-extensions.version>
+        <!-- Avoid running tests by maven-surefire-plugin -->
+        <maven.test.skip>true</maven.test.skip>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.gatling.highcharts</groupId>
+                <artifactId>gatling-charts-highcharts</artifactId>
+                <version>${gatling.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.sgoeschl.gatling</groupId>
+                <artifactId>gatling-blueprint-extensions</artifactId>
+                <version>${gatling-blueprint-extensions.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
             <groupId>io.gatling.highcharts</groupId>
             <artifactId>gatling-charts-highcharts</artifactId>
-            <version>${gatling.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <!-- Required only if you are using ConfigurableSimulation -->
             <groupId>com.github.sgoeschl.gatling</groupId>
             <artifactId>gatling-blueprint-extensions</artifactId>
-            <version>${gatling-blueprint-extensions.version}</version>
-        </dependency>        
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
     <build>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
         <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+            </plugin>
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
@@ -84,176 +93,7 @@
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-maven-plugin</artifactId>
                 <version>${gatling-maven-plugin.version}</version>
-                <configuration>
-                    <configFolder>${project.basedir}/conf</configFolder>
-                    <resourcesFolder>${project.basedir}/src/test/resources</resourcesFolder>
-                </configuration>
-            </plugin>
-            <plugin>
-                <!-- Build a gatling-blueprint-project-${version}-src.tar.gz -->
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>src-distribution</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <tarLongFileMode>gnu</tarLongFileMode>
-                            <descriptors>
-                                <descriptor>src/main/assembly/src.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>simulation-distribution</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <tarLongFileMode>gnu</tarLongFileMode>
-                            <descriptors>
-                                <descriptor>src/main/assembly/simulation.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <!-- Build a stand-alone distribution using JDK & Ant only -->
-            <id>standalone</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>3.1.1</version>
-                        <executions>
-                            <execution>
-                                <id>unpack-gatling-bundle</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>io.gatling.highcharts</groupId>
-                                            <artifactId>gatling-charts-highcharts-bundle</artifactId>
-                                            <version>${gatling.version}</version>
-                                            <classifier>bundle</classifier>
-                                            <type>zip</type>
-                                            <overWrite>true</overWrite>
-                                        </artifactItem>
-                                    </artifactItems>
-                                    <outputDirectory>${distributable.dir}</outputDirectory>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-blueprint-extension-libraries</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>copy</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <!-- Required for the Ant 'build.xml' -->
-                                            <groupId>ant-contrib</groupId>
-                                            <artifactId>ant-contrib</artifactId>
-                                            <version>1.0b3</version>
-                                            <overWrite>false</overWrite>
-                                        </artifactItem>
-                                        <dependency>
-                                            <groupId>io.advantageous.boon</groupId>
-                                            <artifactId>boon-json</artifactId>
-                                            <version>0.6.6</version>
-                                        </dependency>
-                                        <dependency>
-                                            <groupId>io.advantageous.boon</groupId>
-                                            <artifactId>boon-reflekt</artifactId>
-                                            <version>0.6.6</version>
-                                        </dependency>
-                                        <artifactItem>
-                                            <groupId>com.github.sgoeschl.gatling</groupId>
-                                            <artifactId>gatling-blueprint-extensions</artifactId>
-                                            <version>${gatling-blueprint-extensions.version}</version>
-                                            <overWrite>false</overWrite>
-                                        </artifactItem>
-                                       <artifactItem>
-                                            <groupId>io.advantageous.boon</groupId>
-                                            <artifactId>boon-json</artifactId>
-                                            <version>0.6.6</version>
-                                            <overWrite>false</overWrite>
-                                        </artifactItem>      
-                                        <artifactItem>
-                                            <groupId>io.advantageous.boon</groupId>
-                                            <artifactId>boon-reflekt</artifactId>
-                                            <version>0.6.6</version>
-                                            <overWrite>false</overWrite>
-                                        </artifactItem>                                                                             
-                                    </artifactItems>
-                                    <outputDirectory>
-                                        ${distributable.dir}/gatling-charts-highcharts-bundle-${gatling.version}/lib
-                                    </outputDirectory>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <!-- Do all the re-packaging magic in a separate Ant script -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
-                        <executions>
-                            <execution>
-                                <id>gatling:copy-gatling-test</id>
-                                <phase>package</phase>
-                                <configuration>
-                                    <target>
-                                        <ant antfile="${project.basedir}/package.xml" />
-                                    </target>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <!-- Make the stand-alone Apache Ant distribution "attached artifact" -->
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <executions>
-                            <execution>
-                                <id>attach-artifacts</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>attach-artifact</goal>
-                                </goals>
-                                <configuration>
-                                    <artifacts>
-                                        <artifact>
-                                            <file>${project.basedir}/target/gatling-charts-highcharts-bundle-${gatling.version}-bundle.zip</file>
-                                            <type>zip</type>
-                                            <classifier>standalone</classifier>
-                                        </artifact>
-                                    </artifacts>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
 </project>

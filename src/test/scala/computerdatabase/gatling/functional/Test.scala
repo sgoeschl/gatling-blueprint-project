@@ -11,10 +11,6 @@ class Test extends ConfigurableSimulation {
   // Resolve to "user-files/data/tenant/local/computerdatabase/functional/search.csv""
   private val feeder = csv(resolveFile("search.csv"))
 
-  // Calculate the simulation users and ramp-up based on the CSV file content
-  private val mySimulationUsers = feeder.readRecords.length
-  private val mySimulationUsersRampup = new DurationInteger(mySimulationUsers * 10).seconds
-
   // The base URL is taken from "user-files/data/tenant/local/computerdatabase/environment.properties"
   private val httpProtocol = DefaultHttpProtocolBuilder.create()
     .baseUrl(getBaseURL)
@@ -31,7 +27,7 @@ class Test extends ConfigurableSimulation {
     }
 
   setUp(
-    users.inject(rampUsers(mySimulationUsers) during mySimulationUsersRampup)
+    users.inject(atOnceUsers(simulationUsersAtOnce))
       .protocols(httpProtocol)
       .pauses(constantPauses))
       .assertions(global.failedRequests.count.is(0))

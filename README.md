@@ -106,61 +106,126 @@ Fist we start the smoke test using
 
 > mvn -Dgatling.simulationClass=computerdatabase.gatling.smoketest.Test gatling:test
 
+to get the following output
+
 ```
 Coordinates: {application='computerdatabase', tenant='gatling', site='local', scope='smoketest'}
 Environment: {simulation.pause.ms=100, computerdatabase.base.url=http://computer-database.gatling.io}
-Simulation: (usersAtOnce=1, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=100 milliseconds)
-Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/user-files/data
+Simulation: (usersAtOnce=1, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=100 milliseconds), computerdatabase-gatling-local-smoketest
+Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/src/test/resources
 Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/target/gatling
 Resolve file 'search.csv' to 'gatling/local/computerdatabase/smoketest/search.csv'
+Simulation is about to start!
+Simulation computerdatabase.gatling.smoketest.Test started...
 
 ================================================================================
-2020-10-09 20:47:36                                           0s elapsed
+2021-04-24 09:55:16                                           1s elapsed
 ---- Requests ------------------------------------------------------------------
-> Global                                                   (OK=10     KO=0     )
-> Home                                                     (OK=2      KO=0     )
-> Home Redirect 1                                          (OK=2      KO=0     )
-> Search                                                   (OK=2      KO=0     )
-> Select                                                   (OK=2      KO=0     )
-> Page 0                                                   (OK=2      KO=0     )
+> Global                                                   (OK=5      KO=0     )
+> Home                                                     (OK=1      KO=0     )
+> Home Redirect 1                                          (OK=1      KO=0     )
+> Search                                                   (OK=1      KO=0     )
+> Select                                                   (OK=1      KO=0     )
+> Page 0                                                   (OK=1      KO=0     )
 
 ---- computerdatabase-gatling-local-smoketest ----------------------------------
 [##########################################################################]100%
-          waiting: 0      / active: 0      / done: 2     
+          waiting: 0      / active: 0      / done: 1     
 ================================================================================
+
+Simulation computerdatabase.gatling.smoketest.Test completed in 1 seconds
+Simulation is finished!
+Parsing log file(s)...
+Parsing log file(s) done
+Generating reports...
+
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                          5 (OK=5      KO=0     )
+> min response time                                    118 (OK=118    KO=-     )
+> max response time                                    247 (OK=247    KO=-     )
+> mean response time                                   144 (OK=144    KO=-     )
+> std deviation                                         51 (OK=51     KO=-     )
+> response time 50th percentile                        118 (OK=118    KO=-     )
+> response time 75th percentile                        121 (OK=121    KO=-     )
+> response time 95th percentile                        222 (OK=222    KO=-     )
+> response time 99th percentile                        242 (OK=242    KO=-     )
+> mean requests/sec                                    2.5 (OK=2.5    KO=-     )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                             5 (100%)
+> 800 ms < t < 1200 ms                                   0 (  0%)
+> t > 1200 ms                                            0 (  0%)
+> failed                                                 0 (  0%)
+================================================================================
+
+Reports generated in 0s.
+Please open the following file: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/target/gatling/test-20210424075513634/index.html
+Global: count of failed events is 0.0 : true
 ```
 
 Afterwards we run the functional test flavor using
 
 > mvn -Dgatling.simulationClass=computerdatabase.gatling.functional.Test clean gatling:test
 
+to get the following output
+
 ```
 Coordinates: {application='computerdatabase', tenant='gatling', site='local', scope='functional'}
 Environment: {simulation.pause.ms=1000, computerdatabase.base.url=http://computer-database.gatling.io}
-Simulation: (usersAtOnce=1, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=1000 milliseconds)
-Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/user-files/data
+Simulation: (usersAtOnce=1, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=1000 milliseconds), computerdatabase-gatling-local-functional
+Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/src/test/resources
 Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/target/gatling
 Resolve file 'search.csv' to 'gatling/local/computerdatabase/search.csv'
+Simulation is about to start!
+Simulation computerdatabase.gatling.functional.Test started...
 
 ================================================================================
-2020-10-09 20:49:16                                          48s elapsed
+2021-04-24 09:57:49                                           9s elapsed
 ---- Requests ------------------------------------------------------------------
-> Global                                                   (OK=45     KO=0     )
-> Home                                                     (OK=5      KO=0     )
-> Home Redirect 1                                          (OK=5      KO=0     )
-> Search                                                   (OK=5      KO=0     )
-> Select                                                   (OK=5      KO=0     )
-> Page 0                                                   (OK=5      KO=0     )
-> Page 1                                                   (OK=5      KO=0     )
-> Page 2                                                   (OK=5      KO=0     )
-> Page 3                                                   (OK=5      KO=0     )
-> Page 4                                                   (OK=5      KO=0     )
+> Global                                                   (OK=9      KO=0     )
+> Home                                                     (OK=1      KO=0     )
+> Home Redirect 1                                          (OK=1      KO=0     )
+> Search                                                   (OK=1      KO=0     )
+> Select                                                   (OK=1      KO=0     )
+> Page 0                                                   (OK=1      KO=0     )
+> Page 1                                                   (OK=1      KO=0     )
+> Page 2                                                   (OK=1      KO=0     )
+> Page 3                                                   (OK=1      KO=0     )
+> Page 4                                                   (OK=1      KO=0     )
 
 ---- computerdatabase-gatling-local-functional ---------------------------------
 [##########################################################################]100%
-          waiting: 0      / active: 0      / done: 5     
+          waiting: 0      / active: 0      / done: 1     
 ================================================================================
 
+Simulation computerdatabase.gatling.functional.Test completed in 9 seconds
+Simulation is finished!
+Parsing log file(s)...
+Parsing log file(s) done
+Generating reports...
+
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                          9 (OK=9      KO=0     )
+> min response time                                    118 (OK=118    KO=-     )
+> max response time                                    251 (OK=251    KO=-     )
+> mean response time                                   136 (OK=136    KO=-     )
+> std deviation                                         41 (OK=41     KO=-     )
+> response time 50th percentile                        122 (OK=122    KO=-     )
+> response time 75th percentile                        123 (OK=123    KO=-     )
+> response time 95th percentile                        201 (OK=201    KO=-     )
+> response time 99th percentile                        241 (OK=241    KO=-     )
+> mean requests/sec                                    0.9 (OK=0.9    KO=-     )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                             9 (100%)
+> 800 ms < t < 1200 ms                                   0 (  0%)
+> t > 1200 ms                                            0 (  0%)
+> failed                                                 0 (  0%)
+================================================================================
+
+Reports generated in 0s.
+Please open the following file: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/target/gatling/test-20210424075739103/index.html
+Global: count of failed events is 0.0 : true
 ```
 
 ### 5.3 GitHub REST API
@@ -189,12 +254,14 @@ object GitHubApi {
 ```
 Coordinates: {application='githubapi', tenant='github', site='local', scope='functional'}
 Environment: {githubapi.base.url=https://api.github.com, simulation.pause.ms=1000}
-Simulation: (usersAtOnce=1, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=1000 milliseconds)
-Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/user-files/data
+Simulation: (usersAtOnce=1, users=1, usersRampup=0 seconds, duration=300 seconds, loops=1, tryMax=1, pause=1000 milliseconds), githubapi-github-local-functional
+Data Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/src/test/resources
 Result Directory: /Users/sgoeschl/work/github/sgoeschl/gatling-blueprint-project/target/gatling
+Simulation is about to start!
+Simulation githubapi.github.functional.Test started...
 
 ================================================================================
-2020-10-09 20:50:07                                           5s elapsed
+2021-04-24 10:00:08                                           4s elapsed
 ---- Requests ------------------------------------------------------------------
 > Global                                                   (OK=3      KO=0     )
 > Home                                                     (OK=1      KO=0     )
@@ -211,48 +278,14 @@ After the test run you will see the following directory content
 
 ![GitHub JSON Response File](./src/site/image/github-json-reponse-files.png)
 
-## 6. How To Test Elastic Server
+## 6. Tips And Tricks
 
-One of my customers is also using Elastic heavily so over the years I implemented some bits & pices to make that testing Elastic more straight-forward
-
-* The [elastic-slow-query-log-parser](https://github.com/sgoeschl/elastic-slow-query-log-parser) is a blue-print to convert an Elastic slow query log into a TSV file to be used with JMeter or Gatling
-* The TSV file is placed under `./user-files/data/elasticapi/local/elastic` or `./user-files/data/elasticapi/local/elastic/${scope}`
-
-You can start the pre-defined scenarios using Maven
-
->  mvn -Dgatling.simulationClass=elasticapi.elastic.smoketest.Test -Dsite=local clean gatling:test 
->  mvn -Dgatling.simulationClass=elasticapi.elastic.functional.Test -Dsite=local clean gatling:test 
->  mvn -Dgatling.simulationClass=elasticapi.elastic.performance.Test -Dsite=local clean gatling:test 
-
-or run the `Ant Standalone Distribution` using
-
-
-```text
-> mvn -Pstandalone -Dmaven.test.skip=true clean package
-> cd target/distributable/gatling-charts-highcharts-bundle-3.5.1/
-> ant -Dapplication=elasticapi -Dtenant=elastic -Dscope=smoketest -Dsite=local clean info test
-```
-
-As usual you need the configuration of the performance test found in `environment.properties`, e.g.
-
-```text
-simulation.users=10
-simulation.users.rampup=10
-simulation.duration=600
-```
-
-would fire up 10 virtual users within 10 seconds and run as fast as possible for 600 seconds-
-
-Please note that this tests requires a running Elastic cluster.
-
-## 7. Tips And Tricks
-
-### 7.1 Debugging Gatling Scripts From The IDE
+### 6.1 Debugging Gatling Scripts From The IDE
 
 * You can debug your Gatling scenario using `Engine` with the VM options `-Dgatling.core.simulationClass=computerdatabase.BasicSimulation`
 * You can change the `logback` configuration using the `-Dlogback.configurationFile` system property
 
-### 7.2 Running Gatling With Maven
+### 6.2 Running Gatling With Maven
 
 Using the Maven integration is the preferred way when you run Gatling tests from a CI server such as Jenkins
 
@@ -288,7 +321,7 @@ There are a couple of system parameters allowing to overwrite the [Gatling Maven
 | gatling.resourcesFolder             | Use this folder as the folder where feeders are stored.                                                     |
 | gatling.resultsFolder               | Use this folder as the folder where results are stored.                                                     |
 
-### 7.3 Running the Standalone Gatling Distribution Using Shell Scripts
+### 6.3 Running the Standalone Gatling Distribution Using Shell Scripts
 
 On Linux/Unix you can easily execute tests with the existing shell scripts
 
@@ -299,15 +332,15 @@ On Linux/Unix you can easily execute tests with the existing shell scripts
 
 Please note that doing that on Windows has issues - you start a batch file which starts a Java process. But when you terminate the test run using `CTRL-C` you are actually killing the Windows Command Processor but the JVM - Windows does not terminate child processed.
 
-### 7.4 Running the Standalone Gatling Distribution Using Apache Ant
+### 6.4 Running the Standalone Gatling Distribution Using Apache Ant
 
 The Ant integration is used to more easily distribute Gatling test only requiring JDK 1.8 and Ant installation in secure environments (aka unable to download Maven dependencies)-
 
 Before you can use the Ant integration you need to create the stand-alone distribution as shown below
 
 ```text
-mvn -Pstandalone clean install
-cd target/distributable/gatling-charts-highcharts-bundle-3.3.1/
+mvn -f pom-full.xml -Pstandalone clean install
+cd target/distributable/gatling-charts-highcharts-bundle-3.5.1/
 ```
 
 You can hava a look at all available Ant targets
@@ -372,13 +405,13 @@ This Ant invocation
 * Copy the Gatling report to an additional directory, e.g. to serve it from an web server
 * Archive the Gatling report as ZIP file
 
-## 8. Additional Information
+## 7. Additional Information
 
-### 8.1 More Online Resources
+### 7.1 More Online Resources
 
 A must-read for all Scala/Gatling starters is stuff on [http://automationrhapsody.com/performance-testing-with-gatling](http://automationrhapsody.com/performance-testing-with-gatling)
 
-### 8.2 Gatling Blueprint Configuration Properties
+### 7.2 Gatling Blueprint Configuration Properties
 
 Commonly used configuration settings found in `environment.properties`
 

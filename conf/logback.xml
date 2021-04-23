@@ -16,6 +16,12 @@
     <!-- Disable NativeLibraryLoader debug output since it shows ugly exceptions -->
     <logger name="io.netty.util.internal.NativeLibraryLoader" level="INFO" />
 
+    <!-- uncomment to log WebSocket events -->
+    <!--<logger name="io.gatling.http.action.ws.fsm" level="DEBUG" />-->
+
+    <!-- uncomment to log SSE events -->
+    <!--<logger name="io.gatling.http.action.sse.fsm" level="DEBUG" />-->
+
     <root level="WARN">
         <appender-ref ref="CONSOLE" />
     </root>
