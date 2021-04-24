@@ -216,19 +216,14 @@
                 classname="io.gatling.compiler.ZincCompiler">
             <env key="GATLING_HOME" path="${gatling.home}" />
             <env key="GATLING_CONF" path="${gatling.conf}" />
-            <jvmarg value="-Xss100M" />
             <jvmarg value="-server" />
             <jvmarg value="-XX:+HeapDumpOnOutOfMemoryError" />
             <jvmarg value="-XX:+UseG1GC" />
-            <jvmarg value="-XX:MaxGCPauseMillis=30" />
-            <jvmarg value="-XX:G1HeapRegionSize=16m" />
-            <jvmarg value="-XX:InitiatingHeapOccupancyPercent=75" />
             <jvmarg value="-XX:+ParallelRefProcEnabled" />
-            <jvmarg value="-XX:+PerfDisableSharedMem" />
-            <jvmarg value="-XX:+AggressiveOpts" />
-            <jvmarg value="-XX:+OptimizeStringConcat" />
-            <jvmarg value="-Djava.net.preferIPv4Stack=true" />
-            <jvmarg value="-Djava.net.preferIPv6Addresses=false" />
+            <jvmarg value="-XX:MaxInlineLevel=20" />
+            <jvmarg value="-XX:MaxTrivialSize=12" />
+            <jvmarg value="-XX:-UseBiasedLocking" />
+            <jvmarg value="-Xss100M" />
         </java>
     </target>
 
@@ -247,15 +242,12 @@
             <env key="GATLING_HOME" path="${gatling.home}" />
             <env key="GATLING_CONF" path="${gatling.conf}" />
             <jvmarg value="-server" />
-            <jvmarg value="-XX:+UseG1GC" />            
-            <jvmarg value="-XX:MaxGCPauseMillis=30" />
-            <jvmarg value="-XX:G1HeapRegionSize=16m" />
-            <jvmarg value="-XX:InitiatingHeapOccupancyPercent=75" />
-            <jvmarg value="-XX:+ParallelRefProcEnabled" />
-            <jvmarg value="-XX:+PerfDisableSharedMem" />
             <jvmarg value="-XX:+HeapDumpOnOutOfMemoryError" />
-            <jvmarg value="-Djava.net.preferIPv4Stack=true" />
-            <jvmarg value="-Djava.net.preferIPv6Addresses=false" />
+            <jvmarg value="-XX:+UseG1GC" />
+            <jvmarg value="-XX:+ParallelRefProcEnabled" />
+            <jvmarg value="-XX:MaxInlineLevel=20" />
+            <jvmarg value="-XX:MaxTrivialSize=12" />
+            <jvmarg value="-XX:-UseBiasedLocking" />
             <jvmarg value="-Dsite=${site}" />
             <jvmarg value="-Dresponse.dir=${gatling.response.current.dir}" />
             <jvmarg value="-Dlogback.configurationFile=${logback.configuration.file}" />
