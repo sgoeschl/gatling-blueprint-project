@@ -12,6 +12,15 @@
     <!-- uncomment and set to TRACE to log all HTTP requests -->
     <!--<logger name="io.gatling.http.engine.response" level="TRACE" />-->
 
+    <!-- Disable NativeLibraryLoader debug output since it shows ugly exceptions -->
+    <logger name="io.netty.util.internal.NativeLibraryLoader" level="INFO" />
+
+    <!-- uncomment to log WebSocket events -->
+    <!--<logger name="io.gatling.http.action.ws.fsm" level="DEBUG" />-->
+
+    <!-- uncomment to log SSE events -->
+    <!--<logger name="io.gatling.http.action.sse.fsm" level="DEBUG" />-->
+
     <root level="TRACE">
         <appender-ref ref="CONSOLE" />
     </root>
